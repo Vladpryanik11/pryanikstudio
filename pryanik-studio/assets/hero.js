@@ -10,7 +10,7 @@
       poster: 'assets/hero-poster.jpg', ending: 'assets/hero-ending.jpg'
     },
     portrait: {
-      video: 'assets/hero-m.mp4', bytes: 469000,
+      video: 'assets/hero-m.mp4', bytes: 1778150,
       poster: 'assets/hero-m-poster.jpg', ending: 'assets/hero-m-ending.jpg'
     }
   };
