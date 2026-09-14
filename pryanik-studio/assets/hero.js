@@ -17,6 +17,7 @@
   var target = 0, shown = 0, rafId = null, lastTick = 0, heroOn = true;
   var seekBusy = false, pendingTime = null;
   var started = false, scrubOn = false, cueGone = false;
+  var blobSet = false, directTried = false;
 
   function heroProgress(){
     var range = hero.offsetHeight - window.innerHeight;
@@ -34,7 +35,12 @@
     seekBusy = false;
     if (pendingTime !== null){ var t = pendingTime; pendingTime = null; requestSeek(t); }
   });
-  video.addEventListener('error', function(){ seekBusy = false; pendingTime = null; failVideo(); });
+  video.addEventListener('error', function(){
+    seekBusy = false;
+    pendingTime = null;
+    if (blobSet) failVideo();   // the file arrived and still will not play: refetching cannot help
+    else useDirectSrc();
+  });
 
   function tick(now){
     var dt = Math.min(100, now - (lastTick || now));
@@ -58,11 +64,28 @@
     stage.classList.add('video-failed');
   }
 
+  function onCanPlay(){
+    requestSeek(heroProgress() * video.duration);
+    stage.classList.add('video-ready');
+  }
+
+  // The Blob path needs fetch, which browsers block on file:// URLs. Play the
+  // file straight from its own address instead, so a double-clicked page scrubs too.
+  function useDirectSrc(){
+    if (directTried){ failVideo(); return; }
+    directTried = true;
+    ring.style.display = 'none';
+    video.addEventListener('canplay', onCanPlay, {once:true});
+    video.src = VIDEO_URL;
+    video.load();
+  }
+
   function startBlobFetch(){
     if (started) return;
     started = true;
+    if (location.protocol === 'file:'){ useDirectSrc(); return; }
     ring.style.display = '';
-    loadHeroBlob().catch(failVideo);
+    loadHeroBlob().catch(useDirectSrc);
   }
 
   var initialized = false;
@@ -100,12 +123,10 @@
         clearTimeout(watchdog);
         ring.style.setProperty('--ld', 0);
         ring.style.display = 'none';
+        blobSet = true;
         video.src = URL.createObjectURL(new Blob(chunks, {type:'video/mp4'}));
         video.load();
-        video.addEventListener('canplay', function(){
-          requestSeek(heroProgress() * video.duration);
-          stage.classList.add('video-ready');
-        }, {once:true});
+        video.addEventListener('canplay', onCanPlay, {once:true});
       });
     });
   }
