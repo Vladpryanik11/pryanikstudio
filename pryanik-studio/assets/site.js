@@ -56,7 +56,7 @@
       });
       menu.addEventListener('click', function(e){ if (e.target.closest('a')) closeMenu(false); });
       doc.addEventListener('keydown', function(e){ if (e.key === 'Escape' && head.classList.contains('open')) closeMenu(true); });
-      matchMedia('(min-width: 881px)').addEventListener('change', function(e){ if (e.matches) closeMenu(false); });
+      matchMedia('(min-width: 1181px)').addEventListener('change', function(e){ if (e.matches) closeMenu(false); });
     }
   }
 

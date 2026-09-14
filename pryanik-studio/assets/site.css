@@ -64,18 +64,19 @@ a{color:inherit}
 .link:hover svg{transform:translateX(3px)}
 
 /* header */
-.site-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;padding:10px var(--pad);
+.site-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;padding:8px var(--pad);
   border-bottom:1px solid transparent;transition:background .45s var(--e-out),border-color .45s var(--e-out)}
 .site-head.solid{background:rgba(244,244,246,.84);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:var(--line)}
-.brand{position:relative;z-index:2;display:flex;align-items:center;margin-right:auto;text-decoration:none;line-height:0;
+/* The wordmark sits in the middle of the bar and hangs past its lower edge,
+   the way the paint on it hangs past the letters. Anchoring it by the bottom
+   keeps that overhang exact whatever the row beside it happens to measure. */
+.brand{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);z-index:2;text-decoration:none;line-height:0;
   transition:opacity .3s var(--e-out)}
 .brand:hover{opacity:.78}
-/* Height drives the size and width stays auto: the drips need room to read. */
-.brand img{display:block;height:60px;width:auto;flex:none}
-@media (max-width:1100px){.brand img{height:52px}}
-@media (max-width:880px){.brand img{height:46px}}
-@media (max-width:560px){.brand img{height:42px}}
-.menu{display:flex;align-items:center;gap:2px;padding:5px;border-radius:100px;background:rgba(252,252,254,.78);border:1px solid var(--line)}
+.brand img{display:block;height:80px;width:auto}
+@media (max-width:1180px){.brand{bottom:-14px}.brand img{height:68px}}
+@media (max-width:560px){.brand{bottom:-13px}.brand img{height:62px}}
+.menu{margin-right:auto;display:flex;align-items:center;gap:2px;padding:5px;border-radius:100px;background:rgba(252,252,254,.78);border:1px solid var(--line)}
 .menu a:not(.btn){text-decoration:none;font-weight:500;font-size:15px;color:var(--text-primary);padding:8px 17px;border-radius:100px;transition:background .3s var(--e-out),color .3s var(--e-out)}
 .menu a:not(.btn):hover{background:var(--accent-muted);color:var(--accent)}
 .menu a[aria-current="page"]{background:var(--text-primary);color:#fff}
@@ -88,9 +89,9 @@ a{color:inherit}
 .site-head.open .burger span:first-child{transform:translateY(3.5px) rotate(45deg)}
 .site-head.open .burger span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
 
-@media (max-width:880px){
+@media (max-width:1180px){
   .head-cta{display:none}
-  .burger{display:inline-flex}
+  .burger{display:inline-flex;margin-left:auto}
   .site-head.open{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--canvas);border-bottom-color:transparent}
   .menu{position:fixed;inset:0;z-index:1;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;
     padding:96px var(--pad) 48px;border:0;border-radius:0;background:var(--canvas);
