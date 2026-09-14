@@ -4,3 +4,8 @@ review/
 .claude/
 Thumbs.db
 desktop.ini
+
+# the 10k-websites skill travels with the project, so any new chat here knows the pipeline
+!.claude/
+!.claude/skills/
+!.claude/skills/**
