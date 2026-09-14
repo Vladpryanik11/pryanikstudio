@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className+=' js';setTimeout(function(){var d=document.documentElement;if(!d.classList.contains('ready'))d.classList.add('fallback')},2500)</script>
+<title>Контакты. Pryanik Studio</title>
+<meta name="description" content="Напишите Владиславу, основателю Pryanik Studio, или оставьте заявку на бесплатный разбор сайта и рекламы.">
+<meta name="theme-color" content="#F4F4F6">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23032EDF'/><path d='M16 6.5c3.2 5 6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 2.8-6 6-11z' fill='%23fff'/></svg>">
+<!-- DEPLOY STEP: заменить PLACEHOLDER_URL на боевой адрес -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Контакты. Pryanik Studio">
+<meta property="og:url" content="PLACEHOLDER_URL/kontakty.html">
+<meta property="og:image" content="PLACEHOLDER_URL/assets/hero-ending.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+<div class="env" aria-hidden="true" id="env"></div>
+
+<header class="site-head" id="head" data-solid>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#032EDF"/><path d="M16 6.5c3.2 5 6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 2.8-6 6-11z" fill="#fff"/></svg><span>Pryanik Studio</span></a>
+  <nav class="menu" id="menu" aria-label="Основное меню">
+    <a href="uslugi.html">Услуги</a>
+    <a href="keisy.html">Кейсы</a>
+    <a href="blog.html">Блог</a>
+    <a href="kontakty.html" aria-current="page">Контакты</a>
+    <a class="btn btn-primary menu-cta" href="kontakty.html#razbor">Разобрать мой сайт</a>
+  </nav>
+  <a class="btn btn-primary head-cta" href="kontakty.html#razbor">Разобрать сайт</a>
+  <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span></button>
+</header>
+
+<div class="wrap">
+<main id="main" tabindex="-1">
+
+  <section class="shell page-hero" aria-labelledby="h">
+    <p class="kick rise">Контакты</p>
+    <h1 class="rise" id="h">Напишите, и начнём <span class="ink">с разбора</span></h1>
+    <p class="lede rise">Оставьте заявку на бесплатный разбор или напишите напрямую. Отвечает Владислав, без менеджеров.</p>
+  </section>
+
+  <section class="shell" aria-label="Заявка и контакты">
+    <div class="contact-grid">
+
+      <div class="card dark rise" id="razbor">
+        <p class="kick">Разбор</p>
+        <h2>Разберём ваш сайт по полкам</h2>
+        <p class="lede">Что мешает сайту и рекламе приводить заявки прямо сейчас, и план по шагам. Сначала польза, потом разговор.</p>
+        <form id="form" novalidate>
+          <div><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name"></div>
+          <div><label for="f-contact">Телефон или Telegram</label><input id="f-contact" name="contact" type="text" placeholder="+7 900 000 00 00 или @username" autocomplete="tel"></div>
+          <div><label for="f-site">Ссылка на сайт</label><input id="f-site" name="site" type="text" placeholder="example.ru" autocomplete="url" inputmode="url"></div>
+          <p class="err" id="err" role="alert" hidden></p>
+          <button class="btn btn-light" type="submit">Получить разбор</button>
+          <p class="fine">Нажимая кнопку, вы соглашаетесь с <a href="#policy">политикой обработки персональных данных</a>.</p>
+        </form>
+        <div class="ok" id="ok" role="status" hidden>
+          <p><strong>Почти готово.</strong> Сейчас откроется ваша почта с заполненной заявкой. Отправьте письмо, и разбор придёт в течение двух рабочих дней.</p>
+        </div>
+      </div>
+
+      <div class="card rise">
+        <div class="person">
+          <img src="assets/vlad.jpg" alt="Владислав, основатель Pryanik Studio" width="1200" height="752">
+          <div><h2>Владислав</h2><p class="role">Основатель Pryanik Studio</p></div>
+        </div>
+        <p class="lede" style="font-size:16px">Можно без формы. Напишите сразу с задачей и бюджетом, так быстрее.</p>
+        <div class="channels">
+          <a href="https://t.me/vladpryanik" rel="noopener"><span><span class="k">Telegram</span><br><span class="v">@vladpryanik</span></span><span aria-hidden="true">→</span></a>
+          <a href="mailto:ipranichnikov@yandex.ru"><span><span class="k">Почта</span><br><span class="v">ipranichnikov@yandex.ru</span></span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="next" aria-label="Что будет после заявки">
+      <div class="rise"><p class="no">01</p><h3>Разбор</h3><p>В течение двух рабочих дней смотрим сайт, рекламу и аналитику и присылаем отчёт.</p></div>
+      <div class="rise"><p class="no">02</p><h3>Созвон</h3><p>Полчаса по находкам: что важно исправить первым и почему.</p></div>
+      <div class="rise"><p class="no">03</p><h3>План</h3><p>Если захотите продолжить, присылаем план на первый месяц с каналами и бюджетом.</p></div>
+    </div>
+
+    <section class="policy" id="policy" aria-labelledby="pol-h">
+      <h2 id="pol-h">Политика обработки персональных данных</h2>
+      <p>Данные из формы используются только для ответа на вашу заявку и подготовки разбора. Мы не передаём их третьим лицам.</p>
+      <p>Полный текст политики будет опубликован на этой странице.</p>
+    </section>
+  </section>
+
+  <div style="height:clamp(60px,10vh,120px)"></div>
+
+</main>
+</div>
+
+<footer class="site-foot">
+  <div class="shell foot-grid">
+    <div><p class="foot-brand">Pryanik Studio</p><p>Маркетинг, который видно.</p></div>
+    <nav class="foot-nav" aria-label="Разделы сайта"><a href="uslugi.html">Услуги</a><a href="keisy.html">Кейсы</a><a href="blog.html">Блог</a><a href="kontakty.html">Контакты</a></nav>
+    <div class="foot-contacts">
+      <a href="https://t.me/vladpryanik" rel="noopener">Telegram @vladpryanik</a>
+      <a href="mailto:ipranichnikov@yandex.ru">ipranichnikov@yandex.ru</a>
+    </div>
+    <div><a href="#policy">Политика обработки персональных данных</a></div>
+  </div>
+  <div class="shell"><p class="foot-bottom">© 2026 Pryanik Studio</p></div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
