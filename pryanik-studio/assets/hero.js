@@ -13,6 +13,22 @@
   var poster = document.getElementById('poster');
   var ring = document.getElementById('ring');
   var cue = document.getElementById('cue');
+  var film = document.getElementById('film');
+  var playBtn = document.getElementById('playfilm');
+  var filmOpened = false;
+
+  // Visitors who get the still hero (phones, reduced motion, a narrow window) can
+  // still choose to watch the film. Nothing downloads until they ask for it.
+  if (film && playBtn){
+    playBtn.addEventListener('click', function(){
+      filmOpened = true;
+      playBtn.hidden = true;
+      film.hidden = false;
+      if (!film.src) film.src = VIDEO_URL;
+      var p = film.play();
+      if (p && p.catch) p.catch(function(){});
+    });
+  }
 
   var target = 0, shown = 0, rafId = null, lastTick = 0, heroOn = true;
   var seekBusy = false, pendingTime = null;
@@ -147,6 +163,7 @@
     initHeroOnce();
     addEventListener('scroll', onScroll, {passive:true});
     onScroll();
+    if (playBtn && !filmOpened) playBtn.hidden = true;
   }
   function disableScrub(){
     if (scrubOn){
@@ -155,6 +172,7 @@
       if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
     }
     poster.style.backgroundImage = "url('" + ENDING_URL + "')";
+    if (playBtn && !filmOpened) playBtn.hidden = false;
   }
   function applyHeroMode(){
     if (MQLS.some(function(m){ return m.matches; })) disableScrub();
