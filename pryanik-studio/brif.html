@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.className+=' js';setTimeout(function(){var d=document.documentElement;if(!d.classList.contains('ready'))d.classList.add('fallback')},2500)</script>
+<title>Бриф. Pryanik Studio</title>
+<meta name="description" content="Бриф на продвижение: пятнадцать вопросов в три шага о компании, SMM, контенте и бюджете. Ответы получит Владислав, основатель Pryanik Studio.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23032EDF'/><path d='M16 6.5c3.2 5 6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 2.8-6 6-11z' fill='%23fff'/></svg>">
+<!-- DEPLOY STEP: заменить https://vladpryanik11.github.io/pryanikstudio на боевой адрес -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Бриф. Pryanik Studio">
+<meta property="og:url" content="https://vladpryanik11.github.io/pryanikstudio/brif.html">
+<meta property="og:image" content="https://vladpryanik11.github.io/pryanikstudio/assets/hero-ending.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-no-mbar>
+<a class="skip" href="#main">К содержанию</a>
+<div class="env" aria-hidden="true" id="env"></div>
+
+<header class="site-head" id="head" data-solid>
+  <a class="brand" href="index.html">Pryanik Studio</a>
+  <nav class="menu" id="menu" aria-label="Основное меню">
+    <a href="uslugi.html">Услуги</a>
+    <a href="keisy.html">Кейсы</a>
+    <a href="blog.html">Блог</a>
+    <a href="kontakty.html">Контакты</a>
+    <a class="btn btn-primary menu-cta" href="kontakty.html#razbor">Разобрать мой сайт</a>
+  </nav>
+  <a class="btn btn-primary head-cta" href="kontakty.html#razbor">Разобрать сайт</a>
+  <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span></button>
+</header>
+
+<div class="wrap">
+<main id="main" tabindex="-1">
+
+  <section class="shell page-hero" aria-labelledby="h">
+    <p class="kick rise">Бриф</p>
+    <h1 class="rise" id="h">Бриф на <span class="ink">продвижение</span></h1>
+    <p class="lede rise">Пятнадцать вопросов в три шага. Ответы получит Владислав лично, и к первому созвону он уже будет понимать ваш бизнес и главную задачу.</p>
+  </section>
+
+  <section class="shell" aria-label="Анкета брифа">
+    <div class="brief-grid">
+
+      <aside class="brief-rail rise" aria-label="Шаги брифа">
+        <ol class="rail" id="rail">
+          <li><button type="button" data-step="0" aria-current="step"><span class="no">01</span><span><b>О компании и задаче</b><small>9 вопросов</small></span></button></li>
+          <li><button type="button" data-step="1" disabled><span class="no">02</span><span><b>SMM и контент</b><small>4 вопроса</small></span></button></li>
+          <li><button type="button" data-step="2" disabled><span class="no">03</span><span><b>Бюджет и решение</b><small>2 вопроса</small></span></button></li>
+        </ol>
+        <p class="rail-note">Удобнее в переписке? Напишите в Telegram <a href="https://t.me/vladpryanik" rel="noopener">@vladpryanik</a>.</p>
+      </aside>
+
+      <div class="card brief rise" id="brief-card">
+        <div class="bprog" id="brief-prog" aria-hidden="true"><span></span></div>
+
+        <form id="brief" novalidate>
+
+          <div class="bstep" data-title="О компании и задаче" role="group" aria-labelledby="s1">
+            <p class="kick">Шаг 01</p>
+            <h2 id="s1" tabindex="-1">О компании и задаче</h2>
+            <p class="bsub">Контакты, продукт и то, чем вы сильнее конкурентов.</p>
+            <div class="bqs">
+              <div class="bq" id="q-name" data-req data-q="Имя" data-msg="Напишите, как к вам обращаться">
+                <label class="bl" for="b-name">Ваше имя</label>
+                <input id="b-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться">
+              </div>
+              <div class="bq" id="q-phone" data-req data-check="phone" data-q="Телефон" data-msg="Оставьте номер телефона для связи">
+                <label class="bl" for="b-phone">Номер телефона для связи</label>
+                <input id="b-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 900 000 00 00">
+              </div>
+              <div class="bq" id="q-tg" data-req data-check="tg" data-q="Telegram" data-msg="Оставьте Telegram для связи">
+                <label class="bl" for="b-tg">Telegram для связи</label>
+                <input id="b-tg" name="tg" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@username или t.me/username">
+              </div>
+              <div class="bq" id="q-about" data-req data-q="Чем занимается компания и какой продукт сейчас в приоритете">
+                <label class="bl" for="b-about">Чем занимается компания и какой продукт сейчас в приоритете?</label>
+                <p class="hint" id="b-about-h">Пример: «Доставка здорового питания в Москве. В приоритете рационы для снижения веса.»</p>
+                <textarea id="b-about" name="about" rows="3" aria-describedby="b-about-h"></textarea>
+              </div>
+              <fieldset class="bq" id="q-goal" data-req data-q="Главная задача проекта" data-msg="Выберите один вариант">
+                <legend class="bl">Какую главную задачу должен решить этот проект?</legend>
+                <div class="opts">
+                  <label class="opt"><input type="radio" name="goal" value="Увеличить прямые продажи"><span class="t">Увеличить прямые продажи</span></label>
+                  <label class="opt"><input type="radio" name="goal" value="Повысить узнаваемость и охваты"><span class="t">Повысить узнаваемость и охваты</span></label>
+                  <label class="opt"><input type="radio" name="goal" value="Упаковать бренд с нуля или провести ребрендинг"><span class="t">Упаковать бренд с нуля или провести ребрендинг</span></label>
+                  <label class="opt"><input type="radio" name="goal" value="Выстроить автоворонку или запустить бота"><span class="t">Выстроить автоворонку или запустить бота</span></label>
+                </div>
+              </fieldset>
+              <div class="bq" id="q-usp" data-req data-q="Главное преимущество (УТП) перед конкурентами">
+                <label class="bl" for="b-usp">В чём ваше главное преимущество (УТП) перед конкурентами?</label>
+                <p class="hint" id="b-usp-h">Пример: «Готовим только из органических фермерских продуктов, бесплатная доставка к точному часу с 6:00 до 8:00.»</p>
+                <textarea id="b-usp" name="usp" rows="3" aria-describedby="b-usp-h"></textarea>
+              </div>
+              <div class="bq" id="q-rivals" data-req data-q="Основные конкуренты">
+                <label class="bl" for="b-rivals">Кто ваши основные конкуренты?</label>
+                <p class="hint" id="b-rivals-h">Ссылки на аккаунты или сайты, можно по одной в строке.</p>
+                <textarea id="b-rivals" name="rivals" rows="3" aria-describedby="b-rivals-h"></textarea>
+              </div>
+              <div class="bq" id="q-buyer" data-req data-q="Идеальный покупатель">
+                <label class="bl" for="b-buyer">Кто ваш идеальный покупатель?</label>
+                <p class="hint" id="b-buyer-h">Пример: «Женщины 25–40 лет, мамы в декрете или предпринимательницы. Ценят экономию времени и эстетику, доход выше среднего.»</p>
+                <textarea id="b-buyer" name="buyer" rows="3" aria-describedby="b-buyer-h"></textarea>
+              </div>
+              <div class="bq" id="q-pain" data-req data-q="Главная боль или желание клиента, которое решает продукт">
+                <label class="bl" for="b-pain">Какую главную «боль» или желание клиента решает ваш продукт?</label>
+                <p class="hint" id="b-pain-h">Пример: «Освобождает 2 часа в день от готовки» или «помогает выглядеть стильно без помощи стилиста».</p>
+                <textarea id="b-pain" name="pain" rows="3" aria-describedby="b-pain-h"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="bstep" data-title="SMM и контент" role="group" aria-labelledby="s2" hidden>
+            <p class="kick">Шаг 02</p>
+            <h2 id="s2" tabindex="-1">SMM и контент</h2>
+            <p class="bsub">Цели, площадки, тон общения и то, что уже есть из съёмок.</p>
+            <div class="bqs">
+              <fieldset class="bq" id="q-smm" data-req data-q="Главная цель SMM на 3–6 месяцев" data-msg="Выберите один вариант">
+                <legend class="bl">Главная цель SMM на ближайшие <span class="nw">3–6 месяцев?</span></legend>
+                <div class="opts">
+                  <label class="opt"><input type="radio" name="smm" value="Продажи"><span class="t">Продажи</span></label>
+                  <label class="opt"><input type="radio" name="smm" value="Количество аудитории"><span class="t">Количество аудитории</span></label>
+                  <label class="opt"><input type="radio" name="smm" value="Охваты"><span class="t">Охваты</span></label>
+                  <label class="opt"><input type="radio" name="smm" value="Стиль бренда"><span class="t">Стиль бренда</span></label>
+                </div>
+              </fieldset>
+              <fieldset class="bq" id="q-platform" data-q="Площадка в первую очередь">
+                <legend class="bl">Какие площадки развиваем в первую очередь? <span class="opt-tag">необязательно</span></legend>
+                <div class="opts">
+                  <label class="opt"><input type="radio" name="platform" value="Telegram (канал или бот)"><span class="t">Telegram<small>Канал или бот</small></span></label>
+                  <label class="opt"><input type="radio" name="platform" value="Instagram или Facebook"><span class="t">Instagram* / Facebook*</span></label>
+                  <label class="opt"><input type="radio" name="platform" value="ВКонтакте или MAX"><span class="t">ВКонтакте / MAX</span></label>
+                  <label class="opt"><input type="radio" name="platform" value="YouTube Shorts, TikTok или Reels"><span class="t">YouTube Shorts / TikTok / Reels</span></label>
+                </div>
+                <p class="hint note">* Instagram и Facebook принадлежат компании Meta, которая признана экстремистской и запрещена в России.</p>
+              </fieldset>
+              <fieldset class="bq" id="q-tone" data-req data-q="Тон общения (Tone of Voice)" data-msg="Выберите один вариант">
+                <legend class="bl">Какая тональность общения (Tone of Voice) вам ближе?</legend>
+                <div class="opts">
+                  <label class="opt"><input type="radio" name="tone" value="Экспертная и деловая"><span class="t">Экспертная и деловая<small>На «Вы», строгая аналитика, без шуток</small></span></label>
+                  <label class="opt"><input type="radio" name="tone" value="Дружелюбная и заботливая"><span class="t">Дружелюбная и заботливая<small>На «Вы» или «ты», тёплый диалог, забота</small></span></label>
+                  <label class="opt"><input type="radio" name="tone" value="Дерзкая и трендовая"><span class="t">Дерзкая и трендовая<small>На «ты», юмор, мемы, хайп</small></span></label>
+                  <label class="opt"><input type="radio" name="tone" value="Минималистичная и эстетичная"><span class="t">Минималистичная и эстетичная<small>Лаконично, стильно, вдохновляюще</small></span></label>
+                </div>
+              </fieldset>
+              <fieldset class="bq" id="q-content" data-req data-q="Ситуация с фото и видео" data-msg="Выберите один вариант">
+                <legend class="bl">Какая ситуация с фото и видеоконтентом?</legend>
+                <div class="opts one">
+                  <label class="opt"><input type="radio" name="content" value="Есть готовый качественный фотобанк, регулярно снимаем"><span class="t">Есть готовый качественный фотобанк, регулярно снимаем</span></label>
+                  <label class="opt"><input type="radio" name="content" value="Есть базовые фото товара или услуги, но нужен новый контент"><span class="t">Есть базовые фото товара или услуги, но нужен новый контент</span></label>
+                  <label class="opt"><input type="radio" name="content" value="Материалов нет, нужно организовать съёмки и создавать контент с нуля"><span class="t">Материалов нет, нужно организовать съёмки и создавать контент с нуля</span></label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="bstep" data-title="Бюджет и решение" role="group" aria-labelledby="s3" hidden>
+            <p class="kick">Шаг 03</p>
+            <h2 id="s3" tabindex="-1">Бюджет и решение</h2>
+            <p class="bsub">Последние два вопроса, и бриф готов.</p>
+            <div class="bqs">
+              <fieldset class="bq" id="q-budget" data-req data-q="Месячный бюджет на продвижение" data-msg="Выберите один вариант">
+                <legend class="bl">Планируемый месячный бюджет на продвижение</legend>
+                <p class="hint">Закупка рекламы, блогеры, таргет.</p>
+                <div class="opts">
+                  <label class="opt"><input type="radio" name="budget" value="До 10 000 ₽"><span class="t">До 10&nbsp;000&nbsp;₽</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="До 50 000 ₽"><span class="t">До 50&nbsp;000&nbsp;₽</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="50 000–150 000 ₽"><span class="t">50&nbsp;000–150&nbsp;000&nbsp;₽</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="150 000–300 000 ₽"><span class="t">150&nbsp;000–300&nbsp;000&nbsp;₽</span></label>
+                  <label class="opt"><input type="radio" name="budget" value="Свыше 300 000 ₽"><span class="t">Свыше 300&nbsp;000&nbsp;₽</span></label>
+                </div>
+              </fieldset>
+              <div class="bq" id="q-decider" data-req data-q="Кто принимает финальное решение и где удобнее общаться">
+                <label class="bl" for="b-decider">Кто принимает финальное решение и где удобнее вести общение?</label>
+                <textarea id="b-decider" name="decider" rows="2" placeholder="Например: решаю я, удобнее в Telegram"></textarea>
+              </div>
+            </div>
+            <p class="fine">Ответы получит только Владислав. Нажимая «Отправить бриф», вы соглашаетесь с <a href="kontakty.html#policy">политикой обработки персональных данных</a>.</p>
+          </div>
+
+          <div class="hp" aria-hidden="true"><label>Сайт компании <input type="text" name="company_site" tabindex="-1" autocomplete="off"></label></div>
+
+          <div class="bnav">
+            <span class="bcount" id="brief-count" aria-live="polite">Шаг 1 из 3</span>
+            <button class="btn btn-ghost" type="button" data-back hidden>Назад</button>
+            <button class="btn btn-primary" type="button" data-next>Далее</button>
+            <button class="btn btn-primary" type="submit" data-submit hidden>Отправить бриф</button>
+          </div>
+        </form>
+
+        <div class="bok" id="brief-ok" tabindex="-1" hidden>
+          <div id="brief-sent">
+            <p class="kick">Бриф отправлен</p>
+            <h2>Спасибо! Ответы уже у Владислава</h2>
+            <p class="say">Он изучит бриф и свяжется с вами по телефону или в Telegram, который вы указали.</p>
+          </div>
+          <div id="brief-fail" hidden>
+            <p class="kick">Почти готово</p>
+            <h2>Осталось отправить письмо</h2>
+            <p class="say">Отправить напрямую не получилось, но ответы сохранены. Откройте готовое письмо в своей почте и нажмите в нём «Отправить».</p>
+            <p class="say">Почта не открывается? Скопируйте ответы и пришлите их в Telegram.</p>
+            <div class="act">
+              <a class="btn btn-primary" id="brief-mail" href="kontakty.html">Открыть письмо в почте</a>
+              <button class="btn btn-ghost" type="button" id="brief-copy">Скопировать ответы</button>
+              <a class="btn btn-ghost" href="https://t.me/vladpryanik" rel="noopener">Написать в Telegram</a>
+            </div>
+            <p class="copied" id="brief-copied" role="status"></p>
+            <details class="bans" id="brief-ans">
+              <summary>Показать ответы</summary>
+              <pre id="brief-text"></pre>
+            </details>
+            <p class="bok-links"><button class="link" type="button" id="brief-retry">Попробовать отправить ещё раз</button><button class="link" type="button" id="brief-edit">Изменить ответы</button></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div style="height:clamp(60px,10vh,120px)"></div>
+
+</main>
+</div>
+
+<footer class="site-foot">
+  <div class="shell foot-grid">
+    <div><p class="foot-brand">Pryanik Studio</p><p>Маркетинг, который видно.</p></div>
+    <nav class="foot-nav" aria-label="Разделы сайта"><a href="uslugi.html">Услуги</a><a href="keisy.html">Кейсы</a><a href="blog.html">Блог</a><a href="kontakty.html">Контакты</a><a href="brif.html" aria-current="page">Бриф</a></nav>
+    <div class="foot-contacts">
+      <a href="https://t.me/vladpryanik" rel="noopener">Telegram @vladpryanik</a>
+      <a href="mailto:ipranichnikov@yandex.ru">ipranichnikov@yandex.ru</a>
+    </div>
+    <div><a href="kontakty.html#policy">Политика обработки персональных данных</a></div>
+  </div>
+  <div class="shell"><p class="foot-bottom">© 2026 Pryanik Studio</p></div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>

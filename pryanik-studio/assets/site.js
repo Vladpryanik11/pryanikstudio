@@ -131,6 +131,214 @@
     });
   }
 
+  /* brief: three steps, sent through brief.php, with mailto and copy as the fallback */
+  var brief = doc.getElementById('brief');
+  if (brief){
+    var bSteps = [].slice.call(brief.querySelectorAll('.bstep'));
+    var last = bSteps.length - 1;
+    var rail = doc.getElementById('rail');
+    var railBtns = rail ? [].slice.call(rail.querySelectorAll('button')) : [];
+    var bProg = doc.getElementById('brief-prog');
+    var bCount = doc.getElementById('brief-count');
+    var bCard = doc.getElementById('brief-card');
+    var bBack = brief.querySelector('[data-back]'), bNext = brief.querySelector('[data-next]'), bSend = brief.querySelector('[data-submit]');
+    var BRIEF_ENDPOINT = 'brief.php';
+    var bOk = doc.getElementById('brief-ok'), bCopied = doc.getElementById('brief-copied');
+    var bSent = doc.getElementById('brief-sent'), bFail = doc.getElementById('brief-fail');
+    var bAns = doc.getElementById('brief-ans'), bPre = doc.getElementById('brief-text'), bMail = doc.getElementById('brief-mail');
+    var TG = /^(?:@|(?:https?:\/\/)?t(?:elegram)?\.me\/)?[A-Za-z0-9_]{4,32}\/?$/;
+    var cur = 0, reached = 0, briefText = '', mailHref = '';
+
+    var valueOf = function(q){
+      if (q.querySelector('input[type="radio"]')){
+        var r = q.querySelector('input[type="radio"]:checked');
+        return r ? r.value : '';
+      }
+      var f = q.querySelector('input, textarea');
+      return f ? f.value.trim() : '';
+    };
+    var problemOf = function(q){
+      var v = valueOf(q), kind = q.getAttribute('data-check');
+      if (!v) return q.hasAttribute('data-req') ? (q.getAttribute('data-msg') || 'Ответьте на этот вопрос') : '';
+      if (kind === 'phone' && v.replace(/\D/g, '').length < 10) return 'Проверьте номер: в нём должно быть не меньше 10 цифр';
+      if (kind === 'tg' && !TG.test(v.replace(/\s/g, ''))) return 'Напишите ник в виде @username или ссылку t.me/username';
+      return '';
+    };
+    var markQ = function(q, msg){
+      var e = q.querySelector('.ferr'), errId = q.id + '-e';
+      if (msg){
+        if (!e){ e = doc.createElement('p'); e.className = 'ferr'; e.id = errId; q.appendChild(e); }
+        if (e.textContent !== msg) e.textContent = msg;
+      } else if (e){ e.parentNode.removeChild(e); }
+      q.classList.toggle('bad', !!msg);
+      q.querySelectorAll('input, textarea').forEach(function(f){
+        if (f.getAttribute('data-desc') === null) f.setAttribute('data-desc', f.getAttribute('aria-describedby') || '');
+        var desc = (f.getAttribute('data-desc') + (msg ? ' ' + errId : '')).trim();
+        if (desc) f.setAttribute('aria-describedby', desc); else f.removeAttribute('aria-describedby');
+        if (msg) f.setAttribute('aria-invalid', 'true'); else f.removeAttribute('aria-invalid');
+      });
+    };
+    var stepOk = function(i){
+      return [].every.call(bSteps[i].querySelectorAll('.bq'), function(q){ return !problemOf(q); });
+    };
+    var checkStep = function(i){
+      var first = null;
+      bSteps[i].querySelectorAll('.bq').forEach(function(q){
+        var msg = problemOf(q);
+        markQ(q, msg);
+        if (msg && !first) first = q;
+      });
+      if (first){
+        first.scrollIntoView({block:'center', behavior: rm.matches ? 'auto' : 'smooth'});
+        var f = first.querySelector('input:checked') || first.querySelector('input, textarea');
+        if (f) f.focus({preventScroll:true});
+      }
+      return !first;
+    };
+    var narrow = matchMedia('(max-width:900px)');
+    var toCardTop = function(){
+      var anchor = narrow.matches && rail ? rail : bCard;
+      var gap = (head ? head.getBoundingClientRect().height : 72) + 24;
+      var top = anchor.getBoundingClientRect().top;
+      if (top < gap || top > innerHeight * 0.5) scrollTo({top: scrollY + top - gap, behavior: rm.matches ? 'auto' : 'smooth'});
+    };
+    var setProgress = function(barP, railP){
+      bProg.style.setProperty('--p', barP.toFixed(4));
+      if (rail) rail.style.setProperty('--p', railP.toFixed(4));
+    };
+    var showStep = function(i, move){
+      cur = i;
+      if (i > reached) reached = i;
+      bSteps.forEach(function(s, n){ s.hidden = n !== i; });
+      var s = bSteps[i];
+      s.classList.remove('enter'); void s.offsetWidth; s.classList.add('enter');
+      bBack.hidden = i === 0;
+      bNext.hidden = i === last;
+      bSend.hidden = i !== last;
+      bCount.textContent = 'Шаг ' + (i + 1) + ' из ' + bSteps.length;
+      setProgress((i + 1) / bSteps.length, i / last);
+      railBtns.forEach(function(b, n){
+        b.disabled = n > reached;
+        b.classList.toggle('done', n < i);
+        if (n === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      });
+      if (move){
+        toCardTop();
+        s.querySelector('h2').focus({preventScroll:true});
+      }
+    };
+    var buildText = function(){
+      var out = ['Бриф с сайта Pryanik Studio'];
+      bSteps.forEach(function(s, n){
+        out.push('', (n + 1) + '. ' + s.getAttribute('data-title').toUpperCase());
+        s.querySelectorAll('.bq').forEach(function(q){
+          out.push(q.getAttribute('data-q') + ': ' + (valueOf(q) || 'не указано'));
+        });
+      });
+      return out.join('\n').trim();
+    };
+
+    bNext.addEventListener('click', function(){ if (checkStep(cur)) showStep(cur + 1, true); });
+    bBack.addEventListener('click', function(){ showStep(cur - 1, true); });
+    railBtns.forEach(function(b){
+      b.addEventListener('click', function(){
+        var n = parseInt(b.getAttribute('data-step'), 10);
+        if (n === cur || n > reached) return;
+        if (n > cur && !checkStep(cur)) return;
+        showStep(n, true);
+      });
+    });
+    var clearIfFixed = function(e){
+      var q = e.target.closest('.bq');
+      if (q && q.classList.contains('bad') && !problemOf(q)) markQ(q, '');
+    };
+    brief.addEventListener('input', clearIfFixed);
+    brief.addEventListener('change', clearIfFixed);
+
+    brief.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (cur < last){ if (checkStep(cur)) showStep(cur + 1, true); return; }
+      for (var i = 0; i <= last; i++){
+        if (!stepOk(i)){ if (i !== cur) showStep(i, false); checkStep(i); return; }
+      }
+      bSend.disabled = true;
+      bSend.textContent = 'Отправляем';
+      brief.setAttribute('aria-busy', 'true');
+      sendBrief().then(function(){ finishBrief(true); }, function(){ finishBrief(false); });
+    });
+
+    /* direct send through brief.php on the hosting; anything else falls back to mailto */
+    var sendBrief = function(){
+      if (!window.fetch || !window.FormData || location.protocol === 'file:') return Promise.reject();
+      var ctrl = 'AbortController' in window ? new AbortController() : null;
+      var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 15000);
+      return fetch(BRIEF_ENDPOINT, {method:'POST', body:new FormData(brief), headers:{'Accept':'application/json'}, signal: ctrl ? ctrl.signal : undefined})
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          clearTimeout(timer);
+          if (!d || d.ok !== true) throw new Error('brief not sent');
+        }, function(err){ clearTimeout(timer); throw err; });
+    };
+    var finishBrief = function(sent){
+      bSend.disabled = false;
+      bSend.textContent = 'Отправить бриф';
+      brief.removeAttribute('aria-busy');
+      bSent.hidden = !sent;
+      bFail.hidden = sent;
+      brief.hidden = true;
+      bOk.hidden = false;
+      setProgress(1, 1);
+      railBtns.forEach(function(b){ b.classList.add('done'); b.removeAttribute('aria-current'); b.disabled = true; });
+      toCardTop();
+      bOk.focus({preventScroll:true});
+      if (sent) return;
+      briefText = buildText();
+      mailHref = 'mailto:' + LEAD_EMAIL + '?subject=' + encodeURIComponent('Бриф: ' + brief.elements.name.value.trim()) + '&body=' + encodeURIComponent(briefText.replace(/\n/g, '\r\n'));
+      bPre.textContent = briefText;
+      bMail.href = mailHref;
+      bCopied.textContent = '';
+      location.href = mailHref;
+    };
+
+    var bRetry = doc.getElementById('brief-retry');
+    bRetry.addEventListener('click', function(){
+      bRetry.disabled = true;
+      bRetry.textContent = 'Отправляем';
+      sendBrief().then(function(){ finishBrief(true); }, function(){
+        bCopied.textContent = 'Снова не получилось. Откройте письмо в почте или напишите в Telegram.';
+      }).then(function(){
+        bRetry.disabled = false;
+        bRetry.textContent = 'Попробовать отправить ещё раз';
+      });
+    });
+
+    doc.getElementById('brief-edit').addEventListener('click', function(){
+      bOk.hidden = true;
+      brief.hidden = false;
+      showStep(last, true);
+    });
+    doc.getElementById('brief-copy').addEventListener('click', function(){
+      var done = function(){ bCopied.textContent = 'Ответы скопированы. Вставьте их в сообщение в Telegram.'; };
+      var fail = function(){ bCopied.textContent = 'Скопировать не получилось. Ответы открыты ниже, их можно выделить вручную.'; bAns.open = true; };
+      var legacy = function(){
+        var t = doc.createElement('textarea');
+        t.value = briefText;
+        t.setAttribute('readonly', '');
+        t.style.position = 'fixed'; t.style.top = '0'; t.style.opacity = '0';
+        body.appendChild(t);
+        t.select();
+        var ok = false;
+        try { ok = doc.execCommand('copy'); } catch (err) {}
+        body.removeChild(t);
+        if (ok) done(); else fail();
+      };
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(briefText).then(done, legacy);
+      else legacy();
+    });
+
+    showStep(0, false);
+  }
+
   /* case filters, one group per section */
   var live = doc.getElementById('cases-live');
   doc.querySelectorAll('.filters[data-for]').forEach(function(group){
@@ -153,6 +361,317 @@
       });
     });
   });
+
+  /* ticker bands: second copy of the group for a seamless loop */
+  doc.querySelectorAll('.tk-track').forEach(function(t){
+    var g = t.querySelector('.tk-g');
+    if (g && t.children.length === 1) t.appendChild(g.cloneNode(true));
+  });
+
+  /* looping decorations run only while on screen */
+  var liveEls = doc.querySelectorAll('[data-live]');
+  if (liveEls.length && 'IntersectionObserver' in window){
+    var lio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.target.classList.contains('live') !== e.isIntersecting) e.target.classList.toggle('live', e.isIntersecting); });
+    });
+    liveEls.forEach(function(el){ lio.observe(el); });
+  } else {
+    liveEls.forEach(function(el){ el.classList.add('live'); });
+  }
+
+
+  /* spatial case carousel: the centre card in focus, neighbours fan back in depth */
+  var spStage = doc.getElementById('sp-stage');
+  if (spStage){
+    var spDeck = doc.getElementById('sp-deck');
+    var spAll = [].slice.call(spDeck.querySelectorAll('.sp-card'));
+    var spList = spAll.slice();
+    var spTitle = doc.getElementById('sp-title'), spPos = doc.getElementById('sp-pos'), spMini = doc.getElementById('sp-mini');
+    var spProg = doc.getElementById('sp-progress'), spPlay = doc.getElementById('sp-play');
+    var spChips = [].slice.call(doc.querySelectorAll('.sp-chip'));
+    var spNarrow = matchMedia('(max-width:720px)');
+    var SP_DUR = 4800;
+    var spActive = 0, spPlaying = !rm.matches, spSeen = false, spCounted = false, spHover = false, spTimer = null, spDragged = false;
+    var pad2 = function(n){ return (n < 10 ? '0' : '') + n; };
+
+    var spCount = function(card){
+      var el = card && card.querySelector('.spc-num');
+      if (!el) return;
+      var to = parseInt(el.getAttribute('data-n'), 10), suf = el.getAttribute('data-s') || '';
+      var final = fmt(to) + suf;
+      if (rm.matches || !to){ el.textContent = final; return; }
+      var t0 = performance.now(), last = '';
+      var step = function(now){
+        if (!card.classList.contains('is-active')){ el.textContent = final; return; }
+        var p = Math.min(1, (now - t0) / 900);
+        var txt = fmt(Math.round(to * (1 - Math.pow(1 - p, 3)))) + suf;
+        if (txt !== last){ last = txt; el.textContent = txt; }
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    var spPosF = 0, spRaf = null, spLastT = 0, spShown = null, spScrub = false;
+    var spFine = matchMedia('(hover: hover) and (pointer: fine)');
+
+    /* p is a fractional deck position, so the cursor can hold the deck between two cards */
+    var spLayout = function(p){
+      if (p === undefined) p = spActive;
+      var n = spList.length;
+      var W = n ? spList[0].offsetWidth : 300;
+      var m = spNarrow.matches;
+      var near = m ? .56 : .64, far = m ? .22 : .34;
+      var act = n ? ((Math.round(p) % n) + n) % n : 0;
+      spActive = act;
+      spAll.forEach(function(c){
+        var i = spList.indexOf(c);
+        if (i < 0){
+          c.style.transform = 'translate(-50%,-50%) translate3d(0,40px,-700px) scale(.6)';
+          c.style.opacity = '0';
+          c.style.zIndex = '1';
+          c.style.pointerEvents = 'none';
+          c.classList.add('sp-out');
+          c.classList.remove('is-active');
+          c.tabIndex = -1;
+          c.setAttribute('aria-hidden', 'true');
+          return;
+        }
+        c.classList.remove('sp-out');
+        var d = i - p;
+        // the deck is a loop: every card sits at its nearest distance from the centre, and cards fade out before the seam
+        d = (((d + n / 2) % n) + n) % n - n / 2;
+        var a = Math.abs(d), s = d < 0 ? -1 : 1;
+        var x = s * (a <= 1 ? a * W * near : W * near + (a - 1) * W * far);
+        var z = -a * (m ? 150 : 200);
+        var ry = -s * (a <= 1 ? a * 20 : Math.min(12 + a * 8, 40));
+        var sc = Math.max(.64, 1 - a * .07);
+        var op = Math.max(0, Math.min(1, Math.min(3.6, n / 2) - a));
+        c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,0,' + z.toFixed(1) + 'px) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+        c.style.opacity = op.toFixed(3);
+        c.style.zIndex = String(100 - Math.round(a * 10));
+        var pe = op < .05 ? 'none' : '';
+        if (c.style.pointerEvents !== pe) c.style.pointerEvents = pe;
+        c.style.setProperty('--dim', Math.min(.7, a * .22).toFixed(3));
+        var on = i === act;
+        if (c.classList.contains('is-active') !== on) c.classList.toggle('is-active', on);
+        if (c.tabIndex !== (on ? 0 : -1)) c.tabIndex = on ? 0 : -1;
+        if (c.getAttribute('aria-hidden') !== (on ? 'false' : 'true')) c.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      var cur = spList[act];
+      if (!cur || cur === spShown) return;
+      spShown = cur;
+      spTitle.textContent = cur.querySelector('.spc-title').textContent;
+      spPos.textContent = pad2(act + 1) + ' / ' + pad2(n);
+      var v = (cur.className.match(/\bv-[a-z]+/) || [''])[0];
+      spMini.className = 'sp-mini ' + v;
+      spStage.setAttribute('data-glow', v);
+      spCount(cur);
+    };
+
+    /* desktop joystick: cursor right of centre rolls the deck forward without end, left rolls it back,
+       the further from centre the faster. In the centre the deck glides onto the nearest card */
+    var SP_VMAX = 3.2;          // cards per second at the very edge
+    var SP_DEAD = .16;          // calm zone around the centre, as a share of half the stage
+    var spVel = 0, spMouseX = 0, spRect = null, spRest = null;
+    var spFrame = function(now){
+      var dt = Math.min(100, now - (spLastT || now));
+      spLastT = now;
+      var n = spList.length;
+      if (!spScrub || n < 2 || !spRect){ spRaf = null; spLastT = 0; return; }
+      var half = spRect.width / 2;
+      var off = Math.max(-1, Math.min(1, (spMouseX - (spRect.left + half)) / half));
+      var mag = Math.abs(off);
+      var want = mag < SP_DEAD ? 0 : (off < 0 ? -1 : 1) * Math.pow((mag - SP_DEAD) / (1 - SP_DEAD), 1.5) * SP_VMAX;
+      var ease = function(r){ return rm.matches ? 1 : 1 - Math.pow(1 - r, dt / 16.667); };
+      if (want !== 0){
+        spRest = null;
+        spVel += (want - spVel) * ease(.06);
+        spPosF += spVel * dt / 1000;
+      } else {
+        if (spRest === null) spRest = Math.round(spPosF + spVel * .3);   // coast a little in the direction of travel
+        spVel = 0;
+        spPosF += (spRest - spPosF) * ease(.08);
+        if (Math.abs(spRest - spPosF) < .001){
+          spPosF = spRest;
+          spLayout(spPosF);
+          spRaf = null; spLastT = 0;
+          return;
+        }
+      }
+      spLayout(spPosF);
+      spRaf = requestAnimationFrame(spFrame);
+    };
+
+    var spRestart = function(){
+      clearTimeout(spTimer);
+      var running = spPlaying && spSeen && !spHover && !doc.hidden && spList.length > 1;
+      spProg.classList.remove('run');
+      void spProg.offsetWidth;
+      if (spPlaying && !rm.matches && spList.length > 1) spProg.classList.add('run');
+      spProg.classList.toggle('hold', !running);
+      if (running) spTimer = setTimeout(function(){ spGo(spActive + 1); }, SP_DUR);
+    };
+
+    var spGo = function(i){
+      var n = spList.length;
+      if (!n) return;
+      if (spRaf !== null){ cancelAnimationFrame(spRaf); spRaf = null; spLastT = 0; }
+      spActive = ((i % n) + n) % n;
+      spPosF = spActive;
+      spRest = null;
+      spLayout(spActive);
+      spRestart();
+    };
+
+    var spSetPlaying = function(on){
+      spPlaying = on;
+      spPlay.setAttribute('aria-pressed', on ? 'true' : 'false');
+      spPlay.setAttribute('aria-label', on ? 'Пауза' : 'Листать автоматически');
+      spRestart();
+    };
+
+    doc.getElementById('sp-prev').addEventListener('click', function(){ spGo(spActive - 1); });
+    doc.getElementById('sp-next').addEventListener('click', function(){ spGo(spActive + 1); });
+    spPlay.addEventListener('click', function(){ spSetPlaying(!spPlaying); });
+
+    spChips.forEach(function(ch){
+      ch.addEventListener('click', function(){
+        var f = ch.getAttribute('data-f');
+        spChips.forEach(function(x){ x.setAttribute('aria-pressed', x === ch ? 'true' : 'false'); });
+        spList = spAll.filter(function(c){ return f === 'all' || c.getAttribute('data-kind') === f; });
+        spShown = null;
+        spGo(0);
+      });
+    });
+
+    spAll.forEach(function(c){
+      c.addEventListener('click', function(e){
+        if (spDragged){ e.preventDefault(); return; }
+        if (!c.classList.contains('is-active')){ e.preventDefault(); spGo(spList.indexOf(c)); }
+      });
+      c.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    });
+
+    var spKick = function(){ if (spRaf === null) spRaf = requestAnimationFrame(spFrame); };
+    spStage.addEventListener('mouseenter', function(e){
+      if (!spFine.matches) return;
+      spScrub = true;
+      spRect = spStage.getBoundingClientRect();
+      spMouseX = e.clientX;
+      spPosF = spActive;
+      spVel = 0;
+      spRest = null;
+      spStage.classList.add('scrub');
+      spKick();
+    });
+    spStage.addEventListener('mousemove', function(e){
+      if (!spScrub) return;
+      spMouseX = e.clientX;
+      spKick();
+    });
+    addEventListener('scroll', function(){ if (spScrub) spRect = spStage.getBoundingClientRect(); }, {passive:true});
+    spStage.addEventListener('mouseleave', function(){
+      if (!spScrub) return;
+      spScrub = false;
+      spStage.classList.remove('scrub');
+      var land = Math.round(spPosF + spVel * .3);
+      spVel = 0;
+      spGo(land);
+    });
+
+    /* touch: swipe */
+    var spDown = false, spX = 0, spY = 0;
+    spStage.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'mouse') return;
+      spDown = true; spDragged = false; spX = e.clientX; spY = e.clientY;
+    });
+    spStage.addEventListener('pointermove', function(e){
+      if (!spDown || spDragged) return;
+      var dx = e.clientX - spX, dy = e.clientY - spY;
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){ spDragged = true; spStage.classList.add('dragging'); }
+    });
+    spStage.addEventListener('pointerup', function(e){
+      if (!spDown) return;
+      spDown = false;
+      spStage.classList.remove('dragging');
+      var dx = e.clientX - spX;
+      if (spDragged && Math.abs(dx) > 40) spGo(spActive + (dx < 0 ? 1 : -1));
+      setTimeout(function(){ spDragged = false; }, 0);
+    });
+    spStage.addEventListener('pointercancel', function(){ spDown = false; spDragged = false; spStage.classList.remove('dragging'); });
+
+    spStage.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight'){ e.preventDefault(); spGo(spActive + 1); }
+      else if (e.key === 'ArrowLeft'){ e.preventDefault(); spGo(spActive - 1); }
+    });
+
+    var spWheel = 0, spWheelLock = 0;
+    spStage.addEventListener('wheel', function(e){
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      var now = performance.now();
+      if (now < spWheelLock) return;
+      spWheel += e.deltaX;
+      if (Math.abs(spWheel) > 40){ spGo(spActive + (spWheel > 0 ? 1 : -1)); spWheel = 0; spWheelLock = now + 650; }
+    }, {passive:false});
+
+    spStage.addEventListener('mouseenter', function(){ spHover = true; spRestart(); });
+    spStage.addEventListener('mouseleave', function(){ spHover = false; spRestart(); });
+    doc.addEventListener('visibilitychange', spRestart);
+    rm.addEventListener('change', function(e){ if (e.matches) spSetPlaying(false); });
+
+    var spTick = null;
+    addEventListener('resize', function(){
+      if (spTick === null) spTick = requestAnimationFrame(function(){ spTick = null; spLayout(); });
+    }, {passive:true});
+
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        spSeen = es[0].isIntersecting;
+        if (spSeen && !spCounted){ spCounted = true; spCount(spList[spActive]); }
+        spRestart();
+      }, {threshold:.35}).observe(spStage);
+    } else {
+      spSeen = true;
+    }
+
+    spStage.classList.add('sp-on');
+    spSetPlaying(spPlaying);
+    spLayout();
+  }
+
+  /* phone action bar: review button plus Telegram, shown once the page's own buttons are out of sight */
+  if (!body.hasAttribute('data-no-mbar')){
+    var mbar = doc.createElement('div');
+    mbar.className = 'mbar';
+    mbar.id = 'mbar';
+    mbar.innerHTML = '<a class="btn btn-primary" href="kontakty.html#razbor">Разобрать сайт бесплатно</a>' +
+      '<a class="mbar-tg" href="https://t.me/vladpryanik" rel="noopener" aria-label="Написать в Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.5c.2.6.3.8.8.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.3 13.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2z" fill="currentColor"/></svg></a>';
+    body.appendChild(mbar);
+    body.classList.add('has-mbar');
+    var heroAct = doc.getElementById('hero-act');
+    var quiet = [].slice.call(doc.querySelectorAll('.cta, #razbor, .site-foot'));
+    var quietOn = 0, mbarShown = false;
+    var syncMbar = function(){
+      var past = heroAct ? heroAct.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * 0.6;
+      var want = past && quietOn === 0;
+      if (want !== mbarShown){ mbarShown = want; mbar.classList.toggle('show', want); }
+    };
+    if ('IntersectionObserver' in window && quiet.length){
+      var qio = new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          var was = e.target.hasAttribute('data-quiet');
+          if (e.isIntersecting === was) return;
+          if (e.isIntersecting) e.target.setAttribute('data-quiet', ''); else e.target.removeAttribute('data-quiet');
+          quietOn += e.isIntersecting ? 1 : -1;
+        });
+        syncMbar();
+      });
+      quiet.forEach(function(q){ qio.observe(q); });
+    }
+    addEventListener('scroll', syncMbar, {passive:true});
+    syncMbar();
+  }
 
   /* hidden tabs stop all loops */
   doc.addEventListener('visibilitychange', function(){ body.classList.toggle('paused', doc.hidden); });
