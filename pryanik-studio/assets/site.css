@@ -134,15 +134,27 @@ h3{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.01em}
 .cue.gone{opacity:0}
 @media (max-height:560px){.cue,.ring{display:none}}
 
+/* portrait screens scrub their own vertical film. Its white is graded to the
+   page canvas, so the stage and the headline below it read as one field. */
 @media (max-width: 720px),
        (orientation: portrait) and (max-width: 1024px),
-       (orientation: portrait) and (pointer: coarse),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
+       (orientation: portrait) and (pointer: coarse){
+  .hero{height:340vh;background:var(--canvas)}
+  .stage{height:100vh;height:100svh;background:var(--canvas)}
+  .vignette{display:none}
+  .settle .shell{padding-top:clamp(36px,7vh,72px)}
+}
+
+/* no room for a film, or the visitor asked for less motion: one composed still */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
        (prefers-reduced-motion: reduce){
   .hero{height:auto;padding-top:72px;background:var(--canvas)}
   .stage{position:relative;top:auto;height:auto;aspect-ratio:16/9;background:var(--canvas)}
   .stage video,.ring,.cue,.vignette{display:none}
   .stage .poster,.stage.video-ready .poster{position:absolute;inset:0;opacity:1}
+}
+@media (orientation: portrait) and (prefers-reduced-motion: reduce){
+  .stage{aspect-ratio:9/16}
 }
 
 /* settle */
