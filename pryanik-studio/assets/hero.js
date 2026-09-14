@@ -25,7 +25,37 @@
   var cue = document.getElementById('cue');
   var film = document.getElementById('film');
   var playBtn = document.getElementById('playfilm');
-  var filmOpened = false;
+  var wear = document.getElementById('wear');
+  var filmOpened = false, geared = false, wearShown = false;
+
+  // The glasses are offered at the end of the film and the visitor accepts them.
+  // Until then the site's navigation is not there to be used.
+  function updateGate(p){
+    if (!wear || geared || !scrubOn) return;
+    var show = p > 0.985;
+    if (show === wearShown) return;
+    wearShown = show;
+    if (show){
+      wear.hidden = false;
+      requestAnimationFrame(function(){ wear.classList.add('in'); });
+    } else {
+      wear.classList.remove('in');
+      setTimeout(function(){ if (!wearShown) wear.hidden = true; }, 560);
+    }
+  }
+
+  if (wear){
+    wear.addEventListener('click', function(){
+      geared = true;
+      wearShown = false;
+      document.body.classList.remove('gated');
+      document.body.classList.add('geared');
+      wear.classList.remove('in');
+      setTimeout(function(){ wear.hidden = true; }, 560);
+      var brand = document.querySelector('.site-head .brand');
+      if (brand && brand.focus) brand.focus({preventScroll: true});
+    });
+  }
 
   var target = 0, shown = 0, rafId = null, lastTick = 0, heroOn = true;
   var seekBusy = false, pendingTime = null;
@@ -83,6 +113,7 @@
   function onScroll(){
     target = heroProgress();
     if (!cueGone && target > 0.02){ cueGone = true; cue.classList.add('gone'); }
+    updateGate(target);
     if (rafId === null && heroOn) rafId = requestAnimationFrame(tick);
   }
 
@@ -179,6 +210,7 @@
     if (scrubOn) return;
     scrubOn = true;
     poster.style.backgroundImage = "url('" + set.poster + "')";
+    if (!geared) document.body.classList.add('gated');
     initHeroOnce();
     addEventListener('scroll', onScroll, {passive:true});
     onScroll();
@@ -191,6 +223,9 @@
       if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
     }
     poster.style.backgroundImage = "url('" + set.ending + "')";
+    // A still hero has no end to reach, so nothing is gated behind the glasses.
+    document.body.classList.remove('gated');
+    if (wear){ wearShown = false; wear.classList.remove('in'); wear.hidden = true; }
     if (playBtn && !filmOpened) playBtn.hidden = false;
   }
 

@@ -505,3 +505,36 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 @media (pointer:coarse){.playfilm{min-height:44px}}
 .stage video.film{position:absolute;inset:0;z-index:5;width:100%;height:100%;object-fit:cover;background:#0B0B0F}
 .stage video.film:not([hidden]){display:block}
+
+/* The site waits behind the glasses. The header hides only while the scrub hero
+   is actually running, and only because JS put the class there, so a script that
+   never loads leaves the navigation exactly where it was. */
+.site-head{transition:opacity .7s var(--e-out),transform .7s var(--e-out),visibility .7s var(--e-out),background .4s var(--e-out),border-color .4s var(--e-out)}
+/* visibility, not just opacity: an invisible header must also leave the tab order */
+body.gated .site-head{opacity:0;visibility:hidden;transform:translateY(-100%);pointer-events:none}
+body.geared .site-head{animation:plate-in .6s var(--e-out) both}
+@keyframes plate-in{
+  0%{opacity:0;transform:translateY(-100%)}
+  38%{opacity:.32;transform:none}
+  52%{opacity:.85}
+  64%{opacity:.45}
+  100%{opacity:1;transform:none}
+}
+body.geared .settle .act,body.geared .settle .sub{animation:plate-in .5s var(--e-out) .12s both}
+
+.wear{position:absolute;left:0;right:0;margin-inline:auto;width:max-content;max-width:calc(100% - 32px);
+  bottom:clamp(26px,9%,68px);z-index:6;
+  display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border:0;border-radius:999px;cursor:pointer;
+  white-space:nowrap;font-family:var(--body);font-size:16px;font-weight:600;color:#fff;background:var(--accent);
+  box-shadow:0 18px 44px -18px rgba(3,46,223,.85);
+  opacity:0;transform:translateY(12px);
+  transition:opacity .55s var(--e-out),transform .55s var(--e-out),background .35s var(--e-out)}
+.wear.in{opacity:1;transform:none}
+.wear:hover{background:var(--accent-hover)}
+.wear .ic{display:flex;flex:none;width:32px}
+.wear .ic svg{width:32px;height:auto}
+@media (pointer:coarse){.wear{min-height:48px}}
+@media (prefers-reduced-motion:reduce){
+  .wear{transition:none}
+  body.geared .site-head,body.geared .settle .act,body.geared .settle .sub{animation:none}
+}
