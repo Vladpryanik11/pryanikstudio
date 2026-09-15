@@ -716,7 +716,7 @@
     var hsHero = hsMedia.parentNode;
     var hsImg = hsMedia.querySelector('.hs-base');
     var HS_FACE = [.5, .56];                      // face centre as a share of the source image
-    var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 160, hsRMax = 1200;
+    var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 80, hsSpan = 160, hsRMax = 1200;
     var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
     var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1;
 
@@ -730,7 +730,8 @@
       var px = parseFloat(pos[0]) / 100, py = parseFloat(pos[1] || '50') / 100;
       hsFx = b.left - r.left + (b.width - iw * s) * px + HS_FACE[0] * iw * s;
       hsFy = b.top - r.top + (b.height - ih * s) * py + HS_FACE[1] * ih * s;
-      hsR0 = Math.max(120, Math.min(hsW, hsH) * .2);
+      hsSpan = Math.max(120, Math.min(hsW, hsH) * .2);   // how far the idle light wanders over the face
+      hsR0 = hsSpan * .75;                                // resting radius of the light
       hsRMax = Math.hypot(hsW, hsH);
       if (!hsR){ hsX = hsTx = hsFx; hsY = hsTy = hsFy; hsR = hsR0; }
     };
@@ -749,8 +750,8 @@
       var t = now / 1000, p = hsProgress();
       // without a recent cursor the light wanders gently around the face
       if (!hsTouching && (!hsHasPointer || now - hsLastMove > 3200)){
-        hsTx = hsFx + Math.cos(t * .33) * hsR0 * .45 + Math.sin(t * .17) * hsR0 * .2;
-        hsTy = hsFy + Math.sin(t * .41) * hsR0 * .28;
+        hsTx = hsFx + Math.cos(t * .33) * hsSpan * .45 + Math.sin(t * .17) * hsSpan * .2;
+        hsTy = hsFy + Math.sin(t * .41) * hsSpan * .28;
       }
       // a finger gets a slightly quicker follow and a soft swell of the light while it rests on the screen
       var follow = 1 - Math.pow(1 - (hsTouching ? .11 : .075), dt), grow = 1 - Math.pow(1 - .09, dt);
