@@ -125,7 +125,10 @@
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
     }, {rootMargin:'0px 0px -10% 0px', threshold:.06});
-    entering.forEach(function(el){ io.observe(el); });
+    entering.forEach(function(el){
+      // the first screen enters at once, so a button near the bottom edge of a phone is not left invisible
+      if (el.closest('.hero')) el.classList.add('in'); else io.observe(el);
+    });
   } else {
     entering.forEach(function(el){ el.classList.add('in'); });
   }
@@ -718,14 +721,15 @@
     var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1;
 
     var hsMeasure = function(){
-      var r = hsMedia.getBoundingClientRect();
+      var r = hsMedia.getBoundingClientRect(), b = hsImg.getBoundingClientRect();
       hsW = r.width; hsH = r.height;
+      // on phones the picture box is shorter than the hero, so the face is found inside the box itself
       var iw = hsImg.naturalWidth || 1536, ih = hsImg.naturalHeight || 864;
-      var s = Math.max(hsW / iw, hsH / ih);
+      var s = Math.max(b.width / iw, b.height / ih);
       var pos = getComputedStyle(hsImg).objectPosition.split(' ');
       var px = parseFloat(pos[0]) / 100, py = parseFloat(pos[1] || '50') / 100;
-      hsFx = (hsW - iw * s) * px + HS_FACE[0] * iw * s;
-      hsFy = (hsH - ih * s) * py + HS_FACE[1] * ih * s;
+      hsFx = b.left - r.left + (b.width - iw * s) * px + HS_FACE[0] * iw * s;
+      hsFy = b.top - r.top + (b.height - ih * s) * py + HS_FACE[1] * ih * s;
       hsR0 = Math.max(120, Math.min(hsW, hsH) * .2);
       hsRMax = Math.hypot(hsW, hsH);
       if (!hsR){ hsX = hsTx = hsFx; hsY = hsTy = hsFy; hsR = hsR0; }
