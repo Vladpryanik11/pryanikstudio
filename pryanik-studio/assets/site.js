@@ -763,7 +763,9 @@
       if (hsRaf !== null){ cancelAnimationFrame(hsRaf); hsRaf = null; }
       hsLast = 0;
       if (rm.matches){
-        hsX = hsFx; hsY = hsFy; hsR = hsR0 + (hsRMax - hsR0) * Math.max(.45, hsProgress());
+        // no easing or drift here, but the light still jumps to where the reader points
+        hsX = hsHasPointer ? hsTx : hsFx; hsY = hsHasPointer ? hsTy : hsFy;
+        hsR = hsR0 + (hsRMax - hsR0) * Math.max(.45, hsProgress());
         hsApply();
         return;
       }
@@ -775,6 +777,7 @@
       var r = hsMedia.getBoundingClientRect();
       hsTx = e.clientX - r.left; hsTy = e.clientY - r.top;
       hsHasPointer = true; hsLastMove = performance.now();
+      if (rm.matches) hsRun();
     }, {passive:true});
     hsHero.addEventListener('pointerleave', function(e){ if (e.pointerType === 'mouse') hsHasPointer = false; });
 
@@ -786,6 +789,7 @@
       var r = hsMedia.getBoundingClientRect();
       hsTx = f.clientX - r.left; hsTy = f.clientY - r.top;
       hsHasPointer = true; hsLastMove = performance.now();
+      if (rm.matches) hsRun();
     };
     hsHero.addEventListener('touchstart', function(e){ hsTouching = true; hsTouchAt(e); }, {passive:true});
     hsHero.addEventListener('touchmove', hsTouchAt, {passive:true});
