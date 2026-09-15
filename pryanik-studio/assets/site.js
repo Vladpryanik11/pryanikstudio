@@ -715,7 +715,7 @@
     var HS_FACE = [.5, .56];                      // face centre as a share of the source image
     var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 160, hsRMax = 1200;
     var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
-    var hsRaf = null, hsLast = 0, hsSeen = true;
+    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1;
 
     var hsMeasure = function(){
       var r = hsMedia.getBoundingClientRect();
@@ -744,15 +744,17 @@
       hsLast = now;
       var t = now / 1000, p = hsProgress();
       // without a recent cursor the light wanders gently around the face
-      if (!hsHasPointer || now - hsLastMove > 3200){
+      if (!hsTouching && (!hsHasPointer || now - hsLastMove > 3200)){
         hsTx = hsFx + Math.cos(t * .33) * hsR0 * .45 + Math.sin(t * .17) * hsR0 * .2;
         hsTy = hsFy + Math.sin(t * .41) * hsR0 * .28;
       }
-      var follow = 1 - Math.pow(1 - .075, dt), grow = 1 - Math.pow(1 - .09, dt);
+      // a finger gets a slightly quicker follow and a soft swell of the light while it rests on the screen
+      var follow = 1 - Math.pow(1 - (hsTouching ? .11 : .075), dt), grow = 1 - Math.pow(1 - .09, dt);
       hsX += (hsTx - hsX) * follow;
       hsY += (hsTy - hsY) * follow;
+      hsPress += ((hsTouching ? 1.22 : 1) - hsPress) * (1 - Math.pow(1 - .08, dt));
       var breathe = 1 + Math.sin(t * 1.1) * .025;
-      var wantR = (hsR0 + (hsRMax - hsR0) * p) * breathe;
+      var wantR = (hsR0 + (hsRMax - hsR0) * p) * breathe * hsPress;
       hsR += (wantR - hsR) * grow;
       hsApply();
       hsRaf = requestAnimationFrame(hsFrame);
@@ -774,7 +776,25 @@
       hsTx = e.clientX - r.left; hsTy = e.clientY - r.top;
       hsHasPointer = true; hsLastMove = performance.now();
     }, {passive:true});
-    hsHero.addEventListener('pointerleave', function(){ hsHasPointer = false; });
+    hsHero.addEventListener('pointerleave', function(e){ if (e.pointerType === 'mouse') hsHasPointer = false; });
+
+    // touch: the light goes to the finger on tap and follows it while it slides. Listeners stay passive,
+    // so the page still scrolls; after the finger lifts the light holds for a moment, then drifts back
+    var hsTouchAt = function(e){
+      var f = e.touches[0];
+      if (!f) return;
+      var r = hsMedia.getBoundingClientRect();
+      hsTx = f.clientX - r.left; hsTy = f.clientY - r.top;
+      hsHasPointer = true; hsLastMove = performance.now();
+    };
+    hsHero.addEventListener('touchstart', function(e){ hsTouching = true; hsTouchAt(e); }, {passive:true});
+    hsHero.addEventListener('touchmove', hsTouchAt, {passive:true});
+    var hsTouchEnd = function(e){
+      if (e.touches.length) return;
+      hsTouching = false; hsLastMove = performance.now();
+    };
+    hsHero.addEventListener('touchend', hsTouchEnd, {passive:true});
+    hsHero.addEventListener('touchcancel', hsTouchEnd, {passive:true});
 
     var hsTick = null;
     addEventListener('resize', function(){
