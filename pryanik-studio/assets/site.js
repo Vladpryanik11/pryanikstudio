@@ -8,20 +8,79 @@
 
   doc.documentElement.classList.add('ready');
 
-  /* ambient motes */
+  /* ambient dust: white particles drift slowly upward and twinkle on one fixed canvas behind the page;
+     nearer (larger) specks move faster, the loop sleeps while the tab is hidden, reduced motion gets a still field */
   (function(){
     var env = doc.getElementById('env');
-    if (!env || rm.matches) return;
-    for (var i = 0; i < 12; i++){
-      var m = doc.createElement('span');
-      m.className = 'mote';
-      m.style.left = (Math.random() * 100).toFixed(2) + '%';
-      m.style.top = (60 + Math.random() * 50).toFixed(2) + '%';
-      m.style.animationDuration = (26 + Math.random() * 22).toFixed(1) + 's';
-      m.style.animationDelay = '-' + (Math.random() * 40).toFixed(1) + 's';
-      m.style.opacity = (0.06 + Math.random() * 0.12).toFixed(2);
-      env.appendChild(m);
-    }
+    if (!env) return;
+    var cv = doc.createElement('canvas');
+    cv.className = 'env-dust';
+    var cx = cv.getContext && cv.getContext('2d');
+    if (!cx) return;
+    env.appendChild(cv);
+    var W = 0, H = 0, dpr = 1, parts = [], raf = null, last = 0;
+
+    var seed = function(p, anywhere){
+      var depth = Math.random();                       // 0 far, 1 near
+      p.r = .45 + depth * depth * 1.65;
+      p.x = Math.random() * W;
+      p.y = anywhere ? Math.random() * H : H + 8;
+      p.vy = -(5 + depth * 22);                         // px per second, upward
+      p.sway = 6 + Math.random() * 14;
+      p.swayT = .15 + Math.random() * .35;
+      p.ph = Math.random() * Math.PI * 2;
+      p.a = .3 + depth * .6;
+      p.tw = .6 + Math.random() * 1.8;
+      p.glow = p.r > 1.35;
+    };
+    var size = function(){
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = innerWidth; H = innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var want = Math.round(Math.max(48, Math.min(140, W * H / 11000)));
+      while (parts.length < want){ var p = {}; seed(p, true); parts.push(p); }
+      parts.length = want;
+    };
+    var draw = function(t){
+      cx.clearRect(0, 0, W, H);
+      for (var i = 0; i < parts.length; i++){
+        var p = parts[i];
+        var x = p.x + Math.sin(t * p.swayT + p.ph) * p.sway;
+        var a = p.a * (.55 + .45 * Math.sin(t * p.tw + p.ph));
+        if (p.glow){
+          cx.fillStyle = 'rgba(236,242,244,' + (a * .16).toFixed(3) + ')';
+          cx.beginPath(); cx.arc(x, p.y, p.r * 3.2, 0, 6.2832); cx.fill();
+        }
+        cx.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')';
+        cx.beginPath(); cx.arc(x, p.y, p.r, 0, 6.2832); cx.fill();
+      }
+    };
+    var frame = function(now){
+      var dt = Math.min(.05, (now - (last || now)) / 1000);
+      last = now;
+      for (var i = 0; i < parts.length; i++){
+        var p = parts[i];
+        p.y += p.vy * dt;
+        if (p.y < -8) seed(p, false);
+      }
+      draw(now / 1000);
+      raf = requestAnimationFrame(frame);
+    };
+    var run = function(){
+      if (raf !== null){ cancelAnimationFrame(raf); raf = null; }
+      last = 0;
+      if (rm.matches){ draw(0); return; }
+      if (!doc.hidden) raf = requestAnimationFrame(frame);
+    };
+    var resizeTick = null;
+    addEventListener('resize', function(){
+      if (resizeTick === null) resizeTick = requestAnimationFrame(function(){ resizeTick = null; size(); if (rm.matches) draw(0); });
+    }, {passive:true});
+    doc.addEventListener('visibilitychange', run);
+    rm.addEventListener('change', run);
+    size();
+    run();
   })();
 
   /* header */
@@ -391,7 +450,8 @@
     var spChips = [].slice.call(doc.querySelectorAll('.sp-chip'));
     var spNarrow = matchMedia('(max-width:720px)');
     var SP_DUR = 4800;
-    var spActive = 0, spPlaying = !rm.matches, spSeen = false, spCounted = false, spHover = false, spTimer = null, spDragged = false;
+    // the control dock is optional; without it (and so without a pause button) the deck never turns by itself
+    var spActive = 0, spPlaying = !rm.matches && !!spPlay, spSeen = false, spCounted = false, spHover = false, spTimer = null, spDragged = false;
     var pad2 = function(n){ return (n < 10 ? '0' : '') + n; };
 
     var spCount = function(card){
@@ -412,6 +472,7 @@
     };
 
     var spPosF = 0, spRaf = null, spLastT = 0, spShown = null, spScrub = false;
+
     var spFine = matchMedia('(hover: hover) and (pointer: fine)');
 
     /* p is a fractional deck position, so the cursor can hold the deck between two cards */
@@ -460,10 +521,10 @@
       var cur = spList[act];
       if (!cur || cur === spShown) return;
       spShown = cur;
-      spTitle.textContent = cur.querySelector('.spc-title').textContent;
-      spPos.textContent = pad2(act + 1) + ' / ' + pad2(n);
+      if (spTitle) spTitle.textContent = cur.querySelector('.spc-title').textContent;
+      if (spPos) spPos.textContent = pad2(act + 1) + ' / ' + pad2(n);
       var v = (cur.className.match(/\bv-[a-z]+/) || [''])[0];
-      spMini.className = 'sp-mini ' + v;
+      if (spMini) spMini.className = 'sp-mini ' + v;
       spStage.setAttribute('data-glow', v);
       spCount(cur);
     };
@@ -505,10 +566,12 @@
     var spRestart = function(){
       clearTimeout(spTimer);
       var running = spPlaying && spSeen && !spHover && !doc.hidden && spList.length > 1;
-      spProg.classList.remove('run');
-      void spProg.offsetWidth;
-      if (spPlaying && !rm.matches && spList.length > 1) spProg.classList.add('run');
-      spProg.classList.toggle('hold', !running);
+      if (spProg){
+        spProg.classList.remove('run');
+        void spProg.offsetWidth;
+        if (spPlaying && !rm.matches && spList.length > 1) spProg.classList.add('run');
+        spProg.classList.toggle('hold', !running);
+      }
       if (running) spTimer = setTimeout(function(){ spGo(spActive + 1); }, SP_DUR);
     };
 
@@ -524,15 +587,18 @@
     };
 
     var spSetPlaying = function(on){
-      spPlaying = on;
-      spPlay.setAttribute('aria-pressed', on ? 'true' : 'false');
-      spPlay.setAttribute('aria-label', on ? 'Пауза' : 'Листать автоматически');
+      spPlaying = on && !!spPlay;
+      if (spPlay){
+        spPlay.setAttribute('aria-pressed', spPlaying ? 'true' : 'false');
+        spPlay.setAttribute('aria-label', spPlaying ? 'Пауза' : 'Листать автоматически');
+      }
       spRestart();
     };
 
-    doc.getElementById('sp-prev').addEventListener('click', function(){ spGo(spActive - 1); });
-    doc.getElementById('sp-next').addEventListener('click', function(){ spGo(spActive + 1); });
-    spPlay.addEventListener('click', function(){ spSetPlaying(!spPlaying); });
+    var spPrev = doc.getElementById('sp-prev'), spNext = doc.getElementById('sp-next');
+    if (spPrev) spPrev.addEventListener('click', function(){ spGo(spActive - 1); });
+    if (spNext) spNext.addEventListener('click', function(){ spGo(spActive + 1); });
+    if (spPlay) spPlay.addEventListener('click', function(){ spSetPlaying(!spPlaying); });
 
     spChips.forEach(function(ch){
       ch.addEventListener('click', function(){
@@ -640,23 +706,118 @@
     spLayout();
   }
 
-  /* phone action bar: review button plus Telegram, shown once the page's own buttons are out of sight */
+  /* hero spotlight: the lit portrait shows through a soft circle. The circle eases after the cursor, drifts slowly
+     over the face when there is no cursor, and widens with scroll until the whole portrait is revealed */
+  var hsMedia = doc.getElementById('hs-media');
+  if (hsMedia){
+    var hsHero = hsMedia.parentNode;
+    var hsImg = hsMedia.querySelector('.hs-base');
+    var HS_FACE = [.5, .56];                      // face centre as a share of the source image
+    var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 160, hsRMax = 1200;
+    var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
+    var hsRaf = null, hsLast = 0, hsSeen = true;
+
+    var hsMeasure = function(){
+      var r = hsMedia.getBoundingClientRect();
+      hsW = r.width; hsH = r.height;
+      var iw = hsImg.naturalWidth || 1536, ih = hsImg.naturalHeight || 864;
+      var s = Math.max(hsW / iw, hsH / ih);
+      var pos = getComputedStyle(hsImg).objectPosition.split(' ');
+      var px = parseFloat(pos[0]) / 100, py = parseFloat(pos[1] || '50') / 100;
+      hsFx = (hsW - iw * s) * px + HS_FACE[0] * iw * s;
+      hsFy = (hsH - ih * s) * py + HS_FACE[1] * ih * s;
+      hsR0 = Math.max(120, Math.min(hsW, hsH) * .2);
+      hsRMax = Math.hypot(hsW, hsH);
+      if (!hsR){ hsX = hsTx = hsFx; hsY = hsTy = hsFy; hsR = hsR0; }
+    };
+    var hsApply = function(){
+      hsMedia.style.setProperty('--sx', hsX.toFixed(1) + 'px');
+      hsMedia.style.setProperty('--sy', hsY.toFixed(1) + 'px');
+      hsMedia.style.setProperty('--sr', hsR.toFixed(1) + 'px');
+    };
+    var hsProgress = function(){
+      var p = Math.max(0, Math.min(1, scrollY / (hsHero.offsetHeight * .65)));
+      return p * p * (3 - 2 * p);                  // smoothstep for a soft start and landing
+    };
+    var hsFrame = function(now){
+      var dt = Math.min(60, now - (hsLast || now)) / 16.667;
+      hsLast = now;
+      var t = now / 1000, p = hsProgress();
+      // without a recent cursor the light wanders gently around the face
+      if (!hsHasPointer || now - hsLastMove > 3200){
+        hsTx = hsFx + Math.cos(t * .33) * hsR0 * .45 + Math.sin(t * .17) * hsR0 * .2;
+        hsTy = hsFy + Math.sin(t * .41) * hsR0 * .28;
+      }
+      var follow = 1 - Math.pow(1 - .075, dt), grow = 1 - Math.pow(1 - .09, dt);
+      hsX += (hsTx - hsX) * follow;
+      hsY += (hsTy - hsY) * follow;
+      var breathe = 1 + Math.sin(t * 1.1) * .025;
+      var wantR = (hsR0 + (hsRMax - hsR0) * p) * breathe;
+      hsR += (wantR - hsR) * grow;
+      hsApply();
+      hsRaf = requestAnimationFrame(hsFrame);
+    };
+    var hsRun = function(){
+      if (hsRaf !== null){ cancelAnimationFrame(hsRaf); hsRaf = null; }
+      hsLast = 0;
+      if (rm.matches){
+        hsX = hsFx; hsY = hsFy; hsR = hsR0 + (hsRMax - hsR0) * Math.max(.45, hsProgress());
+        hsApply();
+        return;
+      }
+      if (hsSeen && !doc.hidden) hsRaf = requestAnimationFrame(hsFrame);
+    };
+
+    hsHero.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      var r = hsMedia.getBoundingClientRect();
+      hsTx = e.clientX - r.left; hsTy = e.clientY - r.top;
+      hsHasPointer = true; hsLastMove = performance.now();
+    }, {passive:true});
+    hsHero.addEventListener('pointerleave', function(){ hsHasPointer = false; });
+
+    var hsTick = null;
+    addEventListener('resize', function(){
+      if (hsTick === null) hsTick = requestAnimationFrame(function(){ hsTick = null; hsMeasure(); if (rm.matches) hsRun(); });
+    }, {passive:true});
+    if (rm.matches) addEventListener('scroll', hsRun, {passive:true});
+    doc.addEventListener('visibilitychange', hsRun);
+    rm.addEventListener('change', hsRun);
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ hsSeen = es[0].isIntersecting; hsRun(); }).observe(hsHero);
+    }
+    if (hsImg.complete) hsMeasure(); else hsImg.addEventListener('load', function(){ hsMeasure(); hsRun(); }, {once:true});
+    hsMeasure();
+    hsRun();
+  }
+
+  /* phone action bar: one review button, shown once the page's own buttons are out of sight;
+     it slides away while the reader scrolls down and returns on scroll up or when scrolling stops */
   if (!body.hasAttribute('data-no-mbar')){
     var mbar = doc.createElement('div');
     mbar.className = 'mbar';
     mbar.id = 'mbar';
-    mbar.innerHTML = '<a class="btn btn-primary" href="kontakty.html#razbor">Разобрать сайт бесплатно</a>' +
-      '<a class="mbar-tg" href="https://t.me/vladpryanik" rel="noopener" aria-label="Написать в Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.5c.2.6.3.8.8.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.3 13.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2z" fill="currentColor"/></svg></a>';
+    mbar.innerHTML = '<div class="mbar-shell"><a class="mbar-cta" href="kontakty.html#razbor">Хочу разбор</a></div>';
     body.appendChild(mbar);
     body.classList.add('has-mbar');
     var heroAct = doc.getElementById('hero-act');
     var quiet = [].slice.call(doc.querySelectorAll('.cta, #razbor, .site-foot'));
-    var quietOn = 0, mbarShown = false;
+    var quietOn = 0, mbarShown = false, mbarAway = false, mbarLastY = scrollY, mbarIdle = 0;
     var syncMbar = function(){
       var past = heroAct ? heroAct.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * 0.6;
-      var want = past && quietOn === 0;
+      var want = past && quietOn === 0 && !mbarAway;
       if (want !== mbarShown){ mbarShown = want; mbar.classList.toggle('show', want); }
     };
+    addEventListener('scroll', function(){
+      var y = scrollY, dy = y - mbarLastY;
+      if (Math.abs(dy) > 6){
+        var away = dy > 0;
+        if (away !== mbarAway){ mbarAway = away; syncMbar(); }
+        mbarLastY = y;
+      }
+      clearTimeout(mbarIdle);
+      if (mbarAway) mbarIdle = setTimeout(function(){ mbarAway = false; mbarLastY = scrollY; syncMbar(); }, 900);
+    }, {passive:true});
     if ('IntersectionObserver' in window && quiet.length){
       var qio = new IntersectionObserver(function(es){
         es.forEach(function(e){

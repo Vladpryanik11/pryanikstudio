@@ -6,8 +6,8 @@
 <script>document.documentElement.className+=' js';setTimeout(function(){var d=document.documentElement;if(!d.classList.contains('ready'))d.classList.add('fallback')},2500)</script>
 <title>Pryanik Studio. Маркетинг, который видно</title>
 <meta name="description" content="Pryanik Studio: бесплатный разбор сайта и рекламы. Стратегия, реклама, аналитика, SMM, видеопродакшн и разработка. Отчёт на языке денег, доступы в рекламные кабинеты у вас.">
-<meta name="theme-color" content="#FFFFFF">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23032EDF'/><path d='M16 6.5c3.2 5 6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 2.8-6 6-11z' fill='%23fff'/></svg>">
+<meta name="theme-color" content="#0D0E0E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%230859ED'/><path d='M16 6.5c3.2 5 6 7.2 6 11a6 6 0 0 1-12 0c0-3.8 2.8-6 6-11z' fill='%23fff'/></svg>">
 <!-- DEPLOY STEP: заменить https://vladpryanik11.github.io/pryanikstudio на боевой адрес -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pryanik Studio. Бесплатно покажу, что мешает продажам">
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://vladpryanik11.github.io/pryanikstudio/assets/hero-ending.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Onest:wght@500;700&family=Oswald:wght@500;700&family=Caveat:wght@600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -24,75 +24,55 @@
 <div class="env" aria-hidden="true" id="env"></div>
 
 <header class="site-head" id="head">
-  <a class="brand" href="index.html">Pryanik Studio</a>
+  <a class="brand" href="index.html" aria-label="Pryanik Studio, на главную"><span class="wordmark" aria-hidden="true"><span class="wm-word">pryanik</span><span class="wm-sub">studio</span></span></a>
   <nav class="menu" id="menu" aria-label="Основное меню">
     <a href="uslugi.html">Услуги</a>
     <a href="keisy.html">Кейсы</a>
     <a href="blog.html">Блог</a>
     <a href="kontakty.html">Контакты</a>
-    <a class="btn btn-primary menu-cta" href="kontakty.html#razbor">Разобрать мой сайт</a>
+    <a class="btn btn-neon menu-cta" href="kontakty.html#razbor">Хочу разбор</a>
   </nav>
-  <a class="btn btn-primary head-cta" href="kontakty.html#razbor">Разобрать сайт</a>
+  <a class="btn btn-neon head-cta" href="kontakty.html#razbor">Хочу разбор</a>
   <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span></button>
 </header>
 
 <div class="wrap">
 <main id="main" tabindex="-1">
 
-  <section class="hero" id="intro" aria-labelledby="intro-h">
-    <div class="shell hero-stage">
-      <div class="hero-head">
-        <p class="hero-badge rise"><span class="pulse" aria-hidden="true"></span>Бесплатно, ответ за 2 рабочих дня</p>
-        <h1 class="hero-title rise" id="intro-h">Бесплатно покажу, что <span class="ink">мешает <span class="mk">продажам<svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C64 9 142 6 204 9s74 9 92 5"/></svg></span></span></h1>
+  <section class="hero hero-spot" id="intro" aria-labelledby="intro-h">
+    <div class="hs-media" id="hs-media" aria-hidden="true">
+      <img class="hs-base" src="assets/hero-spot.webp" alt="" width="1536" height="864" fetchpriority="high">
+      <img class="hs-lit" src="assets/hero-spot.webp" alt="" width="1536" height="864">
+      <span class="hs-halo"></span>
+      <span class="hs-shade"></span>
+    </div>
+    <div class="shell hc-stage">
+      <div class="hc-meta rise" aria-hidden="true"><span>Маркетолог<span class="hc-role"><br>основатель Pryanik Studio</span></span><span class="hc-open">Открыт к проектам <i>+</i></span></div>
+      <div class="hc-copy">
+        <p class="hc-hello rise">Привет, я</p>
+        <h1 class="hc-title rise" id="intro-h">Владислав <span>маркетолог</span></h1>
+        <p class="hc-sub rise">Нахожу, где сайт и реклама теряют заявки, и возвращаю их. Первый разбор бесплатно.</p>
+        <div class="act hero-act rise" id="hero-act"><a class="btn btn-neon btn-lg" href="kontakty.html#razbor">Хочу разбор</a></div>
       </div>
-
-      <div class="hero-copy">
-        <p class="hero-sub rise">Разберу ваш сайт и рекламу или соберу стратегию продвижения. Вы увидите слабые места проекта и план по шагам: что исправить первым.</p>
-        <div class="act hero-act rise" id="hero-act">
-          <a class="btn btn-primary btn-lg" href="kontakty.html#razbor">Получить разбор бесплатно</a>
-          <a class="btn btn-ghost btn-lg" href="https://t.me/vladpryanik" rel="noopener"><svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.5c.2.6.3.8.8.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.3-1.5zM9.3 13.6l8.9-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.2z" fill="currentColor"/></svg>Написать в Telegram</a>
-        </div>
-        <ul class="hero-proof rise" aria-label="Коротко о работе">
-          <li>33 кейса в опыте</li>
-          <li>Отчёт раз в неделю</li>
-          <li>Кабинеты на ваше юрлицо</li>
-        </ul>
-      </div>
+      <ul class="hc-list rise" aria-label="Чем помогаю">
+        <li>Разбор сайта и рекламы</li>
+        <li>Стратегия продвижения</li>
+        <li>Отчёт раз в неделю</li>
+        <li>Кабинеты на ваше юрлицо</li>
+      </ul>
     </div>
   </section>
 
   <div class="ticker" data-live>
-    <p class="sr">Направления: маркетинг, SMM, видеопродакшн, IT, аналитика, стратегия. Бесплатный разбор, отчёт раз в неделю, доступы у вас.</p>
-    <div class="tk tk-ink" aria-hidden="true">
-      <div class="tk-track"><span class="tk-g"><span>Бесплатный разбор</span><i>✦</i><span>Отчёт раз в неделю</span><i>✦</i><span>Доступы у вас</span><i>✦</i><span>Бесплатный разбор</span><i>✦</i><span>Отчёт раз в неделю</span><i>✦</i><span>Доступы у вас</span><i>✦</i></span></div>
-    </div>
-    <div class="tk tk-lime" aria-hidden="true">
-      <div class="tk-track"><span class="tk-g"><span>Маркетинг</span><i>✦</i><span>SMM</span><i>✦</i><span>Видеопродакшн</span><i>✦</i><span>IT</span><i>✦</i><span>Аналитика</span><i>✦</i><span>Стратегия</span><i>✦</i><span>Маркетинг</span><i>✦</i><span>SMM</span><i>✦</i><span>Видеопродакшн</span><i>✦</i><span>IT</span><i>✦</i><span>Аналитика</span><i>✦</i><span>Стратегия</span><i>✦</i></span></div>
-    </div>
+    <p class="sr">Направления: маркетинг, SMM, видеопродакшн, IT, аналитика, стратегия. 33 кейса в опыте, отчёт раз в неделю, кабинеты на ваше юрлицо.</p>
+    <div class="tk" aria-hidden="true"><div class="tk-track"><span class="tk-g"><span>Маркетинг</span><i></i><span>SMM</span><i></i><span>Видеопродакшн</span><i></i><span>IT</span><i></i><span>Аналитика</span><i></i><span>Стратегия</span><i></i><span>33 кейса в опыте</span><i></i><span>Отчёт раз в неделю</span><i></i><span>Кабинеты на ваше юрлицо</span><i></i><span>Маркетинг</span><i></i><span>SMM</span><i></i><span>Видеопродакшн</span><i></i><span>IT</span><i></i><span>Аналитика</span><i></i><span>Стратегия</span><i></i><span>33 кейса в опыте</span><i></i><span>Отчёт раз в неделю</span><i></i><span>Кабинеты на ваше юрлицо</span><i></i></span></div></div>
   </div>
 
-  <section class="scene scene-blue manifesto" aria-labelledby="mf-h">
-    <div class="shell">
-      <p class="kick rise">Главный принцип</p>
-      <h2 class="mf" id="mf-h" data-in>
-        <span class="sr">Не охваты. Не клики. Заявки.</span>
-        <span aria-hidden="true">
-          <span class="mf-l"><span class="x">Не охваты.<svg class="strike" viewBox="0 0 600 30" preserveAspectRatio="none"><path d="M6 19C120 11 262 22 382 14S544 12 594 16"/></svg></span></span>
-          <span class="mf-l"><span class="x">Не клики.<svg class="strike" viewBox="0 0 600 30" preserveAspectRatio="none"><path d="M6 14C140 21 250 9 390 16S548 20 594 12"/></svg></span></span>
-          <span class="mf-l"><span class="yes">Заявки.<svg class="under" viewBox="0 0 600 30" preserveAspectRatio="none"><path d="M8 20C118 12 250 8 372 13S548 26 592 16"/></svg></span></span>
-        </span>
-      </h2>
-      <p class="mf-sub rise">Каждую неделю вы видите не графики активности, а заявки и сколько стоила каждая.</p>
-    </div>
-  </section>
-
-  <section class="scene scene-ink spatial" aria-labelledby="sp-h" data-live>
+  <section class="scene scene-ink spatial sp-cases" aria-labelledby="sp-h" data-live>
     <div class="sp-env" aria-hidden="true"></div>
     <div class="shell sp-head">
       <div>
-        <p class="kick rise">Результаты</p>
-        <h2 class="rise" id="sp-h">10 проектов в разных нишах</h2>
-        <p class="sp-note rise">Реклама и SMM из опыта Владислава до основания студии.<span class="sp-hint"> Курсор правее центра листает вперёд, левее назад.</span></p>
+        <h2 class="rise" id="sp-h">130+ проектов в разных нишах</h2>
       </div>
       <div class="sp-filters rise" role="group" aria-label="Показать кейсы">
         <button class="sp-chip" type="button" data-f="all" aria-pressed="true">Все</button>
@@ -101,62 +81,73 @@
       </div>
     </div>
 
-    <div class="sp-stage" id="sp-stage" role="region" aria-roledescription="карусель" aria-label="Кейсы. Листайте стрелками, свайпом или кнопками ниже" tabindex="0">
+    <div class="sp-stage" id="sp-stage" role="region" aria-roledescription="карусель" aria-label="Кейсы. Листайте стрелками или свайпом" tabindex="0">
       <div class="sp-glow" aria-hidden="true"><i class="g-blue"></i><i class="g-lime"></i><i class="g-white"></i><i class="g-ink"></i></div>
       <div class="sp-deck" id="sp-deck">
-        <a class="sp-card v-blue" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Строительство</span><span class="spc-num" data-n="730">730</span><span class="spc-unit">заявок по 1 096 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 54C30 50 48 46 70 40s40-12 62-16 42-14 66-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Отопление и водоснабжение, Киров</span><span class="spc-note">График монтажей забит на полгода вперёд</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/01-otoplenie.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Строительство</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="730">730</span><span class="cc-unit">заявок по 1 096 ₽</span><span class="cc-name spc-title">Отопление и водоснабжение, Киров</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-lime" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Медицина</span><span class="spc-num" data-n="770" data-s="%">770%</span><span class="spc-unit">ROMI, 86 заявок по 661 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 56C26 54 40 50 58 48s36-10 56-14 40-20 84-30"/></svg></span>
-          <span class="spc-body"><span class="spc-title">LPG-массаж, Томск</span><span class="spc-note">Таргет ВКонтакте</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/02-lpg.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Медицина</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="770" data-s="%">770%</span><span class="cc-unit">ROMI, 86 заявок по 661 ₽</span><span class="cc-name spc-title">LPG-массаж, Томск</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-ink" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Медицина</span><span class="spc-num" data-n="1000" data-s="+">1 000+</span><span class="spc-unit">заявок, лид по 6 $</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 50C24 48 44 42 64 42s38-12 58-18 44-8 76-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Клиника тибетской медицины, Казахстан</span><span class="spc-note">Google Ads</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/03-tibet.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Медицина</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="1000" data-s="+">1 000+</span><span class="cc-unit">заявок, лид по 6 $</span><span class="cc-name spc-title">Клиника тибетской медицины, Казахстан</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-white" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Стоматология</span><span class="spc-num" data-n="793">793</span><span class="spc-unit">заявки по 3,88 $</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 54C30 50 48 46 70 40s40-12 62-16 42-14 66-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Стоматология, Казахстан</span><span class="spc-note">Таргетированная реклама</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/04-stomatologiya.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Стоматология</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="793">793</span><span class="cc-unit">заявки по 3,88 $</span><span class="cc-name spc-title">Стоматология, Казахстан</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-blue" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Строительство</span><span class="spc-num" data-n="687">687</span><span class="spc-unit">заявок на утепление и отделку</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 56C26 54 40 50 58 48s36-10 56-14 40-20 84-30"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Фасады, Краснодар</span><span class="spc-note">Привлечение заявок на утепление и отделку</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/05-fasady.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Строительство</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="687">687</span><span class="cc-unit">заявок на утепление и отделку</span><span class="cc-name spc-title">Фасады, Краснодар</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-ink" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Праздники</span><span class="spc-num" data-n="520">520</span><span class="spc-unit">заявок по 577 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 50C24 48 44 42 64 42s38-12 58-18 44-8 76-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Детские праздники, Брянск</span><span class="spc-note">Продвижение ВКонтакте</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/06-prazdniki.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Праздники</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="520">520</span><span class="cc-unit">заявок по 577 ₽</span><span class="cc-name spc-title">Детские праздники, Брянск</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-lime" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Услуги для дома</span><span class="spc-num" data-n="468">468</span><span class="spc-unit">лидов по 513 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 54C30 50 48 46 70 40s40-12 62-16 42-14 66-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Очистка крыш от снега, Кострома</span><span class="spc-note">Таргет ВКонтакте</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/07-krishi.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Услуги для дома</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="468">468</span><span class="cc-unit">лидов по 513 ₽</span><span class="cc-name spc-title">Очистка крыш от снега, Кострома</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-white" href="keisy.html#marketing" data-kind="ads">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">Обучение</span><span class="spc-num" data-n="292">292</span><span class="spc-unit">заявки по 684 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 56C26 54 40 50 58 48s36-10 56-14 40-20 84-30"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Подготовка к школе, Тверь</span><span class="spc-note">Таргет ВКонтакте</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#marketing" data-kind="ads">
+          <img class="cc-photo" src="assets/cases/08-shkola.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">Обучение</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="292">292</span><span class="cc-unit">заявки по 684 ₽</span><span class="cc-name spc-title">Подготовка к школе, Тверь</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-blue" href="keisy.html#smm" data-kind="smm">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">SMM · Кондитерская</span><span class="spc-num" data-n="221" data-s=" тыс.">221 тыс.</span><span class="spc-unit">охват без рекламы</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 50C24 48 44 42 64 42s38-12 58-18 44-8 76-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Кондитерский бренд</span><span class="spc-note">SMM ВКонтакте</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#smm" data-kind="smm">
+          <img class="cc-photo" src="assets/cases/09-konditerskaya.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">SMM · Кондитерская</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="221" data-s=" тыс.">221 тыс.</span><span class="cc-unit">охват без рекламы</span><span class="cc-name spc-title">Кондитерский бренд</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
-        <a class="sp-card v-lime" href="keisy.html#smm" data-kind="smm">
-          <span class="spc-preview"><span class="spc-orb" aria-hidden="true"></span><span class="spc-tag">SMM · Одежда</span><span class="spc-num" data-n="636">636</span><span class="spc-unit">подписчиц по 63 ₽</span><svg class="spc-line" viewBox="0 0 200 60" aria-hidden="true"><path pathLength="1" d="M2 54C30 50 48 46 70 40s40-12 62-16 42-14 66-20"/></svg></span>
-          <span class="spc-body"><span class="spc-title">Магазин одежды, Череповец</span><span class="spc-note">Таргет ВКонтакте, рост трафика в магазин</span></span>
+        <a class="sp-card ccard c-dark" href="keisy.html#smm" data-kind="smm">
+          <img class="cc-photo" src="assets/cases/10-odezhda.webp" alt="" width="720" height="1080" loading="lazy" decoding="async"><span class="cc-shade" aria-hidden="true"></span>
+          <span class="cc-top" aria-hidden="true"><span class="cc-tag">SMM · Одежда</span><span class="cc-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+          <span class="cc-body"><span class="cc-num spc-num" data-n="636">636</span><span class="cc-unit">подписчиц по 63 ₽</span><span class="cc-name spc-title">Магазин одежды, Череповец</span></span>
+          <span class="cc-cta"><span>Смотреть кейс</span><span class="cc-cta-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         </a>
       </div>
     </div>
 
-    <div class="sp-dock" id="sp-dock">
-      <button class="sp-btn" type="button" id="sp-prev" aria-label="Предыдущий кейс"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button class="sp-btn sp-play" type="button" id="sp-play" aria-label="Пауза" aria-pressed="true"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
-      <button class="sp-btn" type="button" id="sp-next" aria-label="Следующий кейс"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <span class="sp-mini" id="sp-mini" aria-hidden="true"></span>
-      <span class="sp-now" aria-live="polite"><b id="sp-title">Отопление и водоснабжение, Киров</b><small id="sp-pos">01 / 10</small></span>
-      <span class="sp-progress" id="sp-progress" aria-hidden="true"><i></i></span>
-      <a class="sp-all" href="keisy.html">Все 33 кейса</a>
-    </div>
-    <p class="sp-foot"><a class="bc-link sp-all-m" href="keisy.html">Все 33 кейса</a></p>
+    <p class="sp-foot"><a class="bc-link" href="keisy.html">Все 33 кейса</a></p>
   </section>
 
   <section class="band" aria-labelledby="dir-h">
@@ -173,35 +164,13 @@
     </div>
   </section>
 
-  <section class="band scene-ink" aria-labelledby="pr-h">
-    <div class="shell">
-      <p class="kick rise">Процесс</p>
-      <h2 class="rise" id="pr-h">Четыре шага, без тумана</h2>
-      <div class="steps" data-in>
-        <svg class="thread" viewBox="0 0 1000 4" preserveAspectRatio="none" aria-hidden="true"><path d="M26 2H974"/></svg>
-        <div class="step"><div class="no">01</div><h3>Разбор</h3><p>Смотрим сайт, рекламу и аналитику. Присылаем отчёт ссылкой и файлом. Бесплатно и без обязательств.</p></div>
-        <div class="step"><div class="no">02</div><h3>План</h3><p>Показываем, что делаем в первый месяц, какими каналами и с каким бюджетом. Цифру результата не гарантируем, гарантируем план и отчёт.</p></div>
-        <div class="step"><div class="no">03</div><h3>Запуск</h3><p>Кабинеты открываем на ваше юрлицо. Доступы у вас с первого дня, а не у нас.</p></div>
-        <div class="step"><div class="no">04</div><h3>Отчёт</h3><p>Раз в неделю. Не клики и охваты, а заявки, их стоимость и что меняем дальше.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="shell">
-    <section class="cta rise" aria-labelledby="cta-h">
-      <p class="kick">Разбор</p>
-      <h2 id="cta-h">Разберём ваш сайт по полкам</h2>
-      <p class="lede">Что мешает сайту и рекламе приводить заявки прямо сейчас, и план по шагам. Отчёт присылаем ссылкой и файлом. Сначала польза, потом разговор.</p>
-      <div class="act"><a class="btn btn-lime" href="kontakty.html#razbor">Получить разбор</a></div>
-    </section>
-  </div>
 
 </main>
 </div>
 
 <footer class="site-foot">
   <div class="shell foot-grid">
-    <div><p class="foot-brand">Pryanik Studio</p><p>Маркетинг, который видно.</p></div>
+    <div><p class="foot-brand"><span class="wordmark"><span class="wm-word">pryanik</span><span class="wm-sub">studio</span></span></p><p>Маркетинг, который видно.</p></div>
     <nav class="foot-nav" aria-label="Разделы сайта"><a href="uslugi.html">Услуги</a><a href="keisy.html">Кейсы</a><a href="blog.html">Блог</a><a href="kontakty.html">Контакты</a><a href="brif.html">Бриф</a></nav>
     <div class="foot-contacts">
       <a href="https://t.me/vladpryanik" rel="noopener">Telegram @vladpryanik</a>
