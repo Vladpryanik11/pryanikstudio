@@ -475,6 +475,7 @@
     };
 
     var spPosF = 0, spRaf = null, spLastT = 0, spShown = null, spScrub = false;
+    var spDots = doc.getElementById('sp-dots'), spDotOn = -1;
 
     var spFine = matchMedia('(hover: hover) and (pointer: fine)');
 
@@ -487,6 +488,7 @@
       var near = m ? .56 : .64, far = m ? .22 : .34;
       var act = n ? ((Math.round(p) % n) + n) % n : 0;
       spActive = act;
+      if (spDotOn !== act){ spDotOn = act; spSyncDots(); }
       spAll.forEach(function(c){
         var i = spList.indexOf(c);
         if (i < 0){
@@ -598,6 +600,39 @@
       spRestart();
     };
 
+    /* dots are rebuilt whenever the filter changes the deck, so their count always matches what is on stage */
+    /* only three dots ever show, and they page rather than follow: the marker walks left to right through a
+       group of three, then the group turns over. holding the current card in the middle would pin the lit dot
+       in place for every card but the first and the last, which reads as a control that does not work */
+    var SP_DOTS = 3;
+    var spSyncDots = function(){
+      if (!spDots) return;
+      var ds = spDots.children, k = ds.length, n = spList.length;
+      if (!k) return;
+      var start = Math.max(0, Math.min(Math.floor(spActive / k) * k, n - k));
+      for (var i = 0; i < k; i++){
+        var idx = start + i, on = idx === spActive;
+        ds[i].setAttribute('data-i', idx);
+        ds[i].setAttribute('aria-label', 'Кейс ' + (idx + 1) + ' из ' + n);
+        ds[i].classList.toggle('is-on', on);
+        if (on) ds[i].setAttribute('aria-current', 'true'); else ds[i].removeAttribute('aria-current');
+      }
+    };
+    var spBuildDots = function(){
+      if (!spDots) return;
+      var k = Math.min(SP_DOTS, spList.length);
+      spDots.textContent = '';
+      for (var i = 0; i < k; i++){
+        var b = doc.createElement('button');
+        b.type = 'button';
+        b.className = 'sp-dot';
+        b.addEventListener('click', function(){ spGo(+this.getAttribute('data-i')); });
+        spDots.appendChild(b);
+      }
+      spDotOn = -1;
+      spSyncDots();
+    };
+
     var spPrev = doc.getElementById('sp-prev'), spNext = doc.getElementById('sp-next');
     if (spPrev) spPrev.addEventListener('click', function(){ spGo(spActive - 1); });
     if (spNext) spNext.addEventListener('click', function(){ spGo(spActive + 1); });
@@ -609,6 +644,7 @@
         spChips.forEach(function(x){ x.setAttribute('aria-pressed', x === ch ? 'true' : 'false'); });
         spList = spAll.filter(function(c){ return f === 'all' || c.getAttribute('data-kind') === f; });
         spShown = null;
+        spBuildDots();
         spGo(0);
       });
     });
@@ -704,6 +740,7 @@
       spSeen = true;
     }
 
+    spBuildDots();
     spStage.classList.add('sp-on');
     spSetPlaying(spPlaying);
     spLayout();
