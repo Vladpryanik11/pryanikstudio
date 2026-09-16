@@ -166,11 +166,35 @@ a{color:inherit}
   .site-head .brand{justify-self:start;margin-right:0}
   .site-head .head-cta{justify-self:end;margin-left:0}
 }
-.burger{position:relative;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(10,28,49,.9);
-  display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;padding:0}
-.burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--text-primary);transition:transform .35s var(--e-out)}
-.site-head.open .burger span:first-child{transform:translateY(3.5px) rotate(45deg)}
-.site-head.open .burger span:last-child{transform:translateY(-3.5px) rotate(-45deg)}
+/* menu button: the dark glass of the quiet neon pill shrunk to a disc, so the header shares the button family.
+   three equal rails at whole-pixel heights; hovering sends a dimming wave down them, nothing moves.
+   opening is sequenced, never simultaneous: the middle rail clears first, then the pair closes into the cross;
+   closing runs the order backwards, so the rails unfold before the middle returns */
+@keyframes bwave{0%,100%{opacity:1}45%{opacity:.4}}
+.burger{position:relative;z-index:2;width:44px;height:44px;border-radius:50%;padding:0;cursor:pointer;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  border:1.5px solid transparent;
+  background:linear-gradient(180deg,rgba(236,242,244,.08),rgba(236,242,244,0) 60%) padding-box,linear-gradient(#0E1011,#0E1011) padding-box,
+    linear-gradient(120deg,rgba(154,230,248,.55),rgba(15,155,242,.28) 30%,rgba(236,242,244,.1) 55%,rgba(8,89,237,.4)) border-box;
+  box-shadow:0 16px 34px -16px rgba(0,0,0,.95),inset 0 0 16px -8px rgba(15,155,242,.3);
+  transition:box-shadow .45s var(--e-out)}
+.burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--text-primary);
+  transition:transform .5s var(--e-soft),opacity .5s var(--e-soft)}
+/* on the way back the middle rail waits for the cross to unfold */
+.burger span:nth-child(2){transition-delay:.18s}
+.burger:focus-visible{outline:2px solid var(--accent-text);outline-offset:4px}
+.burger:active{box-shadow:0 10px 24px -14px rgba(0,0,0,.95),inset 0 0 20px -5px rgba(15,155,242,.45)}
+@media (hover:hover){
+  .burger:hover{box-shadow:0 18px 38px -16px rgba(0,0,0,.95),inset 0 0 20px -6px rgba(15,155,242,.4),0 0 22px -8px rgba(15,155,242,.65)}
+  /* the wave runs only while the rails are still rails: once open they hold the cross */
+  .site-head:not(.open) .burger:hover span{animation:bwave .8s var(--e-soft)}
+  .site-head:not(.open) .burger:hover span:nth-child(2){animation-delay:.12s}
+  .site-head:not(.open) .burger:hover span:nth-child(3){animation-delay:.24s}
+}
+.site-head.open .burger{box-shadow:0 16px 34px -16px rgba(0,0,0,.95),inset 0 0 20px -6px rgba(15,155,242,.45),0 0 20px -10px rgba(15,155,242,.7)}
+.site-head.open .burger span:first-child{transform:translateY(6px) rotate(45deg);transition-delay:.14s}
+.site-head.open .burger span:nth-child(2){opacity:0;transform:scaleX(.25);transition-duration:.22s;transition-delay:0s}
+.site-head.open .burger span:last-child{transform:translateY(-6px) rotate(-45deg);transition-delay:.14s}
 
 @media (max-width:880px){
   .head-cta{display:none}
@@ -223,13 +247,8 @@ h3{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.01em}
 .hs-shade{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 90% at 50% 40%,transparent 45%,rgba(5,7,11,.7) 100%),linear-gradient(180deg,rgba(13,14,14,.55) 0%,transparent 22%,transparent 52%,rgba(13,14,14,.72) 82%,#0D0E0E 100%)}
 .hero-spot .hc-copy{bottom:clamp(48px,9vh,100px)}
-.hc-meta{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
-  font-family:var(--mono);font-size:11px;line-height:1.5;letter-spacing:.18em;text-transform:uppercase;color:#8C9498}
-.hc-open{display:inline-flex;align-items:center;gap:10px;color:#ECF2F4;white-space:nowrap}
-.hc-open i{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid rgba(236,242,244,.35);font-style:normal;font-size:14px;letter-spacing:0}
 .hc-copy{position:absolute;z-index:3;left:var(--pad);bottom:clamp(44px,8vh,92px);width:min(640px,48%)}
-.hc-hello{margin-left:4px;font-family:"Caveat",cursive;font-weight:600;font-size:clamp(32px,3vw,48px);line-height:1;color:rgba(236,242,244,.9);transform:rotate(-5deg);transform-origin:left bottom}
-.hc-title{margin-top:8px;font-family:"Oswald",var(--display);font-weight:700;font-size:clamp(56px,6.2vw,104px);line-height:.9;letter-spacing:.004em;text-transform:uppercase;
+.hc-title{margin-top:0;font-family:"Oswald",var(--display);font-weight:700;font-size:clamp(56px,6.2vw,104px);line-height:.9;letter-spacing:.004em;text-transform:uppercase;
   color:transparent;background:linear-gradient(180deg,#FFFFFF 35%,#A7B0B4 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 6px 26px rgba(0,0,0,.65))}
 .hc-title span{display:block}
 .hc-sub{margin-top:18px;max-width:36ch;font-size:clamp(15px,1.2vw,18px);line-height:1.55;color:#A7B0B4}
@@ -238,7 +257,7 @@ h3{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.01em}
 .hc-list li{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid rgba(236,242,244,.12);font-size:15px;line-height:1.3;color:#ECF2F4}
 .hc-list li::before{content:"+";flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:1px solid rgba(236,242,244,.35);font-size:16px;line-height:1}
 @media (max-width:900px){
-  .hc-stage{min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:space-between;padding-top:84px;padding-bottom:30px}
+  .hc-stage{min-height:max(640px,100svh);display:flex;flex-direction:column;justify-content:flex-end;padding-top:84px;padding-bottom:30px}
   /* the portrait sits above the words: its box stops short of the copy and melts into the page colour */
   .hs-media{background:#0D0E0E}
   .hs-media img{bottom:auto;height:calc(100% - 205px);object-position:50% 30%}
@@ -246,10 +265,7 @@ h3{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.01em}
     linear-gradient(180deg,rgba(13,14,14,.55) 0,transparent 16%,transparent calc(100% - 365px),rgba(13,14,14,.88) calc(100% - 255px),#0D0E0E calc(100% - 207px))}
   .hc-copy,.hero-spot .hc-copy{position:relative;left:auto;bottom:auto;width:auto}
   .hc-list{display:none}
-  .hc-meta{font-size:10px;letter-spacing:.12em}
-  .hc-role{display:none}
-  .hc-hello{font-size:22px}
-  .hc-title{margin-top:6px;font-size:clamp(36px,10.3vw,51px)}
+  .hc-title{margin-top:0;font-size:clamp(36px,10.3vw,51px)}
   .hc-sub{margin-top:14px;font-size:14px}
   .hc-copy .hero-act{margin-top:22px}
 }
@@ -262,8 +278,8 @@ h3{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.01em}
 .ticker:not(.live) .tk-track{animation-play-state:paused}
 @keyframes tk{to{transform:translateX(-50%)}}
 .tk-g{display:flex;align-items:center;gap:clamp(22px,2.6vw,40px);padding-right:clamp(22px,2.6vw,40px)}
-.tk-g span{font-family:var(--body);font-weight:500;font-size:clamp(15px,1.4vw,19px);letter-spacing:-.005em;line-height:1.2;color:rgba(236,242,244,.78);white-space:nowrap}
-.tk-g i{flex:none;width:5px;height:5px;border-radius:50%;background:#9AE6F8;box-shadow:0 0 8px rgba(154,230,248,.75)}
+.tk-g span{font-family:var(--mono);font-weight:500;font-size:clamp(11px,1vw,13px);letter-spacing:.22em;text-transform:uppercase;line-height:1.2;color:rgba(236,242,244,.62);white-space:nowrap}
+.tk-g i{flex:none;width:1px;height:12px;background:rgba(236,242,244,.18)}
 .ticker + .scene{padding-top:clamp(40px,6vh,72px)}
 
 /* scenes */
