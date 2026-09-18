@@ -373,6 +373,30 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .sp-chip[aria-pressed="true"]::after{transform:scaleX(1)}
 @media (pointer:coarse){.sp-chip{min-height:44px;display:inline-flex;align-items:center}}
 
+@media (max-width:720px){
+  .sp-head{display:block}
+  .sp-head h2{max-width:10ch}
+  .sp-filters{
+    width:calc(100% + var(--pad));
+    max-width:none;
+    margin-top:18px;
+    margin-right:calc(var(--pad) * -1);
+    gap:24px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-right:var(--pad);
+    scroll-snap-type:x proximity;
+    scroll-padding-inline:0 var(--pad);
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    -webkit-overflow-scrolling:touch;
+    -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 calc(100% - 42px),transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0%,#000 calc(100% - 42px),transparent 100%);
+  }
+  .sp-filters::-webkit-scrollbar{display:none}
+  .sp-chip{flex:0 0 auto;white-space:nowrap;scroll-snap-align:center}
+}
+
 .sp-stage{position:relative;height:calc(var(--cw) * 1.28 + 90px);margin-top:clamp(26px,4vh,48px);perspective:1700px;perspective-origin:50% 45%;touch-action:pan-y;outline:none;user-select:none}
 .sp-stage.scrub .sp-card{transition:box-shadow .8s var(--e-out)}
 .sp-stage.scrub .sp-card::before{transition:none}
