@@ -468,13 +468,13 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   .sp-filter-menu{top:100%}
 }
 
-.sp-stage{position:relative;height:calc(var(--cw) * 1.28 + 90px);margin-top:clamp(26px,4vh,48px);perspective:1350px;perspective-origin:50% 44%;touch-action:pan-y;outline:none;user-select:none}
+.sp-stage{position:relative;height:calc(var(--cw) * 1.28 + 90px);margin-top:clamp(26px,4vh,48px);perspective:none;touch-action:pan-y;outline:none;user-select:none;overflow:visible}
 .sp-stage.scrub .sp-card,.sp-stage.swapping .sp-card{transition:box-shadow .8s var(--e-out)}
 .sp-stage.scrub .sp-card::before,.sp-stage.swapping .sp-card::before{transition:none}
 .sp-hint{display:none}
 @media (hover:hover) and (pointer:fine){.sp-hint{display:inline}}
 .sp-stage:focus-visible .sp-card.is-active{outline:2px solid var(--lime);outline-offset:6px}
-.sp-deck{position:absolute;inset:0;transform-style:preserve-3d}
+.sp-deck{position:absolute;inset:0;transform-style:flat}
 .sp-glow{position:absolute;left:50%;top:50%;width:calc(var(--cw) * 2);height:calc(var(--cw) * 1.6);transform:translate(-50%,-50%);pointer-events:none;animation:breathe 7s var(--e-soft) -2s infinite}
 .sp-glow i{position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity 1s var(--e-out)}
 .sp-glow .g-blue{background:radial-gradient(closest-side,rgba(8,89,237,.42),rgba(8,89,237,.14) 55%,rgba(8,89,237,0))}
@@ -512,10 +512,10 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .sp-env{display:none}
 .sp-cases.spatial{padding-bottom:clamp(20px,3vh,36px)}
 .sp-cases + .band{padding-top:clamp(44px,6vh,72px)}
-.sp-card.ccard{height:calc(var(--cw) * 1.5);border-radius:clamp(26px,2.6vw,32px);background:#15191B;border-color:rgba(236,242,244,.14);isolation:isolate;
-  box-shadow:var(--shadow-x,0px) 34px 62px -38px rgba(0,0,0,.88),inset 0 1px 0 rgba(236,242,244,.14)}
+.sp-card.ccard{height:calc(var(--cw) * 1.5);border-radius:clamp(26px,2.6vw,32px);background:#15191B;border-color:rgba(236,242,244,.12);isolation:isolate;
+  box-shadow:0 28px 54px -38px rgba(0,0,0,.82),inset 0 1px 0 rgba(236,242,244,.12)}
 .sp-card.ccard.is-active{border-color:rgba(236,242,244,.34);
-  box-shadow:0 40px 70px -36px rgba(0,0,0,.9),inset 0 1px 0 rgba(236,242,244,.22)}
+  box-shadow:0 42px 74px -34px rgba(0,0,0,.92),inset 0 1px 0 rgba(236,242,244,.22)}
 .sp-card.ccard::after{
   content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
   background:
@@ -568,7 +568,7 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
 
 @media (max-width:720px){
   .spatial{--cw:min(70vw,290px)}
-  .sp-stage{perspective:900px;height:calc(var(--cw) * 1.28 + 60px)}
+  .sp-stage{perspective:none;height:calc(var(--cw) * 1.5 + 34px)}
   .sp-card{border-radius:28px}
 }
 .sp-foot{text-align:center}
