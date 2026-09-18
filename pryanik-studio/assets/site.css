@@ -412,6 +412,10 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .tk-g span{font-family:var(--body);font-weight:500;font-size:clamp(11px,1vw,13px);letter-spacing:.22em;text-transform:uppercase;line-height:1.2;color:rgba(236,242,244,.62);white-space:nowrap}
 .tk-g i{flex:none;width:1px;height:12px;background:rgba(236,242,244,.18)}
 .ticker + .scene{padding-top:clamp(40px,6vh,72px)}
+@media (max-width:900px){
+  .ticker{margin-top:clamp(28px,4vh,36px)}
+  .ticker + .scene{padding-top:clamp(28px,4vh,36px)}
+}
 
 /* scenes */
 .scene{position:relative;padding-block:clamp(84px,12vh,150px)}
