@@ -1138,3 +1138,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 @media (max-width:720px) and (pointer:coarse){
   .sp-stage.dragging .sp-card{transition:none!important}
 }
+
+/* Mobile card deck behaves like a swipe surface: while the finger is on a case,
+   Safari must not reinterpret diagonal thumb motion as page scrolling. */
+@media (max-width:720px) and (pointer:coarse){
+  .sp-card{touch-action:none;overscroll-behavior:contain;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .sp-card img{-webkit-user-drag:none;pointer-events:none}
+}
