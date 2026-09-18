@@ -1264,3 +1264,18 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .wrap{z-index:1}
   .env-dust{opacity:.72}
 }
+
+/* Mobile dust depth: particles stay off the portrait core and only graze its dark perimeter. */
+@media (max-width:720px){
+  .hero-spot{isolation:isolate}
+  .hero-spot .hs-media{z-index:2}
+  .hero-spot .hc-copy{z-index:6}
+  .hero-spot::after{
+    content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:#0D0E0E;
+    -webkit-mask-image:radial-gradient(ellipse 43% 40% at 50% 35%,transparent 0 72%,#000 92%);
+    mask-image:radial-gradient(ellipse 43% 40% at 50% 35%,transparent 0 72%,#000 92%);
+  }
+  .env{z-index:1}
+  .sp-cases{z-index:2}
+}
