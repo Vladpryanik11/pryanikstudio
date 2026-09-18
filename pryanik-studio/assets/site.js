@@ -884,8 +884,9 @@
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
       spStage.classList.remove('swapping');
       spDown = true; spDragged = false; spAxis = ''; spPointerId = e.pointerId;
-      /* Do not capture yet: Safari must remain free to start native vertical page scrolling.
-         We capture only after a clearly horizontal gesture is established. */
+      /* Dating-app interaction: once the finger lands on a case, the card owns the gesture.
+         Edge gestures are still left to Safari by the guard above. */
+      if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
       spTouchBase = spActive;
       spTouchPos = spPosF = spActive;
@@ -898,17 +899,10 @@
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
       if (!spAxis){
-        if (Math.hypot(dx, dy) < 7) return;
-        /* Clear vertical intent belongs to the page. Horizontal/diagonal intent belongs to cards. */
-        if (Math.abs(dy) > Math.abs(dx) * 1.15){
-          spAxis = 'y';
-          spDown = false;
-          return;
-        }
+        /* A short dead zone prevents accidental movement, then every thumb arc becomes a card swipe. */
+        if (Math.hypot(dx, dy) < 6) return;
         spAxis = 'x';
-        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
       }
-      if (spAxis !== 'x') return;
       if (!spDragged){
         spDragged = true;
         spStage.classList.add('dragging');
