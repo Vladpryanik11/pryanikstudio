@@ -485,27 +485,9 @@
       var n = spList.length;
       var W = n ? spList[0].offsetWidth : 300;
       var m = spNarrow.matches;
-      var near = m ? .56 : .64, far = m ? .22 : .34;
-      var rounded = Math.round(p);
-      var fractional = Math.abs(p - rounded) > .001;
-
-      var outRaw = rounded, inRaw = rounded, prog = 1;
-      if (fractional){
-        if (spLayerDir >= 0){
-          outRaw = Math.floor(p);
-          inRaw = Math.ceil(p);
-          prog = p - outRaw;
-        } else {
-          outRaw = Math.ceil(p);
-          inRaw = Math.floor(p);
-          prog = outRaw - p;
-        }
-      }
-      prog = Math.max(0, Math.min(1, prog));
-      var swap = fractional ? (prog * prog * (3 - 2 * prog)) : 1;
-      var outIdx = n ? ((outRaw % n) + n) % n : 0;
-      var inIdx = n ? ((inRaw % n) + n) % n : 0;
-      var act = fractional ? (prog < .58 ? outIdx : inIdx) : inIdx;
+      var gap = m ? 18 : Math.max(28, Math.min(44, W * .12));
+      var step = W + gap;
+      var act = n ? ((Math.round(p) % n) + n) % n : 0;
 
       spActive = act;
       if (spDotOn !== act){ spDotOn = act; spSyncDots(); }
@@ -513,7 +495,7 @@
       spAll.forEach(function(c){
         var i = spList.indexOf(c);
         if (i < 0){
-          c.style.transform = 'translate(-50%,-50%) translate3d(0,40px,0) scale(.6)';
+          c.style.transform = 'translate(-50%,-50%) translate3d(0,30px,0) scale(.78)';
           c.style.opacity = '0';
           c.style.zIndex = '1';
           c.style.pointerEvents = 'none';
@@ -527,77 +509,36 @@
         c.classList.remove('sp-out');
         var d = i - p;
         d = (((d + n / 2) % n) + n) % n - n / 2;
-        var a = Math.abs(d), s = d < 0 ? -1 : 1;
-        var isOutgoing = fractional && i === outIdx;
-        var isIncoming = fractional && i === inIdx;
+        var a = Math.abs(d);
 
-        var x = s * (a <= 1 ? a * W * near : W * near + (a - 1) * W * far);
-        var y = Math.min(18, a * a * (m ? 5 : 7));
-        var ry = -s * (a <= 1 ? a * 20 : Math.min(12 + a * 8, 40));
-        var sc = Math.max(.66, 1 - a * (m ? .085 : .09));
-        var op = Math.max(0, Math.min(1, Math.min(3.6, n / 2) - a));
-        var z = 100 - Math.round(a * 10);
-        var dim = Math.min(.74, a * .27);
-        var depth = Math.min(1, a);
-        var photoX = a < .02 ? 0 : -s * Math.min(12, a * 10);
-        var lightX = a < .02 ? '50%' : (s > 0 ? '0%' : '100%');
-        var shadeDir = a < .02 ? 'to bottom' : (s > 0 ? 'to left' : 'to right');
-        var shadowX = a < .02 ? 0 : -s * Math.min(18, a * 14);
-        var contentO = 1, contentY = 0, photoScale = 1.035;
+        /* spatial ribbon: every card owns its own lane, so cards never overlap */
+        var x = d * step;
+        var y = Math.min(16, a * 7);
+        var sc = Math.max(.78, 1 - Math.min(a, 2.75) * (m ? .075 : .085));
+        var op = Math.max(0, 1 - a * (m ? .38 : .32));
+        var dim = Math.min(.52, a * .15);
+        var depth = Math.min(.65, a * .22);
+        var photoX = Math.max(-8, Math.min(8, -d * 4));
+        var photoScale = 1.035 + Math.min(.01, a * .004);
+        var contentO = Math.max(.58, 1 - a * .2);
+        var contentY = Math.min(6, a * 3);
+        var on = i === act;
 
-        if (isOutgoing){
-          x = 0;
-          y = 7 * swap;
-          ry = 0;
-          sc = 1 - .06 * swap;
-          op = 1 - .62 * swap;
-          z = 220;
-          dim = .16 * swap;
-          depth = .2 * swap;
-          photoX = 0;
-          lightX = '50%';
-          shadeDir = 'to bottom';
-          shadowX = 0;
-          contentO = Math.max(0, 1 - swap * 1.55);
-          contentY = 5 * swap;
-          photoScale = 1.035 - .01 * swap;
-        } else if (isIncoming){
-          x = 0;
-          y = 10 * (1 - swap);
-          ry = 0;
-          sc = .955 + .045 * swap;
-          op = .68 + .32 * swap;
-          z = 230;
-          dim = 0;
-          depth = 0;
-          photoX = 0;
-          lightX = '50%';
-          shadeDir = 'to bottom';
-          shadowX = 0;
-          var reveal = Math.max(0, Math.min(1, (swap - .18) / .82));
-          reveal = reveal * reveal * (3 - 2 * reveal);
-          contentO = reveal;
-          contentY = 10 * (1 - reveal);
-          photoScale = 1.055 - .02 * swap;
-        }
-
-        c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+        c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
         c.style.opacity = op.toFixed(3);
-        c.style.zIndex = String(z);
-        var pe = op < .05 ? 'none' : '';
-        if (c.style.pointerEvents !== pe) c.style.pointerEvents = pe;
+        c.style.zIndex = String(on ? 200 : 100 - Math.round(a * 10));
+        c.style.pointerEvents = op < .08 ? 'none' : '';
 
         c.style.setProperty('--dim', dim.toFixed(3));
         c.style.setProperty('--depth', depth.toFixed(3));
         c.style.setProperty('--photo-x', photoX.toFixed(1) + 'px');
         c.style.setProperty('--photo-scale', photoScale.toFixed(4));
-        c.style.setProperty('--light-x', lightX);
-        c.style.setProperty('--shade-dir', shadeDir);
-        c.style.setProperty('--shadow-x', shadowX.toFixed(1) + 'px');
+        c.style.setProperty('--light-x', '50%');
+        c.style.setProperty('--shade-dir', 'to bottom');
+        c.style.setProperty('--shadow-x', '0px');
         c.style.setProperty('--content-o', contentO.toFixed(3));
         c.style.setProperty('--content-y', contentY.toFixed(1) + 'px');
 
-        var on = i === act;
         if (c.classList.contains('is-active') !== on) c.classList.toggle('is-active', on);
         if (c.tabIndex !== (on ? 0 : -1)) c.tabIndex = on ? 0 : -1;
         if (c.getAttribute('aria-hidden') !== (on ? 'false' : 'true')) c.setAttribute('aria-hidden', on ? 'false' : 'true');
@@ -687,9 +628,7 @@
         return;
       }
 
-      spLayerDir = delta < 0 ? -1 : 1;
       spRest = null;
-
       if (rm.matches){
         spPosF = target;
         spLayout(target);
@@ -699,10 +638,10 @@
 
       spStage.classList.add('swapping');
       var t0 = performance.now();
-      var dur = 560;
+      var dur = 520;
       var frame = function(now){
         var t = Math.min(1, (now - t0) / dur);
-        var e = 1 - Math.pow(1 - t, 3);
+        var e = 1 - Math.pow(1 - t, 4);
         spPosF = from + delta * e;
         spLayout(spPosF);
         if (t < 1){
