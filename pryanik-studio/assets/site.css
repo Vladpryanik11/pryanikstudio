@@ -511,7 +511,7 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 /* the case section sits on the shared page background, so its own stage light is off and the gap to the next block is tight */
 .sp-env{display:none}
 .sp-cases.spatial{padding-bottom:clamp(20px,3vh,36px)}
-.sp-cases + .band{padding-top:clamp(44px,6vh,72px)}
+.sp-cases + .band{padding-top:clamp(28px,4vh,52px)}
 .sp-card.ccard{height:calc(var(--cw) * 1.5);border-radius:clamp(26px,2.6vw,32px);background:#15191B;border:0;isolation:isolate;
   overflow:hidden;transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
   -webkit-mask-image:-webkit-radial-gradient(white,black);
