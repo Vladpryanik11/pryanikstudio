@@ -646,6 +646,9 @@
         spShown = null;
         spBuildDots();
         spGo(0);
+        if (matchMedia('(max-width: 720px)').matches){
+          ch.scrollIntoView({behavior:rm.matches ? 'auto' : 'smooth',block:'nearest',inline:'center'});
+        }
       });
     });
 
