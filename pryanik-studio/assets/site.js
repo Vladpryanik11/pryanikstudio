@@ -851,8 +851,6 @@
        and defer active-card/UI state changes until the finger is released. */
     var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spPointerId = null, spEdgeBlocked = false;
     var spTouchBase = 0, spTouchStep = 310, spTouchPos = 0, spTouchRaf = null;
-    };
-    spIdleRaf = requestAnimationFrame(spIdlePaint);
 
     var spTouchPaint = function(){
       spTouchRaf = null;
@@ -874,20 +872,7 @@
       if (spTouchRaf === null) spTouchRaf = requestAnimationFrame(spTouchPaint);
     };
 
-    /* Gentle autoplay: advance the case ribbon when it is idle. */
-    var spAutoTimer = null;
-    var spAutoDelay = 3600;
-    var spAutoStart = function(){
-      clearTimeout(spAutoTimer);
-      spAutoTimer = setTimeout(function tick(){
-        if (!spDown && document.visibilityState === 'visible') spGo(spActive + 1);
-        spAutoTimer = setTimeout(tick, spAutoDelay);
-      }, spAutoDelay);
-    };
-    spAutoStart();
-
     spStage.addEventListener('pointerdown', function(e){
-      spAutoStart();
       if (e.pointerType === 'mouse') return;
       var edgeGuard = Math.max(22, Math.min(34, innerWidth * .07));
       spEdgeBlocked = e.clientX <= edgeGuard || e.clientX >= innerWidth - edgeGuard;
