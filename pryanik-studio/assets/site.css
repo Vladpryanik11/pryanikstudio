@@ -302,23 +302,20 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   .hc-title{margin-top:0;font-size:clamp(36px,10.3vw,51px)}
   .hc-sub{margin-top:16px;max-width:34ch;font-size:14px}
 
-  /* mobile CTA becomes an editorial footer line instead of another neon capsule */
+  /* mobile CTA is pure typography: no capsule, divider or arrow */
   .hc-copy .hero-act{
-    margin-top:28px;padding-top:13px;border-top:1px solid rgba(236,242,244,.16);
-    display:flex;justify-content:flex-end;isolation:auto
+    margin-top:24px;padding:0;border:0;
+    display:flex;justify-content:flex-start;isolation:auto
   }
   .hero-act .btn-neon{
-    min-height:38px;padding:0;border:0;border-radius:0;background:none;
+    min-height:auto;padding:0;border:0;border-radius:0;background:none;
     box-shadow:none;animation:none;color:#ECF2F4;
-    font-size:11px;letter-spacing:.13em
+    font-size:12px;letter-spacing:.11em;
+    transition:opacity .22s var(--e-out)
   }
-  .hero-act .btn-neon::before{display:none}
-  .hero-act .btn-neon::after{
-    content:"↗";display:inline-block;margin-left:12px;
-    font-size:15px;font-weight:500;line-height:1;letter-spacing:0;
-    transform:translateY(-1px);transition:transform .25s var(--e-out)
-  }
-  .hero-act .btn-neon:active{box-shadow:none}
+  .hero-act .btn-neon::before,.hero-act .btn-neon::after{display:none}
+  .hero-act .btn-neon:hover{box-shadow:none;opacity:.7}
+  .hero-act .btn-neon:active{box-shadow:none;opacity:.55}
   .hero-act .btn-neon:focus-visible{outline:1px solid rgba(236,242,244,.72);outline-offset:6px;border-radius:0}
 }
 
