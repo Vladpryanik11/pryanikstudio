@@ -470,6 +470,7 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 
 .sp-stage{position:relative;height:calc(var(--cw) * 1.28 + 90px);margin-top:clamp(26px,4vh,48px);perspective:1350px;perspective-origin:50% 44%;touch-action:pan-y;outline:none;user-select:none}
 .sp-stage.scrub .sp-card{transition:box-shadow .8s var(--e-out)}
+.sp-card.sp-snap-in{transition:opacity .16s var(--e-out),box-shadow .8s var(--e-out)!important}
 .sp-stage.scrub .sp-card::before{transition:none}
 .sp-hint{display:none}
 @media (hover:hover) and (pointer:fine){.sp-hint{display:inline}}
