@@ -514,8 +514,12 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .sp-cases + .band{padding-top:clamp(44px,6vh,72px)}
 .sp-card.ccard{height:calc(var(--cw) * 1.5);border-radius:clamp(26px,2.6vw,32px);background:#15191B;border-color:rgba(236,242,244,.12);isolation:isolate;
   box-shadow:0 28px 54px -38px rgba(0,0,0,.82),inset 0 1px 0 rgba(236,242,244,.12)}
-.sp-card.ccard.is-active{border-color:rgba(236,242,244,.34);
-  box-shadow:0 42px 74px -34px rgba(0,0,0,.92),inset 0 1px 0 rgba(236,242,244,.22)}
+.sp-card.ccard.is-active{border-color:rgba(236,242,244,.42);
+  box-shadow:
+    0 52px 90px -34px rgba(0,0,0,.96),
+    0 18px 38px -24px rgba(154,230,248,.16),
+    inset 0 1px 0 rgba(255,255,255,.3),
+    inset 0 -16px 30px -28px rgba(15,155,242,.28)}
 .sp-card.ccard::after{
   content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
   background:
