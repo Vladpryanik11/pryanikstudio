@@ -1291,3 +1291,18 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 @media (max-width:720px){
   #dir-h{font-size:clamp(32px,9vw,42px)}
 }
+
+/* Unified mobile section-title system and tighter transition from cases to services. */
+@media (max-width:720px){
+  .sp-cases .sp-head h2,
+  #dir-h{
+    font-family:var(--display);
+    font-size:clamp(28px,7.8vw,36px);
+    font-weight:700;
+    line-height:1;
+    letter-spacing:-.025em;
+    text-transform:uppercase;
+  }
+  .sp-cases + .band{padding-top:42px}
+  #dir-h{margin-bottom:0}
+}
