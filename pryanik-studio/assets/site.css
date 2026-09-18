@@ -1279,3 +1279,15 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .env{z-index:1}
   .sp-cases{z-index:2}
 }
+
+/* Services heading follows the site's display/body type pair. */
+#dir-h{
+  font-family:var(--display);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:-.025em;
+  line-height:1.02;
+}
+@media (max-width:720px){
+  #dir-h{font-size:clamp(32px,9vw,42px)}
+}
