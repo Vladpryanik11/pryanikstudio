@@ -985,7 +985,7 @@
     var HS_FACE = [.5, .56];                      // face centre as a share of the source image
     var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 80, hsSpan = 160, hsRMax = 1200;
     var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
-    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1;
+    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1, hsRect = null, hsTouchRaf = null, hsTouchX = 0, hsTouchY = 0;
 
     var hsMeasure = function(){
       var r = hsMedia.getBoundingClientRect(), b = hsImg.getBoundingClientRect();
@@ -1055,19 +1055,29 @@
 
     // touch: the light goes to the finger on tap and follows it while it slides. Listeners stay passive,
     // so the page still scrolls; after the finger lifts the light holds for a moment, then drifts back
-    var hsTouchAt = function(e){
-      var f = e.touches[0];
-      if (!f) return;
-      var r = hsMedia.getBoundingClientRect();
-      hsTx = f.clientX - r.left; hsTy = f.clientY - r.top;
+    var hsTouchPaint = function(){
+      hsTouchRaf = null;
+      if (!hsRect) return;
+      hsTx = hsTouchX - hsRect.left; hsTy = hsTouchY - hsRect.top;
       hsHasPointer = true; hsLastMove = performance.now();
       if (rm.matches) hsRun();
     };
-    hsHero.addEventListener('touchstart', function(e){ hsTouching = true; hsTouchAt(e); }, {passive:true});
+    var hsTouchAt = function(e){
+      var f = e.touches[0];
+      if (!f) return;
+      hsTouchX = f.clientX; hsTouchY = f.clientY;
+      if (hsTouchRaf === null) hsTouchRaf = requestAnimationFrame(hsTouchPaint);
+    };
+    hsHero.addEventListener('touchstart', function(e){
+      hsTouching = true;
+      hsRect = hsMedia.getBoundingClientRect();
+      hsTouchAt(e);
+    }, {passive:true});
     hsHero.addEventListener('touchmove', hsTouchAt, {passive:true});
     var hsTouchEnd = function(e){
       if (e.touches.length) return;
-      hsTouching = false; hsLastMove = performance.now();
+      hsTouching = false; hsLastMove = performance.now(); hsRect = null;
+      if (hsTouchRaf !== null){ cancelAnimationFrame(hsTouchRaf); hsTouchRaf = null; }
     };
     hsHero.addEventListener('touchend', hsTouchEnd, {passive:true});
     hsHero.addEventListener('touchcancel', hsTouchEnd, {passive:true});
