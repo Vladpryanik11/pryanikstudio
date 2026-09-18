@@ -1413,3 +1413,29 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .service-item summary::after,.service-item .n,.service-item .service-title,.service-item .service-plus{transition-duration:.01ms!important}
   .service-item[open] .service-panel{animation:none!important}
 }
+
+
+/* Service control: precise + to − microinteraction */
+.service-plus{transform:none!important}
+.service-plus::before,.service-plus::after{
+  transform-origin:center;
+  transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .18s ease,background-color .22s ease,box-shadow .22s ease!important
+}
+.service-plus::before{transform:translate(-50%,-50%) scaleX(1)!important}
+.service-plus::after{transform:translate(-50%,-50%) rotate(90deg) scaleX(1)!important}
+.service-item[open] .service-plus::before{
+  transform:translate(-50%,-50%) scaleX(1.18)!important;
+  background:#9AE6F8;
+  box-shadow:0 0 8px rgba(154,230,248,.18)
+}
+.service-item[open] .service-plus::after{
+  transform:translate(-50%,-50%) rotate(90deg) scaleX(0)!important;
+  opacity:0
+}
+@media (hover:hover) and (pointer:fine){
+  .service-item:not([open]) summary:hover .service-plus::before{transform:translate(-50%,-50%) scaleX(1.12)!important}
+  .service-item:not([open]) summary:hover .service-plus::after{transform:translate(-50%,-50%) rotate(90deg) scaleX(1.12)!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .service-plus::before,.service-plus::after{transition-duration:.01ms!important}
+}
