@@ -847,54 +847,81 @@
       spGo(land);
     });
 
-    /* touch: direct-follow swipe with a light snap */
-    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spTouchBase = 0;
+    /* touch: RAF-driven direct follow. Read layout once, paint at most once per frame,
+       and defer active-card/UI state changes until the finger is released. */
+    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '';
+    var spTouchBase = 0, spTouchStep = 310, spTouchPos = 0, spTouchRaf = null;
+
+    var spTouchPaint = function(){
+      spTouchRaf = null;
+      if (!spDown || spAxis !== 'x') return;
+      var p = spTouchPos, n = spList.length;
+      spList.forEach(function(card, i){
+        var d = i - p;
+        d = (((d + n / 2) % n) + n) % n - n / 2;
+        var a = Math.abs(d);
+        var focus = Math.max(0, 1 - Math.min(1, a));
+        var sc = Math.max(.78, 1 - Math.min(a, 2.75) * .075) + focus * .058;
+        var op = Math.max(0, 1 - a * .38);
+        card.style.transform = 'translate(-50%,-50%) translate3d(' + (d * spTouchStep).toFixed(1) + 'px,0,0) scale(' + sc.toFixed(3) + ')';
+        card.style.opacity = op.toFixed(3);
+        card.style.zIndex = String(100 - Math.round(a * 10));
+      });
+    };
+    var spTouchQueue = function(){
+      if (spTouchRaf === null) spTouchRaf = requestAnimationFrame(spTouchPaint);
+    };
+
     spStage.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse') return;
+      if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
+      spStage.classList.remove('swapping');
       spDown = true; spDragged = false; spAxis = '';
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
       spTouchBase = spActive;
-      spPosF = spActive;
+      spTouchPos = spPosF = spActive;
+      var W = spList.length ? spList[0].getBoundingClientRect().width : 300;
+      spTouchStep = W + 10;
     });
+
     spStage.addEventListener('pointermove', function(e){
       if (!spDown) return;
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
-      if (!spAxis && (Math.abs(dx) > .5 || Math.abs(dy) > .5)){
-        spAxis = Math.abs(dx) > Math.abs(dy) * .45 ? 'x' : 'y';
+      if (!spAxis && (Math.abs(dx) > 2 || Math.abs(dy) > 2)){
+        spAxis = Math.abs(dx) > Math.abs(dy) * .7 ? 'x' : 'y';
       }
-      if (spAxis === 'x'){
-        if (!spDragged){
-          spDragged = true;
-          spStage.classList.add('dragging');
-          if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
-        }
-        var W = spList.length ? spList[0].offsetWidth : 300;
-        var gap = 10;
-        spPosF = spTouchBase - dx / (W + gap);
-        spLayout(spPosF);
+      if (spAxis !== 'x') return;
+      if (!spDragged){
+        spDragged = true;
+        spStage.classList.add('dragging');
+        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
       }
-    });
-    spStage.addEventListener('pointerup', function(e){
+      spTouchPos = spTouchBase - dx / spTouchStep;
+      spPosF = spTouchPos;
+      spTouchQueue();
+    }, {passive:true});
+
+    var spTouchEnd = function(e, cancelled){
       if (!spDown) return;
       spDown = false;
-      var dx = e.clientX - spX;
+      if (spTouchRaf !== null){ cancelAnimationFrame(spTouchRaf); spTouchRaf = null; }
+      var dx = (e && isFinite(e.clientX) ? e.clientX : spLastX) - spX;
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
       var target = spTouchBase;
-      if (spAxis === 'x' && (Math.abs(dx) > 2 || Math.abs(vx) > .04)){
+      if (!cancelled && spAxis === 'x' && (Math.abs(dx) > 6 || Math.abs(vx) > .08)){
         target += dx < 0 ? 1 : -1;
+      } else if (cancelled && spAxis === 'x'){
+        target = Math.round(spTouchPos);
       }
       spStage.classList.remove('dragging');
+      spPosF = spTouchPos;
       spGo(target);
       setTimeout(function(){ spDragged = false; spAxis = ''; }, 0);
-    });
-    spStage.addEventListener('pointercancel', function(){
-      spDown = false;
-      spStage.classList.remove('dragging');
-      spGo(Math.round(spPosF));
-      spDragged = false; spAxis = '';
-    });
+    };
+    spStage.addEventListener('pointerup', function(e){ spTouchEnd(e, false); });
+    spStage.addEventListener('pointercancel', function(e){ spTouchEnd(e, true); });
 
     spStage.addEventListener('keydown', function(e){
       if (e.key === 'ArrowRight'){ e.preventDefault(); spGo(spActive + 1); }
