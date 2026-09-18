@@ -1145,3 +1145,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-card{touch-action:none;overscroll-behavior:contain;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   .sp-card img{-webkit-user-drag:none;pointer-events:none}
 }
+
+
+/* Hero spotlight: reserve horizontal/diagonal thumb motion for the interaction at the
+   browser gesture-arbitration level. Only vertical panning may scroll the document. */
+@media (max-width:720px) and (pointer:coarse){
+  .hero-spot,.hero-spot .hs-media{touch-action:pan-y;overscroll-behavior-x:none}
+}
