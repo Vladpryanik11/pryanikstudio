@@ -677,10 +677,10 @@
 
       spStage.classList.add('swapping');
       var t0 = performance.now();
-      var dur = 520;
+      var dur = 900;
       var frame = function(now){
         var t = Math.min(1, (now - t0) / dur);
-        var e = 1 - Math.pow(1 - t, 4);
+        var e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         spPosF = from + delta * e;
         spLayout(spPosF);
         if (t < 1){
