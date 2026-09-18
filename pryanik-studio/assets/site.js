@@ -902,7 +902,11 @@
         spStage.classList.add('dragging');
         /* pointer already captured on pointerdown */
       }
-      spTouchPos = spTouchBase - dx / spTouchStep;
+      /* Fold the diagonal component into horizontal travel. A natural thumb arc therefore
+         advances the carousel instead of feeling weaker than a perfectly straight swipe. */
+      var sx = dx < 0 ? -1 : 1;
+      var dragX = Math.abs(dx) < 1 ? 0 : sx * Math.hypot(dx, dy * .62);
+      spTouchPos = spTouchBase - dragX / spTouchStep;
       spPosF = spTouchPos;
       spTouchQueue();
     }, {passive:true});
@@ -913,10 +917,13 @@
       if (spTouchRaf !== null){ cancelAnimationFrame(spTouchRaf); spTouchRaf = null; }
       var dx = (e && isFinite(e.clientX) ? e.clientX : spLastX) - spX;
       var dt = Math.max(1, performance.now() - spStartT);
-      var vx = dx / dt;
+      var dy = (e && isFinite(e.clientY) ? e.clientY : spY) - spY;
+      var sx = dx < 0 ? -1 : 1;
+      var dragX = Math.abs(dx) < 1 ? 0 : sx * Math.hypot(dx, dy * .62);
+      var vx = dragX / dt;
       var target = spTouchBase;
-      if (!cancelled && spAxis === 'x' && (Math.abs(dx) > 5 || Math.abs(vx) > .06)){
-        target += dx < 0 ? 1 : -1;
+      if (!cancelled && spAxis === 'x' && (Math.abs(dragX) > 5 || Math.abs(vx) > .06)){
+        target += dragX < 0 ? 1 : -1;
       } else if (cancelled && spAxis === 'x'){
         target = Math.round(spTouchPos);
       }
