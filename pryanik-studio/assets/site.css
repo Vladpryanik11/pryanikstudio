@@ -1320,3 +1320,16 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
     text-transform:uppercase!important;
   }
 }
+
+/* Actual mobile Cases label lives in .sp-filter-current, not the hidden desktop h2. */
+@media (max-width:720px){
+  .sp-filter-trigger .sp-filter-current,
+  #dir-h{
+    font-family:var(--display)!important;
+    font-size:32px!important;
+    font-weight:700!important;
+    line-height:1!important;
+    letter-spacing:-.025em!important;
+    text-transform:uppercase!important;
+  }
+}
