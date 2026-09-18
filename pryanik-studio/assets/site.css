@@ -583,6 +583,13 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
   .spatial{--cw:min(45vw,210px)}
   .sp-stage{perspective:none;height:calc(var(--cw) * 1.5 + 34px)}
   .sp-card{border-radius:24px}
+  .cc-top{padding:10px 14px 0}
+  .cc-tag{height:22px;font-size:8.5px;letter-spacing:.12em}
+  .cc-body{left:14px;right:14px;bottom:14px;gap:3px}
+  .cc-body::before{left:-8px;right:8%;top:-8px;bottom:-9px;filter:blur(6px)}
+  .cc-num{font-size:clamp(27px,7.8vw,32px)}
+  .cc-unit{font-size:11px;line-height:1.2}
+  .cc-name{font-size:10.5px;line-height:1.25}
 }
 .sp-foot{text-align:center}
 
