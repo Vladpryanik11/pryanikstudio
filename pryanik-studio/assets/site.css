@@ -537,6 +537,8 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   .sp-head>div:first-child{min-width:0}
   .sp-head h2{max-width:15ch;margin:0}
   .sp-filter-select{width:100%;justify-self:end}
+  .sp-cases .sp-head{display:block}
+  .sp-cases .sp-filter-select{width:min(300px,100%);margin-left:auto}
 }
 
 @media (max-width:720px){
@@ -551,6 +553,7 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   .sp-head h2 span:first-child{font-size:1.08em}
   .sp-head h2 span:last-child{font-size:.84em;line-height:1.06}
   .sp-filter-select{display:block;width:100%;margin-top:22px}
+  .sp-cases .sp-filter-select{margin-top:0}
   .sp-filter-label{margin-bottom:4px}
   .sp-filter-trigger{min-height:42px;font-size:14px}
   .sp-filter-menu{top:100%}
