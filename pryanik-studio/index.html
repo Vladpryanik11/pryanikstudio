@@ -79,6 +79,19 @@
         <button class="sp-chip" type="button" data-f="video" aria-pressed="false">Видеопродакшн</button>
         <button class="sp-chip" type="button" data-f="it" aria-pressed="false">IT</button>
       </div>
+      <label class="sp-filter-select rise" for="sp-filter-select">
+        <span class="sp-filter-label">Направление</span>
+        <span class="sp-filter-field">
+          <select id="sp-filter-select" aria-label="Показать кейсы по направлению">
+            <option value="all">Все</option>
+            <option value="marketing">Маркетинг</option>
+            <option value="smm">SMM</option>
+            <option value="video">Видеопродакшн</option>
+            <option value="it">IT</option>
+          </select>
+          <span class="sp-filter-arrow" aria-hidden="true"></span>
+        </span>
+      </label>
     </div>
 
     <div class="sp-stage" id="sp-stage" role="region" aria-roledescription="карусель" aria-label="Кейсы. Листайте стрелками или свайпом" tabindex="0">
