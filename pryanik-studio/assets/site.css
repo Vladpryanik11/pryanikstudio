@@ -1161,3 +1161,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-filter-trigger{font-size:20px;font-weight:650;min-height:50px}
   .sp-filter-current{font-size:20px}
 }
+
+/* Mobile cases: close the gap left by the removed directions ticker. */
+@media (max-width:720px){
+  .hero-spot + .sp-cases{padding-top:24px}
+  .sp-cases .sp-filter-select{margin-top:0}
+  .sp-cases .sp-stage{margin-top:14px}
+}
