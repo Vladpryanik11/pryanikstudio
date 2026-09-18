@@ -567,9 +567,9 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
 .sp-stage.swapping .cc-body,.sp-stage.scrub .cc-body{transition:none}
 
 @media (max-width:720px){
-  .spatial{--cw:min(60vw,245px)}
+  .spatial{--cw:min(45vw,210px)}
   .sp-stage{perspective:none;height:calc(var(--cw) * 1.5 + 34px)}
-  .sp-card{border-radius:26px}
+  .sp-card{border-radius:24px}
 }
 .sp-foot{text-align:center}
 
