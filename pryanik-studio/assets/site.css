@@ -419,18 +419,18 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 }
 .sp-filter-option{
   position:relative;width:100%;min-height:42px;
-  display:grid;grid-template-columns:34px 1fr;align-items:center;
-  padding:0 18px 0 0;border:0;border-top:1px solid rgba(236,242,244,.055);border-radius:0;
+  display:grid;grid-template-columns:36px 1fr;align-items:center;
+  padding:0 18px 0 12px;border:0;border-top:1px solid rgba(236,242,244,.055);border-radius:0;
   background:none;color:rgba(236,242,244,.58);
   font:600 14px/1.2 var(--body);text-align:left;cursor:pointer;
-  transition:color .2s var(--e-out),padding-left .22s var(--e-out)
+  transition:color .2s var(--e-out)
 }
 .sp-filter-option:first-child{border-top:0}
 .sp-filter-option>span{
-  color:rgba(236,242,244,.24);font:600 9px/1 var(--body);letter-spacing:.1em;
+  display:block;min-width:26px;color:rgba(236,242,244,.24);font:600 9px/1 var(--body);letter-spacing:.1em;
   transition:color .2s var(--e-out)
 }
-.sp-filter-option:hover{background:none;color:#fff;padding-left:4px}
+.sp-filter-option:hover{background:none;color:#fff}
 .sp-filter-option.is-active{background:none;color:#fff}
 .sp-filter-option.is-active::after{
   content:"";position:absolute;right:2px;top:50%;width:4px;height:4px;border-radius:50%;
@@ -513,6 +513,8 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .sp-cases.spatial{padding-bottom:clamp(20px,3vh,36px)}
 .sp-cases + .band{padding-top:clamp(44px,6vh,72px)}
 .sp-card.ccard{height:calc(var(--cw) * 1.5);border-radius:clamp(26px,2.6vw,32px);background:#15191B;border:0;isolation:isolate;
+  overflow:hidden;transform-origin:50% 50%;-webkit-transform-origin:50% 50%;
+  -webkit-mask-image:-webkit-radial-gradient(white,black);
   box-shadow:
     0 28px 54px -38px rgba(0,0,0,.82),
     inset 0 1px 0 rgba(255,255,255,.10)}
