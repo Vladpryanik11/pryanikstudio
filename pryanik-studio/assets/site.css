@@ -547,12 +547,17 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
 /* the top tile uses the same glass as the card's CTA pill: translucent fill, one light rim, a top highlight,
    a faint curved reflection and a soft blue halo; its corner is concentric with the card corner */
 
-.cc-body{position:absolute;z-index:2;left:clamp(20px,2.2vw,27px);right:clamp(20px,2.2vw,27px);bottom:clamp(28px,2.6vw,36px);
-  display:grid;gap:5px;opacity:var(--content-o,1);transform:translate3d(0,var(--content-y,0px),0);
+.cc-body{position:absolute;z-index:2;left:clamp(20px,2.2vw,27px);right:clamp(20px,2.2vw,27px);bottom:clamp(20px,2vw,28px);
+  display:grid;gap:5px;isolation:isolate;opacity:var(--content-o,1);transform:translate3d(0,var(--content-y,0px),0);
   transition:opacity .24s var(--e-out),transform .42s var(--e-out)}
-.cc-num{font-family:var(--display);font-weight:700;font-size:clamp(38px,3.7vw,50px);color:#fff;text-shadow:0 2px 9px rgba(0,0,0,.52),0 1px 2px rgba(0,0,0,.42);line-height:1;letter-spacing:0;white-space:nowrap}
-.cc-unit{color:#fff;font-size:clamp(14px,1.2vw,16px);font-weight:600;line-height:1.25;letter-spacing:-.012em;text-shadow:0 1px 5px rgba(0,0,0,.42)}
-.cc-name{font-size:clamp(13px,1.05vw,14.5px);line-height:1.3;letter-spacing:-.005em;text-shadow:0 1px 5px rgba(0,0,0,.38)}
+.cc-body::before{
+  content:"";position:absolute;z-index:-1;left:-14px;right:20%;top:-14px;bottom:-16px;pointer-events:none;
+  background:radial-gradient(90% 90% at 24% 62%,rgba(0,0,0,.34) 0%,rgba(0,0,0,.16) 48%,transparent 100%);
+  filter:blur(8px)
+}
+.cc-num{font-family:var(--display);font-weight:700;font-size:clamp(38px,3.7vw,50px);color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.5);line-height:1;letter-spacing:0;white-space:nowrap}
+.cc-unit{color:#fff;font-size:clamp(14px,1.2vw,16px);font-weight:600;line-height:1.25;letter-spacing:-.012em}
+.cc-name{font-size:clamp(13px,1.05vw,14.5px);line-height:1.3;letter-spacing:-.005em}
 .c-dark{color:#ECF2F4}
 .c-dark .cc-name{color:rgba(236,242,244,.74)}
 
