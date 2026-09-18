@@ -1589,3 +1589,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
     line-height:1.55;
   }
 }
+
+
+/* Footer: pure black fill */
+.ref-foot{background:#000!important}
+.ref-foot::before{display:none!important}
