@@ -510,25 +510,31 @@
         // the deck is a loop: every card sits at its nearest distance from the centre, and cards fade out before the seam
         d = (((d + n / 2) % n) + n) % n - n / 2;
         var a = Math.abs(d), s = d < 0 ? -1 : 1;
+        var incoming = fractional && i === lead;
         var x = s * (a <= 1 ? a * W * near : W * near + (a - 1) * W * far);
         var y = Math.min(18, a * a * (m ? 5 : 7));
-        /* depth is visual, not literal Z: this lets the incoming card stack above the outgoing one */
+        /* stack transition: the incoming card is whole from the first frame and grows gently on top */
         var ry = -s * (a <= 1 ? a * 20 : Math.min(12 + a * 8, 40));
         var sc = Math.max(.66, 1 - a * (m ? .085 : .09));
-        var op = Math.max(0, Math.min(1, Math.min(3.6, n / 2) - a));
+        if (incoming){
+          x = 0;
+          y = Math.min(9, a * 9);
+          ry = 0;
+          sc = 1 - Math.min(1, a) * .035;
+        }
+        var op = incoming ? 1 : Math.max(0, Math.min(1, Math.min(3.6, n / 2) - a));
         c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
         c.style.opacity = op.toFixed(3);
         var on = i === act;
-        var incoming = fractional && i === lead;
         c.style.zIndex = String(incoming ? 220 : on ? 200 : 100 - Math.round(a * 10));
         var pe = op < .05 ? 'none' : '';
         if (c.style.pointerEvents !== pe) c.style.pointerEvents = pe;
-        c.style.setProperty('--dim', Math.min(.74, a * .27).toFixed(3));
-        c.style.setProperty('--depth', Math.min(1, a).toFixed(3));
-        c.style.setProperty('--photo-x', (a < .02 ? 0 : -s * Math.min(12, a * 10)).toFixed(1) + 'px');
-        c.style.setProperty('--light-x', a < .02 ? '50%' : (s > 0 ? '0%' : '100%'));
-        c.style.setProperty('--shade-dir', a < .02 ? 'to bottom' : (s > 0 ? 'to left' : 'to right'));
-        c.style.setProperty('--shadow-x', (a < .02 ? 0 : -s * Math.min(18, a * 14)).toFixed(1) + 'px');
+        c.style.setProperty('--dim', incoming ? '0' : Math.min(.74, a * .27).toFixed(3));
+        c.style.setProperty('--depth', incoming ? '0' : Math.min(1, a).toFixed(3));
+        c.style.setProperty('--photo-x', incoming ? '0px' : (a < .02 ? 0 : -s * Math.min(12, a * 10)).toFixed(1) + 'px');
+        c.style.setProperty('--light-x', incoming || a < .02 ? '50%' : (s > 0 ? '0%' : '100%'));
+        c.style.setProperty('--shade-dir', incoming || a < .02 ? 'to bottom' : (s > 0 ? 'to left' : 'to right'));
+        c.style.setProperty('--shadow-x', incoming ? '0px' : (a < .02 ? 0 : -s * Math.min(18, a * 14)).toFixed(1) + 'px');
         if (c.classList.contains('is-active') !== on) c.classList.toggle('is-active', on);
         if (c.tabIndex !== (on ? 0 : -1)) c.tabIndex = on ? 0 : -1;
         if (c.getAttribute('aria-hidden') !== (on ? 'false' : 'true')) c.setAttribute('aria-hidden', on ? 'false' : 'true');
@@ -598,10 +604,20 @@
       var n = spList.length;
       if (!n) return;
       if (spRaf !== null){ cancelAnimationFrame(spRaf); spRaf = null; spLastT = 0; }
-      spActive = ((i % n) + n) % n;
+      var prev = spActive;
+      var next = ((i % n) + n) % n;
+      var incoming = spList[next];
+      if (next !== prev && incoming) incoming.classList.add('sp-snap-in');
+      spLayerDir = next === prev ? spLayerDir : (((next - prev + n) % n) <= n / 2 ? 1 : -1);
+      spActive = next;
       spPosF = spActive;
       spRest = null;
       spLayout(spActive);
+      if (incoming && incoming.classList.contains('sp-snap-in')){
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ incoming.classList.remove('sp-snap-in'); });
+        });
+      }
       spRestart();
     };
 
