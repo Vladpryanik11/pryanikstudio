@@ -847,26 +847,45 @@
       spGo(land);
     });
 
-    /* touch: swipe */
-    var spDown = false, spX = 0, spY = 0;
+    /* touch: responsive swipe with direction lock */
+    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '';
     spStage.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse') return;
-      spDown = true; spDragged = false; spX = e.clientX; spY = e.clientY;
+      spDown = true; spDragged = false; spAxis = '';
+      spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
     });
     spStage.addEventListener('pointermove', function(e){
-      if (!spDown || spDragged) return;
+      if (!spDown) return;
       var dx = e.clientX - spX, dy = e.clientY - spY;
-      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){ spDragged = true; spStage.classList.add('dragging'); }
+      spLastX = e.clientX;
+      if (!spAxis && (Math.abs(dx) > 5 || Math.abs(dy) > 5)){
+        spAxis = Math.abs(dx) > Math.abs(dy) * .8 ? 'x' : 'y';
+      }
+      if (spAxis === 'x' && !spDragged){
+        spDragged = true;
+        spStage.classList.add('dragging');
+        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
+      }
     });
     spStage.addEventListener('pointerup', function(e){
       if (!spDown) return;
       spDown = false;
       spStage.classList.remove('dragging');
       var dx = e.clientX - spX;
-      if (spDragged && Math.abs(dx) > 40) spGo(spActive + (dx < 0 ? 1 : -1));
-      setTimeout(function(){ spDragged = false; }, 0);
+      var dt = Math.max(1, performance.now() - spStartT);
+      var vx = dx / dt;
+      if (spAxis === 'x' && (Math.abs(dx) > 24 || Math.abs(vx) > .28)){
+        spGo(spActive + (dx < 0 ? 1 : -1));
+      }
+      setTimeout(function(){ spDragged = false; spAxis = ''; }, 0);
     });
-    spStage.addEventListener('pointercancel', function(){ spDown = false; spDragged = false; spStage.classList.remove('dragging'); });
+    spStage.addEventListener('pointercancel', function(){
+      if (spDown && spAxis === 'x'){
+        var dx = spLastX - spX;
+        if (Math.abs(dx) > 28) spGo(spActive + (dx < 0 ? 1 : -1));
+      }
+      spDown = false; spDragged = false; spAxis = ''; spStage.classList.remove('dragging');
+    });
 
     spStage.addEventListener('keydown', function(e){
       if (e.key === 'ArrowRight'){ e.preventDefault(); spGo(spActive + 1); }
