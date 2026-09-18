@@ -514,7 +514,7 @@
         /* spatial ribbon: every card owns its own lane, so cards never overlap */
         var x = d * step;
         var focus = Math.max(0, 1 - Math.min(1, a));
-        var y = Math.min(16, a * 7);
+        var y = 0;
         var sc = Math.max(.78, 1 - Math.min(a, 2.75) * (m ? .075 : .085)) + focus * (m ? .058 : .05);
         var op = Math.max(0, 1 - a * (m ? .38 : .32));
         var dim = Math.min(.58, a * .20);
