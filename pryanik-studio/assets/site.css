@@ -1220,3 +1220,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .band:has(.service-accordion){padding-bottom:34px}
   .band:has(.service-accordion) + .site-foot{padding-top:24px}
 }
+
+/* Wordmark welcomes at the top, then gets out of the content's way. */
+.site-head .brand{transition:opacity .24s var(--e-out),visibility .24s var(--e-out)}
+.site-head.brand-away .brand{opacity:0;visibility:hidden;pointer-events:none}
+.site-head.open .brand{opacity:1;visibility:visible;pointer-events:auto}
