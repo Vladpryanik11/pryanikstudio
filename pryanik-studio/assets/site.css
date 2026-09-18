@@ -376,10 +376,14 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 @media (max-width:720px){
   .sp-head{display:block}
   .sp-head h2{max-width:10ch}
+  .sp-filters{margin-top:18px}
+}
+
+/* touch screens keep the filters as a swipe rail */
+@media (max-width:720px) and (pointer:coarse){
   .sp-filters{
     width:calc(100% + var(--pad));
     max-width:none;
-    margin-top:18px;
     margin-right:calc(var(--pad) * -1);
     gap:24px;
     overflow-x:auto;
@@ -395,6 +399,23 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   }
   .sp-filters::-webkit-scrollbar{display:none}
   .sp-chip{flex:0 0 auto;white-space:nowrap;scroll-snap-align:center}
+}
+
+/* a narrow desktop window must never hide IT behind a mouse-only horizontal rail */
+@media (max-width:720px) and (pointer:fine){
+  .sp-filters{
+    width:100%;
+    max-width:none;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 24px;
+    overflow:visible;
+    padding:0;
+    margin-right:0;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .sp-chip{flex:0 0 auto;min-height:0;white-space:nowrap;scroll-snap-align:none}
 }
 
 .sp-stage{position:relative;height:calc(var(--cw) * 1.28 + 90px);margin-top:clamp(26px,4vh,48px);perspective:1700px;perspective-origin:50% 45%;touch-action:pan-y;outline:none;user-select:none}
