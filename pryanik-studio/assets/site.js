@@ -851,6 +851,18 @@
        and defer active-card/UI state changes until the finger is released. */
     var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spPointerId = null, spEdgeBlocked = false;
     var spTouchBase = 0, spTouchStep = 310, spTouchPos = 0, spTouchRaf = null;
+    var spIdleRaf = null, spIdleStart = performance.now();
+    var spIdlePaint = function(now){
+      if (!spDown && spSwapRaf === null && !rm.matches){
+        spList.forEach(function(card, i){
+          if (i !== spActive) return;
+          var ang = Math.sin((now - spIdleStart) / 1450) * .65;
+          card.style.rotate = ang.toFixed(3) + 'deg';
+        });
+      }
+      spIdleRaf = requestAnimationFrame(spIdlePaint);
+    };
+    spIdleRaf = requestAnimationFrame(spIdlePaint);
 
     var spTouchPaint = function(){
       spTouchRaf = null;
@@ -880,6 +892,7 @@
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
       spStage.classList.remove('swapping');
       spDown = true; spDragged = false; spAxis = ''; spPointerId = e.pointerId;
+      spList.forEach(function(card){ card.style.rotate = '0deg'; });
       /* Dating-app style: the card owns the touch immediately. This prevents Safari
          from cancelling the pointer stream when the thumb initially drifts vertically. */
       if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
