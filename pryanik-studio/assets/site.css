@@ -424,9 +424,9 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 }
 
 @media (max-width:720px) and (pointer:fine){
-  .sp-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,250px);align-items:end;gap:24px}
-  .sp-head h2{max-width:12ch}
-  .sp-filter-select{display:block;width:100%}
+  .sp-head{display:block}
+  .sp-head h2{max-width:16ch}
+  .sp-filter-select{display:block;width:min(280px,100%);margin-top:22px}
 }
 
 /* touch screens keep the filters as a swipe rail */
