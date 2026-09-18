@@ -1118,3 +1118,19 @@ button.link{background:none;border:0;border-bottom:1px solid transparent;padding
 body.pinned .rise{opacity:1;transform:none}
 .fallback .rise{opacity:1;transform:none;transition:none}
 body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
+
+
+/* Mobile carousel performance: keep the same look while reducing paint/composite work during swipes */
+@media (max-width:720px) and (pointer:coarse){
+  .sp-card{
+    will-change:transform,opacity;
+    transition:transform .62s cubic-bezier(.22,.72,.22,1),opacity .42s var(--e-out);
+  }
+  .sp-card.sp-out{transition:transform .62s cubic-bezier(.22,.72,.22,1),opacity .36s var(--e-out),visibility 0s linear .36s}
+  .sp-card.ccard,.sp-card.ccard.is-active{
+    box-shadow:0 22px 42px -32px rgba(0,0,0,.86),inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .sp-card.ccard::after{mix-blend-mode:normal;transition:opacity .32s var(--e-out)}
+  .cc-photo{will-change:transform;filter:contrast(1.06) saturate(1.16) brightness(.95);transition:transform .42s cubic-bezier(.22,.61,.36,1)}
+  .cc-body::before{filter:blur(5px)}
+}
