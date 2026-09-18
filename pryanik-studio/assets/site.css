@@ -1594,3 +1594,17 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 /* Footer: pure black fill */
 .ref-foot{background:#000!important}
 .ref-foot::before{display:none!important}
+
+
+/* Global visual field: pure black, no ambient stars/particles. */
+html,body,.wrap,.hero-spot,.sp-cases,.band,.site-foot,.ref-foot{background:#000!important}
+.env,.env-dust,.sp-env,.sp-env::before,.sp-env::after{display:none!important}
+.hero-spot::after{display:none!important}
+@media (max-width:720px){
+  .hero-spot,.hero-spot .hs-media,.hero-spot + .sp-cases,.sp-cases .sp-env{background:#000!important}
+  .hero-spot .hs-shade{
+    background:
+      radial-gradient(130% 70% at 50% 34%,transparent 50%,rgba(0,0,0,.58) 100%),
+      linear-gradient(180deg,rgba(0,0,0,.42) 0,transparent 16%,transparent calc(100% - 350px),rgba(0,0,0,.88) calc(100% - 245px),#000 calc(100% - 180px))!important
+  }
+}
