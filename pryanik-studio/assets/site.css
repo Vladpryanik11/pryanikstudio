@@ -1394,49 +1394,22 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-filter-menu,.sp-filter-option,.sp-filter-current{transition-duration:.01ms!important;transition-delay:0s!important}
 }
 
-
-/* Richer motion for the services accordion */
-.service-item{position:relative;overflow:hidden}
-.service-item summary{position:relative;isolation:isolate}
+/* Services accordion: motion-only enhancement, preserve original layout. */
 .service-item summary::after{
-  content:"";position:absolute;left:0;bottom:-1px;width:100%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(154,230,248,.9),rgba(236,242,244,.4),transparent);
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(154,230,248,.82),transparent);
   transform:scaleX(0);transform-origin:left;opacity:0;
-  transition:transform .55s var(--e-out),opacity .25s var(--e-out)
+  transition:transform .42s var(--e-out),opacity .2s var(--e-out)
 }
 .service-item[open] summary::after{transform:scaleX(1);opacity:1}
 .service-item .n,.service-item .service-title,.service-item .service-plus{
-  transition:transform .38s var(--e-out),color .3s var(--e-out),opacity .3s var(--e-out)
+  transition:color .28s var(--e-out),transform .32s var(--e-out),opacity .28s var(--e-out)
 }
-.service-item[open] .n{color:#9AE6F8;transform:translateX(4px)}
-.service-item[open] .service-title{transform:translateX(6px)}
-.service-item[open] .service-plus{transform:rotate(90deg)}
-.service-panel{
-  display:grid;grid-template-rows:0fr;opacity:0;transform:translateY(-10px);
-  transition:grid-template-rows .42s var(--e-out),opacity .3s var(--e-out),transform .42s var(--e-out),padding .42s var(--e-out)
-}
-.service-panel>*{overflow:hidden}
-.service-item[open] .service-panel{grid-template-rows:1fr;opacity:1;transform:none}
-.service-item[open] .service-panel p,
-.service-item[open] .service-panel .service-price,
-.service-item[open] .service-panel>a{animation:serviceReveal .42s var(--e-out) both}
-.service-item[open] .service-panel .service-price{animation-delay:.055s}
-.service-item[open] .service-panel>a{animation-delay:.1s}
-@keyframes serviceReveal{
-  from{opacity:0;transform:translateY(12px);filter:blur(3px)}
-  to{opacity:1;transform:none;filter:blur(0)}
-}
-@media (hover:hover) and (pointer:fine){
-  .service-item summary:hover .service-title{transform:translateX(6px)}
-  .service-item summary:hover .n{color:#9AE6F8}
-}
-@media (max-width:720px){
-  .service-item summary{transition:padding .3s var(--e-out)}
-  .service-item[open] summary{padding-top:26px;padding-bottom:25px}
-  .service-item[open] .service-title{transform:translateX(4px)}
-  .service-item[open] .n{transform:translateX(2px)}
-}
+.service-item[open] .n{color:#9AE6F8}
+.service-item[open] .service-title{transform:translateX(3px)}
+.service-item[open] .service-panel{animation:servicePanelIn .3s var(--e-out) both}
+@keyframes servicePanelIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  .service-item summary::after,.service-item .n,.service-item .service-title,.service-item .service-plus,.service-panel{transition-duration:.01ms!important}
-  .service-item[open] .service-panel p,.service-item[open] .service-panel .service-price,.service-item[open] .service-panel>a{animation:none!important}
+  .service-item summary::after,.service-item .n,.service-item .service-title,.service-item .service-plus{transition-duration:.01ms!important}
+  .service-item[open] .service-panel{animation:none!important}
 }
