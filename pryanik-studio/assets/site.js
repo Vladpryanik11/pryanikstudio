@@ -985,7 +985,7 @@
     var HS_FACE = [.5, .56];                      // face centre as a share of the source image
     var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 80, hsSpan = 160, hsRMax = 1200;
     var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
-    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1, hsRect = null, hsTouchRaf = null, hsTouchX = 0, hsTouchY = 0;
+    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1, hsRect = null, hsTouchRaf = null, hsTouchX = 0, hsTouchY = 0, hsTouchStartX = 0, hsTouchStartY = 0, hsTouchAxis = '';
 
     var hsMeasure = function(){
       var r = hsMedia.getBoundingClientRect(), b = hsImg.getBoundingClientRect();
@@ -1066,17 +1066,26 @@
       var f = e.touches[0];
       if (!f) return;
       hsTouchX = f.clientX; hsTouchY = f.clientY;
+      var dx = hsTouchX - hsTouchStartX, dy = hsTouchY - hsTouchStartY;
+      if (!hsTouchAxis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)){
+        hsTouchAxis = Math.abs(dx) >= Math.abs(dy) * .72 ? 'x' : 'y';
+      }
+      /* Horizontal/diagonal spotlight movement belongs to the hero interaction, not page scroll.
+         Vertical intent is left native so the reader can still move down the page. */
+      if (hsTouchAxis === 'x' && e.cancelable) e.preventDefault();
       if (hsTouchRaf === null) hsTouchRaf = requestAnimationFrame(hsTouchPaint);
     };
     hsHero.addEventListener('touchstart', function(e){
-      hsTouching = true;
+      hsTouching = true; hsTouchAxis = '';
       hsRect = hsMedia.getBoundingClientRect();
+      var f = e.touches[0];
+      if (f){ hsTouchStartX = hsTouchX = f.clientX; hsTouchStartY = hsTouchY = f.clientY; }
       hsTouchAt(e);
     }, {passive:true});
-    hsHero.addEventListener('touchmove', hsTouchAt, {passive:true});
+    hsHero.addEventListener('touchmove', hsTouchAt, {passive:false});
     var hsTouchEnd = function(e){
       if (e.touches.length) return;
-      hsTouching = false; hsLastMove = performance.now(); hsRect = null;
+      hsTouching = false; hsTouchAxis = ''; hsLastMove = performance.now(); hsRect = null;
       if (hsTouchRaf !== null){ cancelAnimationFrame(hsTouchRaf); hsTouchRaf = null; }
     };
     hsHero.addEventListener('touchend', hsTouchEnd, {passive:true});
