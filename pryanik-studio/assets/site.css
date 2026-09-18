@@ -1187,3 +1187,30 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-cases .sp-stage{margin-top:44px}
   .sp-cases + .band{padding-top:58px}
 }
+
+/* Services + pricing accordion */
+.service-accordion{margin-top:42px}
+.service-item.dir{display:block;padding:0;border-bottom:1px solid rgba(236,242,244,.14)}
+.service-item summary{list-style:none;display:grid;grid-template-columns:56px minmax(0,1fr) 28px;gap:24px;align-items:center;padding:26px 0;cursor:pointer}
+.service-item summary::-webkit-details-marker{display:none}
+.service-item .service-title{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.6vw,34px);line-height:1.08}
+.service-plus{position:relative;width:22px;height:22px;justify-self:end}
+.service-plus::before,.service-plus::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:1px;background:#ECF2F4;transform:translate(-50%,-50%);transition:transform .28s var(--e-out),opacity .28s var(--e-out)}
+.service-plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+.service-item[open] .service-plus::after{opacity:0;transform:translate(-50%,-50%) rotate(0)}
+.service-panel{padding:0 0 28px 80px;max-width:760px}
+.service-panel p{margin:0 0 22px;color:var(--text-secondary);font-size:16px}
+.service-price{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-top:18px;border-top:1px solid rgba(236,242,244,.1)}
+.service-price span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary)}
+.service-price strong{font-family:var(--display);font-size:26px;line-height:1;color:#ECF2F4}
+.service-panel>a{display:inline-block;margin-top:20px;color:#ECF2F4;font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+@media (max-width:720px){
+  .service-accordion{margin-top:32px}
+  .service-item summary{grid-template-columns:30px minmax(0,1fr) 24px;gap:12px;padding:22px 0}
+  .service-item .service-title{font-size:26px}
+  .service-panel{padding:0 0 24px 42px}
+  .service-panel p{font-size:15px;line-height:1.45;margin-bottom:18px}
+  .service-price{display:block}
+  .service-price span{display:block;margin-bottom:8px;font-size:10px}
+  .service-price strong{font-size:25px}
+}
