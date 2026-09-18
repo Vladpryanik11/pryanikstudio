@@ -1214,3 +1214,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .service-price span{display:block;margin-bottom:8px;font-size:10px}
   .service-price strong{font-size:25px}
 }
+
+/* Mobile: remove the oversized gap between services and footer. */
+@media (max-width:720px){
+  .band:has(.service-accordion){padding-bottom:34px}
+  .band:has(.service-accordion) + .site-foot{padding-top:24px}
+}
