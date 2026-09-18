@@ -485,7 +485,7 @@
       var n = spList.length;
       var W = n ? spList[0].offsetWidth : 300;
       var m = spNarrow.matches;
-      var gap = m ? 18 : Math.max(28, Math.min(44, W * .12));
+      var gap = m ? 10 : Math.max(28, Math.min(44, W * .12));
       var step = W + gap;
       var act = n ? ((Math.round(p) % n) + n) % n : 0;
 
