@@ -234,11 +234,11 @@ a{color:inherit}
   .menu a[aria-current="page"],.menu a[aria-current="page"]:hover{background:none;color:#ECF2F4}
   .menu a[aria-current="page"]::after{width:26px;opacity:.72}
 
-  .menu .menu-cta{display:inline-flex;margin-top:26px;opacity:0;transform:translate3d(0,14px,0) scale(.97)}
-  .site-head.open .menu .menu-cta{animation:menu-cta-in .5s var(--e-out) .29s both}
+  .menu .menu-cta{display:inline-flex;margin-top:26px;opacity:1;transform:none;pointer-events:auto}
+  .site-head.open .menu .menu-cta{animation:neonspin 3.6s linear infinite,menu-cta-in .5s var(--e-out) .29s both}
 
   .menu a:not(.btn):active{opacity:.62;transform:translateX(4px) scale(.985)}
-  .menu .menu-cta:active{transform:scale(.97)}
+  .menu .menu-cta:active{transform:none}
 }
 @media (max-width:880px) and (hover:hover){
   .site-head.open .menu a:not(.btn):hover{background:none;color:#fff;transform:translateX(8px)}
