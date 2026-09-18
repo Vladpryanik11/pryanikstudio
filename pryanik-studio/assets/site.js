@@ -847,12 +847,14 @@
       spGo(land);
     });
 
-    /* touch: responsive swipe with direction lock */
-    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '';
+    /* touch: direct-follow swipe with a light snap */
+    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spTouchBase = 0;
     spStage.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse') return;
       spDown = true; spDragged = false; spAxis = '';
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
+      spTouchBase = spActive;
+      spPosF = spActive;
     });
     spStage.addEventListener('pointermove', function(e){
       if (!spDown) return;
@@ -861,30 +863,37 @@
       if (!spAxis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)){
         spAxis = Math.abs(dx) > Math.abs(dy) * .72 ? 'x' : 'y';
       }
-      if (spAxis === 'x' && !spDragged){
-        spDragged = true;
-        spStage.classList.add('dragging');
-        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
+      if (spAxis === 'x'){
+        if (!spDragged){
+          spDragged = true;
+          spStage.classList.add('dragging');
+          if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
+        }
+        var W = spList.length ? spList[0].offsetWidth : 300;
+        var gap = 10;
+        spPosF = spTouchBase - dx / (W + gap);
+        spLayout(spPosF);
       }
     });
     spStage.addEventListener('pointerup', function(e){
       if (!spDown) return;
       spDown = false;
-      spStage.classList.remove('dragging');
       var dx = e.clientX - spX;
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
-      if (spAxis === 'x' && (Math.abs(dx) > 12 || Math.abs(vx) > .22)){
-        spGo(spActive + (dx < 0 ? 1 : -1));
+      var target = spTouchBase;
+      if (spAxis === 'x' && (Math.abs(dx) > 12 || Math.abs(vx) > .18)){
+        target += dx < 0 ? 1 : -1;
       }
+      spStage.classList.remove('dragging');
+      spGo(target);
       setTimeout(function(){ spDragged = false; spAxis = ''; }, 0);
     });
     spStage.addEventListener('pointercancel', function(){
-      if (spDown && spAxis === 'x'){
-        var dx = spLastX - spX;
-        if (Math.abs(dx) > 22) spGo(spActive + (dx < 0 ? 1 : -1));
-      }
-      spDown = false; spDragged = false; spAxis = ''; spStage.classList.remove('dragging');
+      spDown = false;
+      spStage.classList.remove('dragging');
+      spGo(Math.round(spPosF));
+      spDragged = false; spAxis = '';
     });
 
     spStage.addEventListener('keydown', function(e){
