@@ -544,10 +544,12 @@ h3{font-size:clamp(19px,1.9vw,25px)}
   .sp-head>div:first-child{width:100%;min-width:0}
   .sp-head h2{
     width:100%;max-width:none;margin:0;
-    font-size:clamp(30px,9.8vw,40px);
+    font-size:clamp(28px,8.4vw,34px);
     line-height:1;letter-spacing:-.022em
   }
   .sp-head h2 span{display:block;white-space:nowrap}
+  .sp-head h2 span:first-child{font-size:1.08em}
+  .sp-head h2 span:last-child{font-size:.84em;line-height:1.06}
   .sp-filter-select{display:block;width:100%;margin-top:22px}
   .sp-filter-label{margin-bottom:4px}
   .sp-filter-trigger{min-height:42px;font-size:14px}
