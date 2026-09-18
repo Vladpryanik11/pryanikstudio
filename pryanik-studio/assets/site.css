@@ -1176,3 +1176,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-filter-current{font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit}
   .sp-filter-arrow{transform:scale(.9)}
 }
+
+@media (max-width:720px){
+  .sp-filter-trigger{font-size:24px}
+}
