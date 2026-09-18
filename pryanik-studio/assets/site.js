@@ -669,6 +669,7 @@
       if (!n) return;
       if (spRaf !== null){ cancelAnimationFrame(spRaf); spRaf = null; spLastT = 0; }
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
+      spStage.classList.remove('swapping');
 
       var from = spPosF;
       if (!isFinite(from)) from = spActive;
@@ -696,6 +697,7 @@
         return;
       }
 
+      spStage.classList.add('swapping');
       var t0 = performance.now();
       var dur = 560;
       var frame = function(now){
@@ -710,6 +712,7 @@
           spPosF = target;
           spActive = next;
           spLayout(target);
+          spStage.classList.remove('swapping');
           spRestart();
         }
       };
@@ -841,6 +844,7 @@
     spStage.addEventListener('mouseenter', function(e){
       if (!spFine.matches) return;
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
+      spStage.classList.remove('swapping');
       spScrub = true;
       spRect = spStage.getBoundingClientRect();
       spMouseX = e.clientX;
