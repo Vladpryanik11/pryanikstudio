@@ -585,6 +585,10 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
   .spatial{--cw:min(45vw,210px)}
   .sp-stage{perspective:none;height:calc(var(--cw) * 1.5 + 34px)}
   .sp-card{border-radius:24px}
+  .sp-cases .sp-stage{margin-top:30px}
+  .sp-cases .sp-nav{margin-top:14px}
+  .sp-cases.spatial{padding-bottom:0}
+  .sp-cases + .band{padding-top:30px}
   .cc-top{padding:10px 14px 0}
   .cc-tag{height:22px;font-size:8.5px;letter-spacing:.12em}
   .cc-body{left:14px;right:14px;bottom:14px;gap:3px}
