@@ -858,8 +858,8 @@
       if (!spDown) return;
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
-      if (!spAxis && (Math.abs(dx) > 5 || Math.abs(dy) > 5)){
-        spAxis = Math.abs(dx) > Math.abs(dy) * .8 ? 'x' : 'y';
+      if (!spAxis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)){
+        spAxis = Math.abs(dx) > Math.abs(dy) * .72 ? 'x' : 'y';
       }
       if (spAxis === 'x' && !spDragged){
         spDragged = true;
@@ -874,7 +874,7 @@
       var dx = e.clientX - spX;
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
-      if (spAxis === 'x' && (Math.abs(dx) > 24 || Math.abs(vx) > .28)){
+      if (spAxis === 'x' && (Math.abs(dx) > 18 || Math.abs(vx) > .22)){
         spGo(spActive + (dx < 0 ? 1 : -1));
       }
       setTimeout(function(){ spDragged = false; spAxis = ''; }, 0);
@@ -882,7 +882,7 @@
     spStage.addEventListener('pointercancel', function(){
       if (spDown && spAxis === 'x'){
         var dx = spLastX - spX;
-        if (Math.abs(dx) > 28) spGo(spActive + (dx < 0 ? 1 : -1));
+        if (Math.abs(dx) > 22) spGo(spActive + (dx < 0 ? 1 : -1));
       }
       spDown = false; spDragged = false; spAxis = ''; spStage.classList.remove('dragging');
     });
