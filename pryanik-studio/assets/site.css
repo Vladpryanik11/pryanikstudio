@@ -1247,3 +1247,20 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .hero-spot .hc-title{font-size:clamp(29px,8.2vw,40px);white-space:nowrap}
   .hero-spot .hc-title span{display:inline}
 }
+
+/* Mobile visual continuity: one black field through hero + cases, with page dust above the portrait. */
+@media (max-width:720px){
+  .hero-spot,.hero-spot .hs-media,.hero-spot + .sp-cases{background:#0D0E0E}
+  .hero-spot .hs-media{background:transparent}
+  .hero-spot .hs-shade{
+    background:
+      radial-gradient(130% 70% at 50% 34%,transparent 50%,rgba(13,14,14,.58) 100%),
+      linear-gradient(180deg,rgba(13,14,14,.42) 0,transparent 16%,transparent calc(100% - 350px),rgba(13,14,14,.88) calc(100% - 245px),#0D0E0E calc(100% - 180px))
+  }
+  .sp-cases .sp-env{background:transparent}
+  .sp-cases .sp-env::before,.sp-cases .sp-env::after{display:none}
+  .env{z-index:4}
+  .site-head{z-index:50}
+  .wrap{z-index:1}
+  .env-dust{opacity:.72}
+}
