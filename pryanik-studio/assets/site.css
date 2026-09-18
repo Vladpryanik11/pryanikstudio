@@ -1180,3 +1180,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 @media (max-width:720px){
   .sp-filter-trigger{font-size:24px}
 }
+
+/* Mobile section breathing room */
+@media (max-width:720px){
+  .hero-spot + .sp-cases{padding-top:52px}
+  .sp-cases .sp-stage{margin-top:28px}
+  .sp-cases + .band{padding-top:74px}
+}
