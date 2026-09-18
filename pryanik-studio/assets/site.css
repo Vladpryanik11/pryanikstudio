@@ -172,27 +172,23 @@ a{color:inherit}
    opening is sequenced, never simultaneous: the middle rail clears first, then the pair closes into the cross;
    closing runs the order backwards, so the rails unfold before the middle returns */
 @keyframes bwave{0%,100%{opacity:1}45%{opacity:.4}}
-.burger{position:relative;z-index:2;width:44px;height:44px;border-radius:50%;padding:0;cursor:pointer;
+.burger{position:relative;z-index:2;width:44px;height:44px;border:0;border-radius:0;padding:0;cursor:pointer;
   display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  border:1.5px solid transparent;
-  background:linear-gradient(180deg,rgba(236,242,244,.08),rgba(236,242,244,0) 60%) padding-box,linear-gradient(#0E1011,#0E1011) padding-box,
-    linear-gradient(120deg,rgba(154,230,248,.55),rgba(15,155,242,.28) 30%,rgba(236,242,244,.1) 55%,rgba(8,89,237,.4)) border-box;
-  box-shadow:0 16px 34px -16px rgba(0,0,0,.95),inset 0 0 16px -8px rgba(15,155,242,.3);
-  transition:box-shadow .45s var(--e-out)}
+  background:transparent;box-shadow:none}
 .burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--text-primary);
   transition:transform .5s var(--e-soft),opacity .5s var(--e-soft)}
 /* on the way back the middle rail waits for the cross to unfold */
 .burger span:nth-child(2){transition-delay:.18s}
 .burger:focus-visible{outline:2px solid var(--accent-text);outline-offset:4px}
-.burger:active{box-shadow:0 10px 24px -14px rgba(0,0,0,.95),inset 0 0 20px -5px rgba(15,155,242,.45)}
+.burger:active{box-shadow:none}
 @media (hover:hover){
-  .burger:hover{box-shadow:0 18px 38px -16px rgba(0,0,0,.95),inset 0 0 20px -6px rgba(15,155,242,.4),0 0 22px -8px rgba(15,155,242,.65)}
+  .burger:hover{box-shadow:none}
   /* the wave runs only while the rails are still rails: once open they hold the cross */
   .site-head:not(.open) .burger:hover span{animation:bwave .8s var(--e-soft)}
   .site-head:not(.open) .burger:hover span:nth-child(2){animation-delay:.12s}
   .site-head:not(.open) .burger:hover span:nth-child(3){animation-delay:.24s}
 }
-.site-head.open .burger{box-shadow:0 16px 34px -16px rgba(0,0,0,.95),inset 0 0 20px -6px rgba(15,155,242,.45),0 0 20px -10px rgba(15,155,242,.7)}
+.site-head.open .burger{box-shadow:none}
 .site-head.open .burger span:first-child{transform:translateY(6px) rotate(45deg);transition-delay:.14s}
 .site-head.open .burger span:nth-child(2){opacity:0;transform:scaleX(.25);transition-duration:.22s;transition-delay:0s}
 .site-head.open .burger span:last-child{transform:translateY(-6px) rotate(-45deg);transition-delay:.14s}
