@@ -93,6 +93,26 @@
     var lastHeadY = Math.max(0, window.scrollY || 0);
     var headTravel = 0;
     var headIdleTimer = null;
+    var headCta = head.querySelector('.head-cta');
+    var menuCta = menu ? menu.querySelector('.menu-cta') : null;
+    var ctaFxTimer = null;
+    var playCtaParticles = function(el, quick){
+      if (!el || rm.matches) return;
+      if (ctaFxTimer !== null) clearTimeout(ctaFxTimer);
+      el.classList.remove('particle-in','is-quick');
+      void el.offsetWidth;
+      if (quick) el.classList.add('is-quick');
+      el.classList.add('particle-in');
+      ctaFxTimer = setTimeout(function(){
+        el.classList.remove('particle-in','is-quick');
+        ctaFxTimer = null;
+      }, quick ? 620 : 820);
+    };
+    var revealHead = function(withParticles){
+      var wasHidden = head.classList.contains('is-hidden');
+      head.classList.remove('is-hidden');
+      if (withParticles && wasHidden) playCtaParticles(headCta, true);
+    };
     var setHeaderState = function(){
       var y = Math.max(0, window.scrollY || 0);
       var wantSolid = alwaysSolid || y > 24;
@@ -100,7 +120,7 @@
 
       var dy = y - lastHeadY;
       if (head.classList.contains('open') || y <= 32){
-        head.classList.remove('is-hidden');
+        revealHead(true);
         headTravel = 0;
       } else if (Math.abs(dy) > .5){
         if ((dy > 0 && headTravel < 0) || (dy < 0 && headTravel > 0)) headTravel = 0;
@@ -109,7 +129,7 @@
           head.classList.add('is-hidden');
           headTravel = 0;
         } else if (headTravel < -10){
-          head.classList.remove('is-hidden');
+          revealHead(true);
           headTravel = 0;
         }
       }
@@ -118,13 +138,14 @@
       if (headIdleTimer !== null) clearTimeout(headIdleTimer);
       headIdleTimer = setTimeout(function(){
         headIdleTimer = null;
-        head.classList.remove('is-hidden');
+        revealHead(true);
         headTravel = 0;
         lastHeadY = Math.max(0, window.scrollY || 0);
       }, 760);
     };
     addEventListener('scroll', setHeaderState, {passive:true});
     setHeaderState();
+    setTimeout(function(){ playCtaParticles(headCta, false); }, 240);
 
     var closeMenu = function(returnFocus){
       head.classList.remove('open');
@@ -140,7 +161,11 @@
         var open = !head.classList.contains('open');
         head.classList.toggle('open', open);
         body.classList.toggle('menu-open', open);
-        if (open){ head.classList.remove('is-hidden'); headTravel = 0; }
+        if (open){
+          revealHead(false);
+          headTravel = 0;
+          setTimeout(function(){ playCtaParticles(menuCta, false); }, 120);
+        }
         burger.setAttribute('aria-expanded', open ? 'true' : 'false');
         burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
         if (open){ var first = menu.querySelector('a'); if (first) first.focus(); }
