@@ -142,8 +142,12 @@ a{color:inherit}
 
 /* header */
 .site-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;padding:14px var(--pad);
-  border-bottom:1px solid transparent;transition:background .45s var(--e-out),border-color .45s var(--e-out)}
-.site-head.solid{background:rgba(13,14,14,.78);-webkit-backdrop-filter:saturate(1.4) blur(16px);backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:transparent}
+  background:#0D0E0E;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;
+  transform:translate3d(0,0,0);will-change:transform;
+  transition:transform .32s cubic-bezier(.22,.61,.36,1)}
+.site-head.solid{background:#0D0E0E;border:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.site-head.is-hidden{transform:translate3d(0,calc(-100% - 2px),0)}
+.site-head.open{transform:translate3d(0,0,0)}
 .brand{position:relative;z-index:2;display:flex;align-items:center;min-height:44px;margin-right:auto;text-decoration:none;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:0}
 /* text wordmark: bold «pryanik» with a quiet spaced «STUDIO» beside it, set in the hero headline's face
    so the mark and the headline read as one voice and Onest is no longer loaded for two lines of type.
