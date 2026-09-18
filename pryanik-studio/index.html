@@ -79,19 +79,20 @@
         <button class="sp-chip" type="button" data-f="video" aria-pressed="false">Видеопродакшн</button>
         <button class="sp-chip" type="button" data-f="it" aria-pressed="false">IT</button>
       </div>
-      <label class="sp-filter-select rise" for="sp-filter-select">
+      <div class="sp-filter-select rise" id="sp-filter-select">
         <span class="sp-filter-label">Направление</span>
-        <span class="sp-filter-field">
-          <select id="sp-filter-select" aria-label="Показать кейсы по направлению">
-            <option value="all">Все</option>
-            <option value="marketing">Маркетинг</option>
-            <option value="smm">SMM</option>
-            <option value="video">Видеопродакшн</option>
-            <option value="it">IT</option>
-          </select>
+        <button class="sp-filter-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="sp-filter-menu">
+          <span class="sp-filter-current">Все проекты</span>
           <span class="sp-filter-arrow" aria-hidden="true"></span>
-        </span>
-      </label>
+        </button>
+        <div class="sp-filter-menu" id="sp-filter-menu" role="listbox" aria-label="Показать кейсы по направлению">
+          <button class="sp-filter-option is-active" type="button" role="option" aria-selected="true" data-f="all"><span>01</span>Все проекты</button>
+          <button class="sp-filter-option" type="button" role="option" aria-selected="false" data-f="marketing"><span>02</span>Маркетинг</button>
+          <button class="sp-filter-option" type="button" role="option" aria-selected="false" data-f="smm"><span>03</span>SMM</button>
+          <button class="sp-filter-option" type="button" role="option" aria-selected="false" data-f="video"><span>04</span>Видеопродакшн</button>
+          <button class="sp-filter-option" type="button" role="option" aria-selected="false" data-f="it"><span>05</span>IT</button>
+        </div>
+      </div>
     </div>
 
     <div class="sp-stage" id="sp-stage" role="region" aria-roledescription="карусель" aria-label="Кейсы. Листайте стрелками или свайпом" tabindex="0">
