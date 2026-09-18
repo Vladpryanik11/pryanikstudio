@@ -1342,3 +1342,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 @media (max-width:720px){
   .service-item .service-title{font-size:22px}
 }
+
+/* Service rows use sentence case; acronyms remain uppercase in the HTML. */
+@media (max-width:720px){
+  .service-item .service-title{text-transform:none!important}
+}
