@@ -101,11 +101,10 @@
       var wantSolid = alwaysSolid || y > 24;
       if (wantSolid !== solid){ solid = wantSolid; head.classList.toggle('solid', wantSolid); }
 
-      /* The full wordmark is a welcome element: keep it at the top only.
-         Once the page starts moving, hide just the brand so it cannot overlap section typography.
-         The menu button remains available. */
-      revealHead();
-      head.classList.toggle('brand-away', y > 90);
+      /* Full header is a welcome element: once the user leaves the opening area,
+         remove the whole header so it cannot compete with section typography. */
+      head.classList.toggle('is-hidden', y > 90 && !head.classList.contains('open'));
+      head.classList.remove('brand-away');
       headTravel = 0;
       lastHeadY = y;
       if (headIdleTimer !== null){ clearTimeout(headIdleTimer); headIdleTimer = null; }
