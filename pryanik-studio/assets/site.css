@@ -401,9 +401,10 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 }
 
 /* directions line: one quiet marquee between hairlines, its ends dissolve into the dark */
-.ticker{position:relative;z-index:3;padding-block:clamp(16px,2vw,22px);border-block:1px solid rgba(236,242,244,.1);overflow:hidden;
+.ticker{position:relative;z-index:3;height:clamp(48px,6.4vw,58px);padding-block:0;border-block:1px solid rgba(236,242,244,.1);overflow:hidden;
+  display:flex;align-items:center;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
-.tk{overflow:hidden}
+.tk{width:100%;overflow:hidden}
 .tk-track{display:flex;width:max-content;animation:tk 70s linear infinite}
 .ticker:not(.live) .tk-track{animation-play-state:paused}
 @keyframes tk{to{transform:translateX(-50%)}}
