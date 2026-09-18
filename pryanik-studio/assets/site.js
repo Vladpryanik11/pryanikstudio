@@ -860,8 +860,8 @@
       if (!spDown) return;
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
-      if (!spAxis && (Math.abs(dx) > 2 || Math.abs(dy) > 2)){
-        spAxis = Math.abs(dx) > Math.abs(dy) * .62 ? 'x' : 'y';
+      if (!spAxis && (Math.abs(dx) > .5 || Math.abs(dy) > .5)){
+        spAxis = Math.abs(dx) > Math.abs(dy) * .45 ? 'x' : 'y';
       }
       if (spAxis === 'x'){
         if (!spDragged){
@@ -882,7 +882,7 @@
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
       var target = spTouchBase;
-      if (spAxis === 'x' && (Math.abs(dx) > 8 || Math.abs(vx) > .12)){
+      if (spAxis === 'x' && (Math.abs(dx) > 2 || Math.abs(vx) > .04)){
         target += dx < 0 ? 1 : -1;
       }
       spStage.classList.remove('dragging');
