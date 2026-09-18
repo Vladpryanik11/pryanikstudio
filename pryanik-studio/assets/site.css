@@ -1134,3 +1134,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .cc-photo{will-change:transform;filter:contrast(1.06) saturate(1.16) brightness(.95);transition:transform .42s cubic-bezier(.22,.61,.36,1)}
   .cc-body::before{filter:blur(5px)}
 }
+
+@media (max-width:720px) and (pointer:coarse){
+  .sp-stage.dragging .sp-card{transition:none!important}
+}
