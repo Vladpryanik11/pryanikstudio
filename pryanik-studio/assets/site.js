@@ -773,7 +773,20 @@
       });
     }
     spFilterOptions.forEach(function(opt){
-      opt.addEventListener('click', function(){ spApplyFilter(opt.getAttribute('data-f'), null); });
+      opt.addEventListener('click', function(){
+        var f = opt.getAttribute('data-f');
+        if (!spFilterSelect || rm.matches){ spApplyFilter(f, null); return; }
+        spFilterSelect.classList.add('is-choosing');
+        opt.classList.add('is-pick');
+        setTimeout(function(){
+          spFilterSelect.classList.add('is-changing');
+          spApplyFilter(f, null);
+          setTimeout(function(){
+            spFilterSelect.classList.remove('is-choosing','is-changing');
+            opt.classList.remove('is-pick');
+          }, 230);
+        }, 120);
+      });
       opt.addEventListener('keydown', function(e){
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
         e.preventDefault();
