@@ -1338,3 +1338,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-filter-trigger .sp-filter-current,
   #dir-h{font-size:24px!important}
 }
+
+@media (max-width:720px){
+  .service-item .service-title{font-size:22px}
+}
