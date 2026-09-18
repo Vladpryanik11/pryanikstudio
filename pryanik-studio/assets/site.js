@@ -849,7 +849,7 @@
 
     /* touch: RAF-driven direct follow. Read layout once, paint at most once per frame,
        and defer active-card/UI state changes until the finger is released. */
-    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '';
+    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spPointerId = null;
     var spTouchBase = 0, spTouchStep = 310, spTouchPos = 0, spTouchRaf = null;
 
     var spTouchPaint = function(){
@@ -876,7 +876,10 @@
       if (e.pointerType === 'mouse') return;
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
       spStage.classList.remove('swapping');
-      spDown = true; spDragged = false; spAxis = '';
+      spDown = true; spDragged = false; spAxis = ''; spPointerId = e.pointerId;
+      /* Dating-app style: the card owns the touch immediately. This prevents Safari
+         from cancelling the pointer stream when the thumb initially drifts vertically. */
+      if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
       spTouchBase = spActive;
       spTouchPos = spPosF = spActive;
@@ -889,17 +892,15 @@
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
       if (!spAxis){
-        /* Horizontal-first lock: thumb jitter must not hand the carousel to page scrolling. */
-        if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
-        if (Math.abs(dx) >= 4) spAxis = 'x';
-        else if (Math.abs(dy) > 16) spAxis = 'y';
-        else return;
+        /* Card-first gesture. Inside the deck, vertical thumb drift is treated as part of
+           the horizontal card gesture rather than handing control back to page scrolling. */
+        if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return;
+        spAxis = 'x';
       }
-      if (spAxis !== 'x') return;
       if (!spDragged){
         spDragged = true;
         spStage.classList.add('dragging');
-        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
+        /* pointer already captured on pointerdown */
       }
       spTouchPos = spTouchBase - dx / spTouchStep;
       spPosF = spTouchPos;
