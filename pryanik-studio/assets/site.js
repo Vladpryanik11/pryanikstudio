@@ -646,7 +646,7 @@
         spShown = null;
         spBuildDots();
         spGo(0);
-        if (matchMedia('(max-width: 720px)').matches){
+        if (matchMedia('(max-width: 720px) and (pointer: coarse)').matches){
           ch.scrollIntoView({behavior:rm.matches ? 'auto' : 'smooth',block:'nearest',inline:'center'});
         }
       });
