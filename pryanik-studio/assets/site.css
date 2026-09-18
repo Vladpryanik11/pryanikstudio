@@ -1306,3 +1306,17 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-cases + .band{padding-top:42px}
   #dir-h{margin-bottom:0}
 }
+
+/* Hard-lock mobile section headings to the same rendered size. */
+@media (max-width:720px){
+  .sp-cases .sp-head h2,
+  .sp-cases .sp-head h2 span,
+  #dir-h{
+    font-family:var(--display)!important;
+    font-size:32px!important;
+    font-weight:700!important;
+    line-height:1!important;
+    letter-spacing:-.025em!important;
+    text-transform:uppercase!important;
+  }
+}
