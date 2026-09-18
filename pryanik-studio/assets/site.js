@@ -101,8 +101,11 @@
       var wantSolid = alwaysSolid || y > 24;
       if (wantSolid !== solid){ solid = wantSolid; head.classList.toggle('solid', wantSolid); }
 
-      /* Keep the site identity and menu permanently visible while scrolling. */
+      /* The full wordmark is a welcome element: keep it at the top only.
+         Once the page starts moving, hide just the brand so it cannot overlap section typography.
+         The menu button remains available. */
       revealHead();
+      head.classList.toggle('brand-away', y > 90);
       headTravel = 0;
       lastHeadY = y;
       if (headIdleTimer !== null){ clearTimeout(headIdleTimer); headIdleTimer = null; }
