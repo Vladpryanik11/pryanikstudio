@@ -639,13 +639,34 @@
     if (spPlay) spPlay.addEventListener('click', function(){ spSetPlaying(!spPlaying); });
 
     var spFilterSelect = doc.getElementById('sp-filter-select');
+    var spFilterTrigger = spFilterSelect && spFilterSelect.querySelector('.sp-filter-trigger');
+    var spFilterCurrent = spFilterSelect && spFilterSelect.querySelector('.sp-filter-current');
+    var spFilterOptions = spFilterSelect ? Array.from(spFilterSelect.querySelectorAll('.sp-filter-option')) : [];
+    var spFilterLabels = {all:'Все проекты',marketing:'Маркетинг',smm:'SMM',video:'Видеопродакшн',it:'IT'};
+
+    var spSetFilterMenu = function(open){
+      if (!spFilterSelect || !spFilterTrigger) return;
+      spFilterSelect.classList.toggle('is-open', open);
+      spFilterTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open){
+        var activeOpt = spFilterSelect.querySelector('.sp-filter-option.is-active');
+        if (activeOpt) activeOpt.focus();
+      }
+    };
+
     var spApplyFilter = function(f, source){
       spChips.forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-f') === f ? 'true' : 'false'); });
-      if (spFilterSelect && spFilterSelect.value !== f) spFilterSelect.value = f;
+      spFilterOptions.forEach(function(x){
+        var on = x.getAttribute('data-f') === f;
+        x.classList.toggle('is-active', on);
+        x.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      if (spFilterCurrent) spFilterCurrent.textContent = spFilterLabels[f] || 'Все проекты';
       spList = spAll.filter(function(c){ return f === 'all' || c.getAttribute('data-kind') === f; });
       spShown = null;
       spBuildDots();
       spGo(0);
+      spSetFilterMenu(false);
       if (source && matchMedia('(max-width: 720px) and (pointer: coarse)').matches){
         source.scrollIntoView({behavior:rm.matches ? 'auto' : 'smooth',block:'nearest',inline:'center'});
       }
@@ -656,9 +677,32 @@
         spApplyFilter(ch.getAttribute('data-f'), ch);
       });
     });
-    if (spFilterSelect){
-      spFilterSelect.addEventListener('change', function(){ spApplyFilter(this.value, null); });
+
+    if (spFilterTrigger){
+      spFilterTrigger.addEventListener('click', function(){
+        spSetFilterMenu(!spFilterSelect.classList.contains('is-open'));
+      });
     }
+    spFilterOptions.forEach(function(opt){
+      opt.addEventListener('click', function(){ spApplyFilter(opt.getAttribute('data-f'), null); });
+      opt.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        var i = spFilterOptions.indexOf(opt);
+        var next = e.key === 'ArrowDown' ? i + 1 : i - 1;
+        next = (next + spFilterOptions.length) % spFilterOptions.length;
+        spFilterOptions[next].focus();
+      });
+    });
+    doc.addEventListener('click', function(e){
+      if (spFilterSelect && spFilterSelect.classList.contains('is-open') && !spFilterSelect.contains(e.target)) spSetFilterMenu(false);
+    });
+    doc.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && spFilterSelect && spFilterSelect.classList.contains('is-open')){
+        spSetFilterMenu(false);
+        if (spFilterTrigger) spFilterTrigger.focus();
+      }
+    });
 
     spAll.forEach(function(c){
       c.addEventListener('click', function(e){
