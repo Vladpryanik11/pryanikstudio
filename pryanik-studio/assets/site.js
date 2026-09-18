@@ -1017,8 +1017,8 @@
       var t = now / 1000, p = hsProgress();
       // without a recent cursor the light wanders gently around the face
       if (!hsTouching && (!hsHasPointer || now - hsLastMove > 3200)){
-        hsTx = hsFx + Math.cos(t * .33) * hsSpan * .45 + Math.sin(t * .17) * hsSpan * .2;
-        hsTy = hsFy + Math.sin(t * .41) * hsSpan * .28;
+        hsTx = hsFx + Math.cos(t * .429) * hsSpan * .45 + Math.sin(t * .221) * hsSpan * .2;
+        hsTy = hsFy + Math.sin(t * .533) * hsSpan * .28;
       }
       // a finger gets a slightly quicker follow and a soft swell of the light while it rests on the screen
       var follow = 1 - Math.pow(1 - (hsTouching ? .11 : .075), dt), grow = 1 - Math.pow(1 - .09, dt);
