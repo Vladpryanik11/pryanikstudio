@@ -487,6 +487,9 @@
       var m = spNarrow.matches;
       var near = m ? .56 : .64, far = m ? .22 : .34;
       var act = n ? ((Math.round(p) % n) + n) % n : 0;
+      var fractional = Math.abs(p - Math.round(p)) > .001;
+      var leadRaw = spLayerDir >= 0 ? Math.ceil(p) : Math.floor(p);
+      var lead = n ? ((leadRaw % n) + n) % n : 0;
       spActive = act;
       if (spDotOn !== act){ spDotOn = act; spSyncDots(); }
       spAll.forEach(function(c){
@@ -516,7 +519,8 @@
         c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
         c.style.opacity = op.toFixed(3);
         var on = i === act;
-        c.style.zIndex = String(on ? 200 : 100 - Math.round(a * 10));
+        var incoming = fractional && i === lead;
+        c.style.zIndex = String(incoming ? 220 : on ? 200 : 100 - Math.round(a * 10));
         var pe = op < .05 ? 'none' : '';
         if (c.style.pointerEvents !== pe) c.style.pointerEvents = pe;
         c.style.setProperty('--dim', Math.min(.74, a * .27).toFixed(3));
@@ -544,7 +548,7 @@
        the further from centre the faster. In the centre the deck glides onto the nearest card */
     var SP_VMAX = 3.2;          // cards per second at the very edge
     var SP_DEAD = .16;          // calm zone around the centre, as a share of half the stage
-    var spVel = 0, spMouseX = 0, spRect = null, spRest = null;
+    var spVel = 0, spMouseX = 0, spRect = null, spRest = null, spLayerDir = 1;
     var spFrame = function(now){
       var dt = Math.min(100, now - (spLastT || now));
       spLastT = now;
@@ -557,10 +561,14 @@
       var ease = function(r){ return rm.matches ? 1 : 1 - Math.pow(1 - r, dt / 16.667); };
       if (want !== 0){
         spRest = null;
+        spLayerDir = want < 0 ? -1 : 1;
         spVel += (want - spVel) * ease(.06);
         spPosF += spVel * dt / 1000;
       } else {
-        if (spRest === null) spRest = Math.round(spPosF + spVel * .3);   // coast a little in the direction of travel
+        if (spRest === null){
+          spRest = Math.round(spPosF + spVel * .3);
+          if (Math.abs(spRest - spPosF) > .001) spLayerDir = spRest < spPosF ? -1 : 1;
+        }   // coast a little in the direction of travel
         spVel = 0;
         spPosF += (spRest - spPosF) * ease(.08);
         if (Math.abs(spRest - spPosF) < .001){
