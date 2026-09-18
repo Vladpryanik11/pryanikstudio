@@ -90,18 +90,40 @@
   if (head){
     var alwaysSolid = head.hasAttribute('data-solid');
     var solid = false;
-    var setSolid = function(){
-      var want = alwaysSolid || window.scrollY > 24;
-      if (want !== solid){ solid = want; head.classList.toggle('solid', want); }
+    var lastHeadY = Math.max(0, window.scrollY || 0);
+    var headTravel = 0;
+    var setHeaderState = function(){
+      var y = Math.max(0, window.scrollY || 0);
+      var wantSolid = alwaysSolid || y > 24;
+      if (wantSolid !== solid){ solid = wantSolid; head.classList.toggle('solid', wantSolid); }
+
+      var dy = y - lastHeadY;
+      if (head.classList.contains('open') || y <= 32){
+        head.classList.remove('is-hidden');
+        headTravel = 0;
+      } else if (Math.abs(dy) > .5){
+        if ((dy > 0 && headTravel < 0) || (dy < 0 && headTravel > 0)) headTravel = 0;
+        headTravel += dy;
+        if (headTravel > 14 && y > 88){
+          head.classList.add('is-hidden');
+          headTravel = 0;
+        } else if (headTravel < -10){
+          head.classList.remove('is-hidden');
+          headTravel = 0;
+        }
+      }
+      lastHeadY = y;
     };
-    addEventListener('scroll', setSolid, {passive:true});
-    setSolid();
+    addEventListener('scroll', setHeaderState, {passive:true});
+    setHeaderState();
 
     var closeMenu = function(returnFocus){
       head.classList.remove('open');
       body.classList.remove('menu-open');
       burger.setAttribute('aria-expanded', 'false');
       burger.setAttribute('aria-label', 'Открыть меню');
+      lastHeadY = Math.max(0, window.scrollY || 0);
+      headTravel = 0;
       if (returnFocus) burger.focus();
     };
     if (burger && menu){
@@ -109,6 +131,7 @@
         var open = !head.classList.contains('open');
         head.classList.toggle('open', open);
         body.classList.toggle('menu-open', open);
+        if (open){ head.classList.remove('is-hidden'); headTravel = 0; }
         burger.setAttribute('aria-expanded', open ? 'true' : 'false');
         burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
         if (open){ var first = menu.querySelector('a'); if (first) first.focus(); }
