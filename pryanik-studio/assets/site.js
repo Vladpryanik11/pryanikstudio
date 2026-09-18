@@ -888,8 +888,12 @@
       if (!spDown) return;
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
-      if (!spAxis && (Math.abs(dx) > 2 || Math.abs(dy) > 2)){
-        spAxis = Math.abs(dx) > Math.abs(dy) * .7 ? 'x' : 'y';
+      if (!spAxis){
+        /* Horizontal-first lock: thumb jitter must not hand the carousel to page scrolling. */
+        if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+        if (Math.abs(dx) >= 4) spAxis = 'x';
+        else if (Math.abs(dy) > 16) spAxis = 'y';
+        else return;
       }
       if (spAxis !== 'x') return;
       if (!spDragged){
