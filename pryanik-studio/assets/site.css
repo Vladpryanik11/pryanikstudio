@@ -539,18 +539,23 @@ span.cc-photo{background:radial-gradient(60% 42% at 50% 34%,rgba(236,242,244,.16
 .c-dark{color:#ECF2F4}
 .c-dark .cc-name{color:rgba(236,242,244,.74)}
 
-/* the whole case card is the action; a quiet corner arrow is the only affordance */
+/* the whole case card is the action; a clear corner arrow is the only affordance */
+@keyframes cc-arrow-drift{
+  0%,100%{transform:translate3d(0,0,0);opacity:.9}
+  50%{transform:translate3d(4px,-4px,0);opacity:1}
+}
 .cc-arrow{
-  position:absolute;z-index:3;top:clamp(17px,1.8vw,23px);right:clamp(18px,2vw,24px);
-  color:#fff;font-family:var(--body);font-size:clamp(18px,1.7vw,22px);font-weight:400;line-height:1;
-  text-shadow:0 2px 14px rgba(0,0,0,.7);opacity:.86;pointer-events:none;
-  transition:transform .35s var(--e-out),opacity .25s var(--e-out)
+  position:absolute;z-index:3;top:clamp(16px,1.7vw,22px);right:clamp(17px,1.9vw,23px);
+  color:#fff;font-family:var(--body);font-size:clamp(26px,2.25vw,32px);font-weight:400;line-height:.9;
+  text-shadow:0 3px 18px rgba(0,0,0,.78);opacity:.94;pointer-events:none;
+  animation:cc-arrow-drift 2.8s var(--e-soft) infinite;
+  will-change:transform
 }
 
 @media (hover:hover){
   .ccard.is-active:hover .cc-photo{transform:scale(1.035)}
   .ccard.is-active:hover .cc-shade{transform:translateY(-5%)}
-  .ccard.is-active:hover .cc-arrow{transform:translate(3px,-3px);opacity:1}
+  .ccard.is-active:hover .cc-arrow{animation-duration:1.15s}
 }
 
 @media (max-width:720px){
