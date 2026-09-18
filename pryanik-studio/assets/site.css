@@ -1225,3 +1225,19 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .site-head .brand{transition:opacity .24s var(--e-out),visibility .24s var(--e-out)}
 .site-head.brand-away .brand{opacity:0;visibility:hidden;pointer-events:none}
 .site-head.open .brand{opacity:1;visibility:visible;pointer-events:auto}
+
+/* Mobile hero: keep the proposition and the next-section cue inside the first viewport. */
+@media (max-width:720px){
+  .hero-spot .hc-stage{
+    min-height:calc(100svh - 64px);
+    padding-top:68px;
+    padding-bottom:20px;
+  }
+  .hero-spot .hs-media img{
+    height:calc(100% - 180px);
+    object-position:50% 25%;
+  }
+  .hero-spot .hc-title{font-size:clamp(32px,9vw,44px)}
+  .hero-spot .hc-sub{margin-top:12px;font-size:13px;line-height:1.45}
+  .hero-spot + .sp-cases{padding-top:30px}
+}
