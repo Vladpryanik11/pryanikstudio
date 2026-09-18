@@ -1181,9 +1181,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .sp-filter-trigger{font-size:24px}
 }
 
-/* Mobile section breathing room */
+/* Mobile cases: balanced vertical rhythm between the hero, deck and next section. */
 @media (max-width:720px){
   .hero-spot + .sp-cases{padding-top:52px}
-  .sp-cases .sp-stage{margin-top:28px}
-  .sp-cases + .band{padding-top:74px}
+  .sp-cases .sp-stage{margin-top:44px}
+  .sp-cases + .band{padding-top:58px}
 }
