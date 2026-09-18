@@ -513,13 +513,14 @@
 
         /* spatial ribbon: every card owns its own lane, so cards never overlap */
         var x = d * step;
-        var y = Math.min(16, a * 7);
-        var sc = Math.max(.78, 1 - Math.min(a, 2.75) * (m ? .075 : .085));
+        var focus = Math.max(0, 1 - Math.min(1, a));
+        var y = Math.min(16, a * 7) - focus * (m ? 5 : 7);
+        var sc = Math.max(.78, 1 - Math.min(a, 2.75) * (m ? .075 : .085)) + focus * (m ? .058 : .05);
         var op = Math.max(0, 1 - a * (m ? .38 : .32));
         var dim = Math.min(.52, a * .15);
-        var depth = Math.min(.65, a * .22);
+        var depth = Math.max(Math.min(.65, a * .22), focus * .2);
         var photoX = Math.max(-8, Math.min(8, -d * 4));
-        var photoScale = 1.035 + Math.min(.01, a * .004);
+        var photoScale = 1.035 + Math.min(.01, a * .004) + focus * .012;
         var contentO = Math.max(.58, 1 - a * .2);
         var contentY = Math.min(6, a * 3);
         var on = i === act;
