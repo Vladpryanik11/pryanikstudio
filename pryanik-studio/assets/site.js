@@ -101,30 +101,11 @@
       var wantSolid = alwaysSolid || y > 24;
       if (wantSolid !== solid){ solid = wantSolid; head.classList.toggle('solid', wantSolid); }
 
-      var dy = y - lastHeadY;
-      if (head.classList.contains('open') || y <= 32){
-        revealHead();
-        headTravel = 0;
-      } else if (Math.abs(dy) > .5){
-        if ((dy > 0 && headTravel < 0) || (dy < 0 && headTravel > 0)) headTravel = 0;
-        headTravel += dy;
-        if (headTravel > 14 && y > 88){
-          head.classList.add('is-hidden');
-          headTravel = 0;
-        } else if (headTravel < -10){
-          revealHead();
-          headTravel = 0;
-        }
-      }
+      /* Keep the site identity and menu permanently visible while scrolling. */
+      revealHead();
+      headTravel = 0;
       lastHeadY = y;
-
-      if (headIdleTimer !== null) clearTimeout(headIdleTimer);
-      headIdleTimer = setTimeout(function(){
-        headIdleTimer = null;
-        revealHead();
-        headTravel = 0;
-        lastHeadY = Math.max(0, window.scrollY || 0);
-      }, 760);
+      if (headIdleTimer !== null){ clearTimeout(headIdleTimer); headIdleTimer = null; }
     };
     addEventListener('scroll', setHeaderState, {passive:true});
     setHeaderState();
