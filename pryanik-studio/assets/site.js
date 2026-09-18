@@ -515,7 +515,7 @@
       var W = n ? spList[0].offsetWidth : 300;
       var m = spNarrow.matches;
       var gap = m ? 10 : Math.max(28, Math.min(44, W * .12));
-      var step = m ? (W * 1.12 + gap) : (W + gap);
+      var step = W + gap;
       var act = n ? ((Math.round(p) % n) + n) % n : 0;
 
       spActive = act;
@@ -889,8 +889,8 @@
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
       spTouchBase = spActive;
       spTouchPos = spPosF = spActive;
-      var W = spList.length ? spList[0].getBoundingClientRect().width : 300;
-      spTouchStep = W * 1.12 + 10;
+      var W = spList.length ? spList[0].offsetWidth : 300;
+      spTouchStep = W + 10;
     });
 
     spStage.addEventListener('pointermove', function(e){
