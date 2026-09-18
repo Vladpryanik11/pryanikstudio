@@ -874,7 +874,7 @@
       var dx = e.clientX - spX;
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
-      if (spAxis === 'x' && (Math.abs(dx) > 18 || Math.abs(vx) > .22)){
+      if (spAxis === 'x' && (Math.abs(dx) > 12 || Math.abs(vx) > .22)){
         spGo(spActive + (dx < 0 ? 1 : -1));
       }
       setTimeout(function(){ spDragged = false; spAxis = ''; }, 0);
