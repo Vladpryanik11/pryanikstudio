@@ -92,6 +92,7 @@
     var solid = false;
     var lastHeadY = Math.max(0, window.scrollY || 0);
     var headTravel = 0;
+    var headIdleTimer = null;
     var setHeaderState = function(){
       var y = Math.max(0, window.scrollY || 0);
       var wantSolid = alwaysSolid || y > 24;
@@ -113,6 +114,14 @@
         }
       }
       lastHeadY = y;
+
+      if (headIdleTimer !== null) clearTimeout(headIdleTimer);
+      headIdleTimer = setTimeout(function(){
+        headIdleTimer = null;
+        head.classList.remove('is-hidden');
+        headTravel = 0;
+        lastHeadY = Math.max(0, window.scrollY || 0);
+      }, 760);
     };
     addEventListener('scroll', setHeaderState, {passive:true});
     setHeaderState();
