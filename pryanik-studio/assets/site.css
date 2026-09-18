@@ -1241,3 +1241,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   .hero-spot .hc-sub{margin-top:12px;font-size:13px;line-height:1.45}
   .hero-spot + .sp-cases{padding-top:30px}
 }
+
+/* Mobile hero studio name: one-line wordmark-like title. */
+@media (max-width:720px){
+  .hero-spot .hc-title{font-size:clamp(29px,8.2vw,40px);white-space:nowrap}
+  .hero-spot .hc-title span{display:inline}
+}
