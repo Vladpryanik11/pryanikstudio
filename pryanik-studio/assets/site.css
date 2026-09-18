@@ -338,6 +338,124 @@ h3{font-size:clamp(19px,1.9vw,25px)}
 .page-hero h1{font-size:clamp(40px,7vw,96px);font-weight:700;letter-spacing:0;max-width:15ch}
 .page-hero h1 .ink{color:var(--accent-vivid)}
 .page-hero .lede{margin-top:24px}
+/* featured cases — wide editorial cards on the cases page */
+.featured-cases{padding-top:clamp(8px,2vh,18px);padding-bottom:clamp(58px,8vh,92px)}
+.featured-cases-head{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px}
+.featured-cases-head h2{font-size:clamp(34px,4.6vw,58px);font-weight:700;letter-spacing:-.02em}
+.featured-cases-head>a{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  color:var(--accent-vivid);font-weight:700;font-size:16px
+}
+.featured-cases-head>a span{font-size:28px;line-height:1;transition:transform .3s var(--e-out)}
+.featured-cases-head>a:hover span{transform:translateX(4px)}
+.featured-cases-list{display:grid;gap:22px}
+
+.featured-case{
+  --case-img:none;
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:clamp(330px,34vw,430px);
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(220px,.82fr) minmax(170px,.46fr);
+  grid-template-rows:auto 1fr auto;
+  column-gap:28px;padding:32px 34px;
+  border-radius:28px;border:1px solid rgba(154,230,248,.18);
+  background:#07101A;color:#ECF2F4;text-decoration:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .5s var(--e-out),border-color .45s var(--e-out),box-shadow .5s var(--e-out)
+}
+.featured-case::before{
+  content:"";position:absolute;inset:0;z-index:-3;
+  background-image:var(--case-img);background-size:cover;background-position:55% 50%;
+  transform:scale(1.015);transition:transform .8s var(--e-out),filter .5s var(--e-out);
+  filter:saturate(.9) contrast(1.04) brightness(.84)
+}
+.featured-case::after{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    linear-gradient(90deg,rgba(5,10,16,.96) 0%,rgba(5,10,16,.78) 30%,rgba(5,10,16,.17) 55%,rgba(5,10,16,.50) 76%,rgba(5,10,16,.9) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.18))
+}
+.featured-case:hover{
+  transform:translateY(-3px);border-color:rgba(83,193,242,.42);
+  box-shadow:0 28px 70px -44px rgba(15,155,242,.3),inset 0 1px 0 rgba(255,255,255,.07)
+}
+.featured-case:hover::before{transform:scale(1.045);filter:saturate(1) contrast(1.06) brightness(.9)}
+.featured-case-meta{
+  grid-column:1/3;grid-row:1;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(236,242,244,.72)
+}
+.featured-case-meta i{font-style:normal;margin:0 10px;color:rgba(154,230,248,.55)}
+.featured-case-main{grid-column:1;grid-row:2;align-self:center;display:grid;gap:24px;max-width:34ch}
+.featured-case-title{
+  font-family:var(--display);font-size:clamp(38px,4.8vw,64px);font-weight:700;line-height:.98;letter-spacing:-.025em
+}
+.featured-case-desc{font-size:clamp(15px,1.35vw,18px);line-height:1.5;color:rgba(236,242,244,.72)}
+.featured-case-kpi{
+  grid-column:3;grid-row:1/3;align-self:stretch;
+  padding-left:28px;border-left:1px solid rgba(236,242,244,.12);
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start
+}
+.featured-case-kpi strong{
+  font-family:var(--display);font-size:clamp(48px,5.7vw,76px);font-weight:700;line-height:.95;letter-spacing:-.035em;white-space:nowrap
+}
+.featured-case-kpi b{
+  margin-top:10px;font-family:var(--display);font-size:clamp(18px,2vw,26px);line-height:1;text-transform:uppercase
+}
+.featured-case-kpi small{margin-top:18px;font-size:15px;line-height:1.45;color:rgba(236,242,244,.68)}
+.featured-case-cta{
+  grid-column:2/4;grid-row:3;justify-self:end;
+  display:inline-flex;align-items:center;gap:14px;
+  color:var(--accent-vivid);font-size:17px;font-weight:700
+}
+.featured-case-cta i{
+  width:48px;height:48px;border:1px solid rgba(15,155,242,.36);border-radius:50%;
+  display:grid;place-items:center;font-style:normal;font-size:27px;
+  background:rgba(8,89,237,.08);transition:transform .35s var(--e-out),background .35s var(--e-out)
+}
+.featured-case:hover .featured-case-cta i{transform:translateX(3px);background:rgba(8,89,237,.15)}
+.featured-cases-all{
+  margin-top:26px;min-height:82px;border-radius:999px;border:1px solid rgba(15,155,242,.5);
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  text-decoration:none;color:#ECF2F4;font-weight:700;font-size:20px;
+  background:radial-gradient(65% 160% at 50% 140%,rgba(8,89,237,.22),transparent 68%),#07101A;
+  transition:border-color .35s var(--e-out),background .35s var(--e-out)
+}
+.featured-cases-all span{font-size:34px;line-height:1;transition:transform .3s var(--e-out)}
+.featured-cases-all:hover{border-color:rgba(83,193,242,.82);background-color:#0A1420}
+.featured-cases-all:hover span{transform:translateX(5px)}
+
+@media (max-width:760px){
+  .featured-cases{padding-top:0;padding-bottom:54px}
+  .featured-cases-head{margin-bottom:18px}
+  .featured-cases-head h2{font-size:32px}
+  .featured-cases-head>a{display:none}
+  .featured-cases-list{gap:16px}
+  .featured-case{
+    min-height:430px;display:flex;flex-direction:column;gap:0;
+    padding:22px 20px;border-radius:24px
+  }
+  .featured-case::before{background-position:56% 38%}
+  .featured-case::after{
+    background:
+      linear-gradient(180deg,rgba(4,8,13,.78) 0%,rgba(4,8,13,.22) 35%,rgba(4,8,13,.42) 60%,rgba(4,8,13,.96) 100%),
+      linear-gradient(90deg,rgba(4,8,13,.58),transparent 64%)
+  }
+  .featured-case-meta{font-size:9px;letter-spacing:.16em}
+  .featured-case-main{display:block;margin-top:16px;max-width:78%}
+  .featured-case-title{font-size:36px;line-height:.98}
+  .featured-case-desc{display:block;margin-top:12px;font-size:13px;line-height:1.42;max-width:30ch}
+  .featured-case-kpi{
+    margin-top:auto;padding:18px 0 0;border-left:0;border-top:1px solid rgba(236,242,244,.12);
+    display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:4px;align-items:end
+  }
+  .featured-case-kpi strong{grid-row:1/3;font-size:48px}
+  .featured-case-kpi b{margin:0;font-size:18px;align-self:end}
+  .featured-case-kpi small{margin:0;font-size:12px;line-height:1.3;align-self:start}
+  .featured-case-cta{margin-top:18px;align-self:flex-end;font-size:14px}
+  .featured-case-cta i{width:40px;height:40px;font-size:22px}
+  .featured-cases-all{min-height:62px;margin-top:18px;font-size:16px}
+  .featured-cases-all span{font-size:28px}
+}
+
 
 /* home hero, cinematic portrait: a giant outlined word behind, the cut-out portrait in front,
    a condensed title with a handwritten greeting, a short plus-list and a little film grain */
