@@ -1091,6 +1091,39 @@
     hsHero.addEventListener('touchend', hsTouchEnd, {passive:true});
     hsHero.addEventListener('touchcancel', hsTouchEnd, {passive:true});
 
+    /* optional device tilt: permission is requested only from an explicit tap (required by iOS).
+       Tilt adds a restrained, smoothed offset to the spotlight without replacing touch control. */
+    var hsMotion = doc.getElementById('hs-motion');
+    var hsTiltX = 0, hsTiltY = 0, hsTiltTX = 0, hsTiltTY = 0, hsTiltOn = false;
+    var hsOrient = function(e){
+      if (!hsTiltOn || hsTouching) return;
+      var g = Math.max(-18, Math.min(18, Number(e.gamma) || 0));
+      var b = Math.max(-18, Math.min(18, (Number(e.beta) || 0) - 45));
+      hsTiltTX = g / 18 * 22;
+      hsTiltTY = b / 18 * 14;
+      hsTiltX += (hsTiltTX - hsTiltX) * .22;
+      hsTiltY += (hsTiltTY - hsTiltY) * .22;
+      hsTx = hsFx + hsTiltX;
+      hsTy = hsFy + hsTiltY;
+      hsHasPointer = true;
+      hsLastMove = performance.now();
+    };
+    var hsEnableMotion = function(){
+      var D = window.DeviceOrientationEvent;
+      var enable = function(){
+        hsTiltOn = true;
+        addEventListener('deviceorientation', hsOrient, {passive:true});
+        if (hsMotion){ hsMotion.textContent = 'Движение включено'; hsMotion.classList.add('is-on'); setTimeout(function(){ hsMotion.hidden = true; }, 900); }
+      };
+      if (D && typeof D.requestPermission === 'function'){
+        D.requestPermission().then(function(state){ if (state === 'granted') enable(); }).catch(function(){});
+      } else if ('DeviceOrientationEvent' in window) enable();
+    };
+    if (hsMotion){
+      if (!('DeviceOrientationEvent' in window)) hsMotion.hidden = true;
+      else hsMotion.addEventListener('click', hsEnableMotion);
+    }
+
     var hsTick = null;
     addEventListener('resize', function(){
       if (hsTick === null) hsTick = requestAnimationFrame(function(){ hsTick = null; hsMeasure(); if (rm.matches) hsRun(); });
