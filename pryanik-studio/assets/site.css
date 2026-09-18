@@ -226,6 +226,7 @@ a{color:inherit}
       max(var(--pad),env(safe-area-inset-right,0px))
       max(40px,calc(24px + env(safe-area-inset-bottom,0px)))
       max(var(--pad),env(safe-area-inset-left,0px));
+    border:0;border-radius:0;box-shadow:none;
     background:
       radial-gradient(70% 44% at 88% 5%,rgba(236,242,244,.032),transparent 72%),
       var(--canvas);
@@ -284,7 +285,9 @@ a{color:inherit}
 }
 
 @media (max-width:340px){
-  .wm-sub{display:none}
+  .wordmark{gap:6px}
+  .wm-word{font-size:22px}
+  .wm-sub{display:inline;font-size:9px;letter-spacing:.16em}
   .menu a:not(.btn){font-size:30px}
 }
 
