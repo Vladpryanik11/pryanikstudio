@@ -849,7 +849,7 @@
 
     /* touch: RAF-driven direct follow. Read layout once, paint at most once per frame,
        and defer active-card/UI state changes until the finger is released. */
-    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spPointerId = null;
+    var spDown = false, spX = 0, spY = 0, spLastX = 0, spStartT = 0, spAxis = '', spPointerId = null, spEdgeBlocked = false;
     var spTouchBase = 0, spTouchStep = 310, spTouchPos = 0, spTouchRaf = null;
 
     var spTouchPaint = function(){
@@ -874,6 +874,9 @@
 
     spStage.addEventListener('pointerdown', function(e){
       if (e.pointerType === 'mouse') return;
+      var edgeGuard = Math.max(22, Math.min(34, innerWidth * .07));
+      spEdgeBlocked = e.clientX <= edgeGuard || e.clientX >= innerWidth - edgeGuard;
+      if (spEdgeBlocked) return;
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
       spStage.classList.remove('swapping');
       spDown = true; spDragged = false; spAxis = ''; spPointerId = e.pointerId;
@@ -894,7 +897,7 @@
       if (!spAxis){
         /* Card-first gesture. Inside the deck, vertical thumb drift is treated as part of
            the horizontal card gesture rather than handing control back to page scrolling. */
-        if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return;
+        if (Math.hypot(dx, dy) < 6) return;
         spAxis = 'x';
       }
       if (!spDragged){
@@ -985,7 +988,7 @@
     var HS_FACE = [.5, .56];                      // face centre as a share of the source image
     var hsW = 0, hsH = 0, hsFx = 0, hsFy = 0, hsR0 = 80, hsSpan = 160, hsRMax = 1200;
     var hsX = 0, hsY = 0, hsR = 0, hsTx = 0, hsTy = 0, hsHasPointer = false, hsLastMove = 0;
-    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1, hsRect = null, hsTouchRaf = null, hsTouchX = 0, hsTouchY = 0, hsTouchStartX = 0, hsTouchStartY = 0, hsTouchAxis = '';
+    var hsRaf = null, hsLast = 0, hsSeen = true, hsTouching = false, hsPress = 1, hsRect = null, hsTouchRaf = null, hsTouchX = 0, hsTouchY = 0, hsTouchStartX = 0, hsTouchStartY = 0, hsTouchAxis = '', hsEdgeBlocked = false;
 
     var hsMeasure = function(){
       var r = hsMedia.getBoundingClientRect(), b = hsImg.getBoundingClientRect();
@@ -1063,11 +1066,12 @@
       if (rm.matches) hsRun();
     };
     var hsTouchAt = function(e){
+      if (hsEdgeBlocked) return;
       var f = e.touches[0];
       if (!f) return;
       hsTouchX = f.clientX; hsTouchY = f.clientY;
       var dx = hsTouchX - hsTouchStartX, dy = hsTouchY - hsTouchStartY;
-      if (!hsTouchAxis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)){
+      if (!hsTouchAxis && Math.hypot(dx, dy) > 7){
         hsTouchAxis = Math.abs(dx) >= Math.abs(dy) * .72 ? 'x' : 'y';
       }
       /* Horizontal/diagonal spotlight movement belongs to the hero interaction, not page scroll.
@@ -1076,10 +1080,13 @@
       if (hsTouchRaf === null) hsTouchRaf = requestAnimationFrame(hsTouchPaint);
     };
     hsHero.addEventListener('touchstart', function(e){
+      var f = e.touches[0];
+      var edgeGuard = Math.max(22, Math.min(34, innerWidth * .07));
+      hsEdgeBlocked = !f || f.clientX <= edgeGuard || f.clientX >= innerWidth - edgeGuard;
+      if (hsEdgeBlocked){ hsTouching = false; return; }
       hsTouching = true; hsTouchAxis = '';
       hsRect = hsMedia.getBoundingClientRect();
-      var f = e.touches[0];
-      if (f){ hsTouchStartX = hsTouchX = f.clientX; hsTouchStartY = hsTouchY = f.clientY; }
+      hsTouchStartX = hsTouchX = f.clientX; hsTouchStartY = hsTouchY = f.clientY;
       hsTouchAt(e);
     }, {passive:true});
     hsHero.addEventListener('touchmove', hsTouchAt, {passive:false});
