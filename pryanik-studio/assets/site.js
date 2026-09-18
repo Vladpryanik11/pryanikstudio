@@ -863,9 +863,8 @@
       if (spSwapRaf !== null){ cancelAnimationFrame(spSwapRaf); spSwapRaf = null; }
       spStage.classList.remove('swapping');
       spDown = true; spDragged = false; spAxis = ''; spPointerId = e.pointerId;
-      /* Dating-app style: the card owns the touch immediately. This prevents Safari
-         from cancelling the pointer stream when the thumb initially drifts vertically. */
-      if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
+      /* Do not capture yet: Safari must remain free to start native vertical page scrolling.
+         We capture only after a clearly horizontal gesture is established. */
       spX = spLastX = e.clientX; spY = e.clientY; spStartT = performance.now();
       spTouchBase = spActive;
       spTouchPos = spPosF = spActive;
@@ -878,15 +877,20 @@
       var dx = e.clientX - spX, dy = e.clientY - spY;
       spLastX = e.clientX;
       if (!spAxis){
-        /* Card-first gesture. Inside the deck, vertical thumb drift is treated as part of
-           the horizontal card gesture rather than handing control back to page scrolling. */
-        if (Math.hypot(dx, dy) < 6) return;
+        if (Math.hypot(dx, dy) < 7) return;
+        /* Clear vertical intent belongs to the page. Horizontal/diagonal intent belongs to cards. */
+        if (Math.abs(dy) > Math.abs(dx) * 1.15){
+          spAxis = 'y';
+          spDown = false;
+          return;
+        }
         spAxis = 'x';
+        if (spStage.setPointerCapture) try { spStage.setPointerCapture(e.pointerId); } catch (_) {}
       }
+      if (spAxis !== 'x') return;
       if (!spDragged){
         spDragged = true;
         spStage.classList.add('dragging');
-        /* pointer already captured on pointerdown */
       }
       /* Fold the diagonal component into horizontal travel. A natural thumb arc therefore
          advances the carousel instead of feeling weaker than a perfectly straight swipe. */
