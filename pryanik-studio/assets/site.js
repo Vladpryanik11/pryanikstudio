@@ -910,7 +910,7 @@
       var dt = Math.max(1, performance.now() - spStartT);
       var vx = dx / dt;
       var target = spTouchBase;
-      if (!cancelled && spAxis === 'x' && (Math.abs(dx) > 6 || Math.abs(vx) > .08)){
+      if (!cancelled && spAxis === 'x' && (Math.abs(dx) > 5 || Math.abs(vx) > .06)){
         target += dx < 0 ? 1 : -1;
       } else if (cancelled && spAxis === 'x'){
         target = Math.round(spTouchPos);
