@@ -163,16 +163,10 @@ a{color:inherit}
 .menu a[aria-current="page"]{background:#ECF2F4;color:var(--ink)}
 .menu a[aria-current="page"]:hover{background:#ECF2F4;color:var(--ink)}
 .menu .menu-cta{display:none}
-  16%{opacity:.96}
-  58%{opacity:.72;transform:scale(1.02) rotate(0deg)}
-  82%{opacity:.3;transform:scale(.82)}
-  100%{opacity:0;transform:scale(.68)}
-}
 /* desktop header: logo left, navigation centred on the page, review button right */
 @media (min-width:881px){
   .site-head{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
   .site-head .brand{justify-self:start;margin-right:0}
-  .site-head .head-cta{justify-self:end;margin-left:0}
 }
 /* menu button: the dark glass of the quiet neon pill shrunk to a disc, so the header shares the button family.
    three equal rails at whole-pixel heights; hovering sends a dimming wave down them, nothing moves.
