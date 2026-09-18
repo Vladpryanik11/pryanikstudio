@@ -15,7 +15,7 @@
 <meta property="og:image" content="https://vladpryanik11.github.io/pryanikstudio/assets/hero-ending.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css?v=0918bv">
 </head>
 <body data-no-mbar>
@@ -40,6 +40,59 @@
     <p class="kick rise">Кейсы</p>
     <h1 class="rise" id="h">Опыт, который <span class="ink">можно посчитать</span></h1>
     <p class="lede rise">Проекты по направлениям. Кейсы маркетинга, SMM и IT из опыта Владислава на прошлом месте работы, до основания Pryanik Studio. Видео сделано уже в студии.</p>
+  </section>
+
+  <section class="shell featured-cases" aria-labelledby="featured-h">
+    <div class="featured-cases-head rise">
+      <h2 id="featured-h">Избранные кейсы</h2>
+      <a href="#marketing">Смотреть все кейсы <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="featured-cases-list">
+      <a class="featured-case rise" href="#case-lpg" style="--case-img:url('assets/cases/02-lpg.webp')">
+        <span class="featured-case-meta">Красота <i>•</i> Услуги</span>
+        <span class="featured-case-main">
+          <strong class="featured-case-title">LPG-массаж,<br>Томск</strong>
+          <span class="featured-case-desc">Выстроили поток заявок через рекламу и воронку, окупаемость — с первой недели.</span>
+        </span>
+        <span class="featured-case-kpi">
+          <strong>770%</strong>
+          <b>ROMI</b>
+          <small>86 заявок<br>по 661 ₽</small>
+        </span>
+        <span class="featured-case-cta">Смотреть кейс <i aria-hidden="true">→</i></span>
+      </a>
+
+      <a class="featured-case rise" href="#case-tibet" style="--case-img:url('assets/cases/03-tibet.webp')">
+        <span class="featured-case-meta">Медицина <i>•</i> Клиники</span>
+        <span class="featured-case-main">
+          <strong class="featured-case-title">Клиника<br>тибетской<br>медицины</strong>
+          <span class="featured-case-desc">Запустили комплексный маркетинг и стабильно привлекаем целевых пациентов.</span>
+        </span>
+        <span class="featured-case-kpi">
+          <strong>1 000+</strong>
+          <b>заявок</b>
+          <small>лид по 6 $</small>
+        </span>
+        <span class="featured-case-cta">Смотреть кейс <i aria-hidden="true">→</i></span>
+      </a>
+
+      <a class="featured-case rise" href="#case-konditer" style="--case-img:url('assets/cases/09-konditerskaya.webp')">
+        <span class="featured-case-meta">Еда <i>•</i> E-commerce</span>
+        <span class="featured-case-main">
+          <strong class="featured-case-title">Кондитерский<br>бренд</strong>
+          <span class="featured-case-desc">Показали, как вырастить узнаваемость и охваты без рекламного бюджета.</span>
+        </span>
+        <span class="featured-case-kpi">
+          <strong>221 тыс.</strong>
+          <b>охват</b>
+          <small>без рекламы</small>
+        </span>
+        <span class="featured-case-cta">Смотреть кейс <i aria-hidden="true">→</i></span>
+      </a>
+    </div>
+
+    <a class="featured-cases-all rise" href="#marketing">Смотреть все кейсы <span aria-hidden="true">→</span></a>
   </section>
 
   <nav class="shell" aria-label="Направления кейсов">
@@ -94,10 +147,10 @@
       <button class="chip" type="button" data-f="brand" aria-pressed="false">Брендинг<span class="c"></span></button>
     </div>
     <div class="cases" id="marketing-cases">
-      <article class="case" data-kind="ads"><span class="tag">Медицина</span><p class="big">770%</p><p class="unit">ROMI, 86 заявок по 661 ₽</p><h3>LPG-массаж, Томск</h3><p class="how">Таргет ВКонтакте</p></article>
+      <article class="case" id="case-lpg" data-kind="ads"><span class="tag">Медицина</span><p class="big">770%</p><p class="unit">ROMI, 86 заявок по 661 ₽</p><h3>LPG-массаж, Томск</h3><p class="how">Таргет ВКонтакте</p></article>
       <article class="case" data-kind="ads"><span class="tag">Строительство</span><p class="big">983</p><p class="unit">лида по 814 ₽</p><h3>Установка заборов, Магнитогорск</h3><p class="how">Таргет ВКонтакте</p></article>
       <article class="case" data-kind="ads"><span class="tag">Строительство</span><p class="big">730</p><p class="unit">заявок по 1 096 ₽</p><h3>Отопление и водоснабжение, Киров</h3><p class="how">График монтажей забит на полгода вперёд</p></article>
-      <article class="case" data-kind="ads"><span class="tag">Медицина</span><p class="big">1 000+</p><p class="unit">заявок, лид по 6 $</p><h3>Клиника тибетской медицины, Казахстан</h3><p class="how">Google Ads</p></article>
+      <article class="case" id="case-tibet" data-kind="ads"><span class="tag">Медицина</span><p class="big">1 000+</p><p class="unit">заявок, лид по 6 $</p><h3>Клиника тибетской медицины, Казахстан</h3><p class="how">Google Ads</p></article>
       <article class="case" data-kind="ads"><span class="tag">Стоматология</span><p class="big">793</p><p class="unit">заявки по 3,88 $</p><h3>Стоматология, Казахстан</h3><p class="how">Таргетированная реклама</p></article>
       <article class="case" data-kind="ads"><span class="tag">Строительство</span><p class="big">687</p><p class="unit">заявок</p><h3>Утепление и отделка фасадов, Краснодар</h3><p class="how">Привлечение заявок на утепление и отделку</p></article>
       <article class="case" data-kind="ads"><span class="tag">Праздники</span><p class="big">520</p><p class="unit">заявок по 577 ₽</p><h3>Детские праздники, Брянск</h3><p class="how">Продвижение ВКонтакте</p></article>
@@ -133,7 +186,7 @@
       <p class="cnt">5<small>кейсов</small></p>
     </div>
     <div class="cases rise">
-      <article class="case"><span class="tag">Кондитерская</span><p class="big">221 тыс.</p><p class="unit">охват без рекламы</p><h3>Кондитерский бренд</h3><p class="how">SMM ВКонтакте</p></article>
+      <article class="case" id="case-konditer"><span class="tag">Кондитерская</span><p class="big">221 тыс.</p><p class="unit">охват без рекламы</p><h3>Кондитерский бренд</h3><p class="how">SMM ВКонтакте</p></article>
       <article class="case"><span class="tag">Медицина</span><p class="big">373</p><p class="unit">заявки</p><h3>Многопрофильный медицинский центр</h3><p class="how">120 заявок из соцсетей и 253 из таргета</p></article>
       <article class="case"><span class="tag">Одежда</span><p class="big">636</p><p class="unit">подписчиц по 63 ₽</p><h3>Магазин одежды, Череповец</h3><p class="how">Таргет ВКонтакте, рост трафика в магазин</p></article>
       <article class="case"><span class="tag">Одежда</span><p class="big">450</p><p class="unit">подписчиков по 88 ₽</p><h3>Женская одежда больших размеров</h3><p class="how">Продвижение в MAX</p></article>
