@@ -508,15 +508,15 @@
         d = (((d + n / 2) % n) + n) % n - n / 2;
         var a = Math.abs(d), s = d < 0 ? -1 : 1;
         var x = s * (a <= 1 ? a * W * near : W * near + (a - 1) * W * far);
-        var z = -a * (m ? 205 : 260);
         var y = Math.min(18, a * a * (m ? 5 : 7));
-        /* keep the existing angle: depth comes from Z, scale, light and parallax — not extra rotation */
+        /* depth is visual, not literal Z: this lets the incoming card stack above the outgoing one */
         var ry = -s * (a <= 1 ? a * 20 : Math.min(12 + a * 8, 40));
         var sc = Math.max(.66, 1 - a * (m ? .085 : .09));
         var op = Math.max(0, Math.min(1, Math.min(3.6, n / 2) - a));
-        c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,' + z.toFixed(1) + 'px) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+        c.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotateY(' + ry.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
         c.style.opacity = op.toFixed(3);
-        c.style.zIndex = String(100 - Math.round(a * 10));
+        var on = i === act;
+        c.style.zIndex = String(on ? 200 : 100 - Math.round(a * 10));
         var pe = op < .05 ? 'none' : '';
         if (c.style.pointerEvents !== pe) c.style.pointerEvents = pe;
         c.style.setProperty('--dim', Math.min(.74, a * .27).toFixed(3));
@@ -525,7 +525,6 @@
         c.style.setProperty('--light-x', a < .02 ? '50%' : (s > 0 ? '0%' : '100%'));
         c.style.setProperty('--shade-dir', a < .02 ? 'to bottom' : (s > 0 ? 'to left' : 'to right'));
         c.style.setProperty('--shadow-x', (a < .02 ? 0 : -s * Math.min(18, a * 14)).toFixed(1) + 'px');
-        var on = i === act;
         if (c.classList.contains('is-active') !== on) c.classList.toggle('is-active', on);
         if (c.tabIndex !== (on ? 0 : -1)) c.tabIndex = on ? 0 : -1;
         if (c.getAttribute('aria-hidden') !== (on ? 'false' : 'true')) c.setAttribute('aria-hidden', on ? 'false' : 'true');
