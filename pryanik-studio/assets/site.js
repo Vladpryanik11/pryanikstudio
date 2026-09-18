@@ -101,13 +101,21 @@
       var wantSolid = alwaysSolid || y > 24;
       if (wantSolid !== solid){ solid = wantSolid; head.classList.toggle('solid', wantSolid); }
 
-      /* Full header is a welcome element: once the user leaves the opening area,
-         remove the whole header so it cannot compete with section typography. */
-      head.classList.toggle('is-hidden', y > 90 && !head.classList.contains('open'));
+      /* Hide while the page is moving; reveal again shortly after scrolling stops. */
+      if (y > 90 && !head.classList.contains('open')){
+        head.classList.add('is-hidden');
+        if (headIdleTimer !== null) clearTimeout(headIdleTimer);
+        headIdleTimer = setTimeout(function(){
+          headIdleTimer = null;
+          revealHead();
+        }, 180);
+      } else {
+        revealHead();
+        if (headIdleTimer !== null){ clearTimeout(headIdleTimer); headIdleTimer = null; }
+      }
       head.classList.remove('brand-away');
       headTravel = 0;
       lastHeadY = y;
-      if (headIdleTimer !== null){ clearTimeout(headIdleTimer); headIdleTimer = null; }
     };
     addEventListener('scroll', setHeaderState, {passive:true});
     setHeaderState();
